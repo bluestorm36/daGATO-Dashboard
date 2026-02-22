@@ -1,7 +1,7 @@
 {
-  "name": "daGATO Command Center",
-  "short_name": "daGATO",
-  "description": "Personal dashboard for Brandon (@daGATO_eth) - Finance, Japan Trip, daCAT project management",
+  "name": "B&J Command Center",
+  "short_name": "B&J",
+  "description": "Personal dashboard for Brandon & Jacky - Finance, Japan Trip planning, and more",
   "start_url": "/daGATO-Dashboard/",
   "display": "standalone",
   "background_color": "#667eea",
