@@ -587,6 +587,117 @@
             color: #e0e0e0;
         }
         
+        /* Welcome Message */
+        .welcome-message {
+            text-align: center;
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            font-weight: 500;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Loading Animation */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loading-icon {
+            font-size: 5em;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+        
+        .loading-text {
+            color: white;
+            font-size: 1.5em;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+        
+        /* Gym Streak Widget */
+        .gym-streak {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .gym-streak h3 {
+            margin: 0 0 15px 0;
+            font-size: 1.3em;
+        }
+        
+        .streak-counter {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .streak-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .streak-buttons {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .streak-btn {
+            background: rgba(255,255,255,0.3);
+            border: 2px solid white;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .streak-btn:hover {
+            background: rgba(255,255,255,0.5);
+            transform: scale(1.05);
+        }
+        
         /* Photo Gallery */
         .photo-gallery {
             background: white;
@@ -851,6 +962,12 @@
         </div>
     </div>
     
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-icon">👽</div>
+        <div class="loading-text">Loading your adventure...</div>
+    </div>
+    
     <!-- Floating Flowers Background -->
     <div class="floating-flowers">
         <div class="flower">🌸</div>
@@ -876,7 +993,19 @@
     <div class="container">
         <h1>🎯 B&J Command Center</h1>
         <p class="subtitle">Brandon & Jacky's Personal Dashboard - All Documents Organized</p>
+        <p class="welcome-message" id="welcomeMessage">👋 Welcome!</p>
         <p class="fun-quote" id="funQuote">✨ Loading magic... ✨</p>
+
+        <!-- Gym Streak Counter -->
+        <div class="gym-streak">
+            <h3>💪 Gym Streak Counter</h3>
+            <div class="streak-counter" id="streakCounter">0</div>
+            <div class="streak-label" data-en="Days in a row! 🔥" data-es="¡Días seguidos! 🔥">Days in a row! 🔥</div>
+            <div class="streak-buttons">
+                <button class="streak-btn" onclick="incrementStreak()" data-en="✅ Went Today!" data-es="✅ ¡Fui Hoy!">✅ Went Today!</button>
+                <button class="streak-btn" onclick="resetStreak()" data-en="🔄 Reset" data-es="🔄 Reiniciar">🔄 Reset</button>
+            </div>
+        </div>
 
         <!-- Photo Gallery -->
         <div class="photo-gallery">
@@ -1288,6 +1417,24 @@
             document.getElementById('currentDate').textContent = today;
         }
         
+        // Welcome Message
+        function updateWelcomeMessage() {
+            const hour = new Date().getHours();
+            let greeting;
+            
+            if (hour >= 5 && hour < 12) {
+                greeting = "☀️ Good morning, Brandon & Jacky!";
+            } else if (hour >= 12 && hour < 17) {
+                greeting = "⛅ Good afternoon!";
+            } else if (hour >= 17 && hour < 22) {
+                greeting = "🌙 Good evening!";
+            } else {
+                greeting = "🌟 Burning the midnight oil?";
+            }
+            
+            document.getElementById('welcomeMessage').textContent = greeting;
+        }
+        
         // Fun Rotating Quotes
         function updateFunQuote() {
             const quotes = [
@@ -1305,6 +1452,65 @@
             
             const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
             document.getElementById('funQuote').textContent = randomQuote;
+        }
+        
+        // Gym Streak Functions
+        function loadGymStreak() {
+            const streak = localStorage.getItem('gymStreak') || '0';
+            const lastGym = localStorage.getItem('lastGymDate');
+            const today = new Date().toDateString();
+            
+            // Reset streak if more than 1 day has passed
+            if (lastGym && lastGym !== today) {
+                const lastDate = new Date(lastGym);
+                const diffDays = Math.floor((new Date() - lastDate) / (1000 * 60 * 60 * 24));
+                
+                if (diffDays > 1) {
+                    // Streak broken!
+                    localStorage.setItem('gymStreak', '0');
+                    document.getElementById('streakCounter').textContent = '0';
+                    return;
+                }
+            }
+            
+            document.getElementById('streakCounter').textContent = streak;
+        }
+        
+        function incrementStreak() {
+            const today = new Date().toDateString();
+            const lastGym = localStorage.getItem('lastGymDate');
+            
+            // Can only increment once per day
+            if (lastGym === today) {
+                alert('Already counted for today! 💪');
+                return;
+            }
+            
+            const currentStreak = parseInt(localStorage.getItem('gymStreak') || '0');
+            const newStreak = currentStreak + 1;
+            
+            localStorage.setItem('gymStreak', newStreak.toString());
+            localStorage.setItem('lastGymDate', today);
+            document.getElementById('streakCounter').textContent = newStreak;
+            
+            // Celebration!
+            if (newStreak === 7) alert('🎉 One week streak! Amazing!');
+            if (newStreak === 30) alert('🏆 30 days! You\'re unstoppable!');
+        }
+        
+        function resetStreak() {
+            if (confirm('Reset gym streak to 0?')) {
+                localStorage.setItem('gymStreak', '0');
+                localStorage.removeItem('lastGymDate');
+                document.getElementById('streakCounter').textContent = '0';
+            }
+        }
+        
+        // Loading Screen
+        function hideLoadingScreen() {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 1500);
         }
         
         // ===== NOTES FUNCTIONS =====
@@ -1494,8 +1700,15 @@
             updateJackyBdayCountdown();
             updateCurrentDate();
             
-            // Update fun quote
+            // Update welcome message and fun quote
+            updateWelcomeMessage();
             updateFunQuote();
+            
+            // Load gym streak
+            loadGymStreak();
+            
+            // Hide loading screen
+            hideLoadingScreen();
         });
     </script>
 </body>
