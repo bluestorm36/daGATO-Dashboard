@@ -1702,7 +1702,16 @@
         
         function toggleGymDay(dayKey) {
             const gymWeek = JSON.parse(localStorage.getItem('gymWeek') || '{}');
+            const wasChecked = gymWeek[dayKey];
             gymWeek[dayKey] = !gymWeek[dayKey];
+            
+            // Play sound based on action
+            if (gymWeek[dayKey]) {
+                playCheckSound();
+            } else {
+                playUncheckSound();
+            }
+            
             localStorage.setItem('gymWeek', JSON.stringify(gymWeek));
             loadGymWeek();
             
@@ -1727,8 +1736,65 @@
             }, 1500);
         }
         
+        // Sound Effects
+        function playPopSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+        
+        function playCheckSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 600;
+            oscillator.type = 'triangle';
+            
+            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(900, audioContext.currentTime + 0.1);
+            oscillator.stop(audioContext.currentTime + 0.15);
+        }
+        
+        function playUncheckSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 400;
+            oscillator.type = 'triangle';
+            
+            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+        
         // Toggle Quick Stats Visibility
         function toggleStat(element) {
+            playPopSound();
             const statValue = element.querySelector('.stat-value');
             const actualValue = statValue.getAttribute('data-value');
             
@@ -1814,6 +1880,8 @@
                 alert('¡Ya contado para hoy! 📚 (Already counted for today!)');
                 return;
             }
+            
+            playCheckSound();
             
             const currentStreak = parseInt(localStorage.getItem('studyStreak') || '0');
             const newStreak = currentStreak + 1;
