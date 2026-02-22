@@ -86,6 +86,69 @@
             background: rgba(255,255,255,0.3);
         }
         
+        /* Language Toggle */
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 80px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .language-toggle:hover {
+            transform: scale(1.05);
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* Shared Notes Section */
+        .notes-widget {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .notes-widget h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+        
+        .note-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .note-author {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .note-text {
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .note-date {
+            font-size: 0.85em;
+            color: #999;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
         /* Back to Top Button */
         .back-to-top {
             position: fixed;
@@ -432,6 +495,9 @@
         </div>
     </div>
     
+    <!-- Language Toggle -->
+    <button class="language-toggle" onclick="toggleLanguage()" id="languageToggle">🇪🇸 ES</button>
+    
     <!-- Theme Toggle -->
     <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">🌙</button>
     
@@ -444,24 +510,61 @@
 
         <!-- Quick Stats -->
         <div class="section">
-            <h2>📊 Quick Stats</h2>
+            <h2 data-en="📊 Quick Stats" data-es="📊 Estadísticas Rápidas">📊 Quick Stats</h2>
             <div class="quick-stats">
                 <div class="stat-box">
                     <div class="stat-value">$3,983</div>
-                    <div class="stat-label">💵 Liquid Assets</div>
+                    <div class="stat-label" data-en="💵 Liquid Assets" data-es="💵 Activos Líquidos">💵 Liquid Assets</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-value">$33,032</div>
-                    <div class="stat-label">🪙 Crypto Holdings</div>
+                    <div class="stat-label" data-en="🪙 Crypto Holdings" data-es="🪙 Criptomonedas">🪙 Crypto Holdings</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-value" id="japanCountdown">... Days</div>
-                    <div class="stat-label">🇯🇵 Until Japan Trip</div>
+                    <div class="stat-label" data-en="🇯🇵 Until Japan Trip" data-es="🇯🇵 Hasta Viaje a Japón">🇯🇵 Until Japan Trip</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-value">2</div>
-                    <div class="stat-label">👥 Travelers</div>
+                    <div class="stat-label" data-en="👥 Travelers" data-es="👥 Viajeros">👥 Travelers</div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Countdown Collection -->
+        <div class="section">
+            <h2 data-en="⏰ Special Dates" data-es="⏰ Fechas Especiales">⏰ Special Dates</h2>
+            <div class="quick-stats">
+                <div class="stat-box">
+                    <div class="stat-value" id="anniversaryCountdown">... Days</div>
+                    <div class="stat-label" data-en="❤️ Until Anniversary (Mar 1)" data-es="❤️ Hasta Aniversario (1 Mar)">❤️ Until Anniversary (Mar 1)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="brandonBdayCountdown">... Days</div>
+                    <div class="stat-label" data-en="🎂 Until Brandon's Birthday (Mar 6)" data-es="🎂 Hasta Cumpleaños de Brandon (6 Mar)">🎂 Until Brandon's Birthday (Mar 6)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="jackyBdayCountdown">... Days</div>
+                    <div class="stat-label" data-en="🎉 Until Jacky's Birthday (Jul 27)" data-es="🎉 Hasta Cumpleaños de Jacky (27 Jul)">🎉 Until Jacky's Birthday (Jul 27)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shared Notes -->
+        <div class="section">
+            <h2 data-en="💬 Notes for Each Other" data-es="💬 Notas Para Nosotros">💬 Notes for Each Other</h2>
+            <div class="notes-widget">
+                <div class="note-item">
+                    <div class="note-author">Brandon →</div>
+                    <div class="note-text" data-en="Don't forget to book Harry Potter Studio Tour tickets! 🏰" data-es="¡No olvides reservar los boletos del Harry Potter Studio Tour! 🏰">Don't forget to book Harry Potter Studio Tour tickets! 🏰</div>
+                    <div class="note-date">Feb 22, 2026</div>
+                </div>
+                <div class="note-item">
+                    <div class="note-author">Jacky →</div>
+                    <div class="note-text" data-en="Can't wait for Japan! Love you! ❤️" data-es="¡No puedo esperar para Japón! ¡Te amo! ❤️">Can't wait for Japan! Love you! ❤️</div>
+                    <div class="note-date">Feb 22, 2026</div>
+                </div>
+                <p style="margin-top: 15px; color: #856404; font-style: italic; font-size: 0.9em;" data-en="💡 Tip: Message daOracle in Telegram to add new notes!" data-es="💡 Consejo: ¡Envía mensaje a daOracle en Telegram para añadir notas nuevas!">💡 Tip: Message daOracle in Telegram to add new notes!</p>
             </div>
         </div>
 
@@ -751,25 +854,105 @@
             });
         }
         
-        // Japan Countdown (Auto-calculate)
-        function updateJapanCountdown() {
-            const tripDate = new Date('2026-04-03');
+        // Countdown Calculator Helper
+        function calculateDaysUntil(targetDate) {
             const today = new Date();
-            const diffTime = tripDate - today;
+            today.setHours(0, 0, 0, 0);
+            const target = new Date(targetDate);
+            target.setHours(0, 0, 0, 0);
+            
+            // If date passed this year, calculate for next year
+            if (target < today) {
+                target.setFullYear(target.getFullYear() + 1);
+            }
+            
+            const diffTime = target - today;
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            document.getElementById('japanCountdown').textContent = diffDays + ' Days';
+            return diffDays;
+        }
+        
+        // Japan Countdown
+        function updateJapanCountdown() {
+            const days = calculateDaysUntil('2026-04-03');
+            document.getElementById('japanCountdown').textContent = days + ' Days';
+        }
+        
+        // Anniversary Countdown (March 1)
+        function updateAnniversaryCountdown() {
+            const days = calculateDaysUntil('2026-03-01');
+            const elem = document.getElementById('anniversaryCountdown');
+            if (days === 0) {
+                elem.textContent = 'TODAY! ❤️';
+            } else {
+                elem.textContent = days + ' Days';
+            }
+        }
+        
+        // Brandon's Birthday Countdown (March 6)
+        function updateBrandonBdayCountdown() {
+            const days = calculateDaysUntil('2026-03-06');
+            const elem = document.getElementById('brandonBdayCountdown');
+            if (days === 0) {
+                elem.textContent = 'TODAY! 🎂';
+            } else {
+                elem.textContent = days + ' Days';
+            }
+        }
+        
+        // Jacky's Birthday Countdown (July 27)
+        function updateJackyBdayCountdown() {
+            const days = calculateDaysUntil('2026-07-27');
+            const elem = document.getElementById('jackyBdayCountdown');
+            if (days === 0) {
+                elem.textContent = 'TODAY! 🎉';
+            } else {
+                elem.textContent = days + ' Days';
+            }
+        }
+        
+        // Language Toggle
+        function toggleLanguage() {
+            const currentLang = localStorage.getItem('language') || 'en';
+            const newLang = currentLang === 'en' ? 'es' : 'en';
+            localStorage.setItem('language', newLang);
+            applyLanguage(newLang);
+            
+            // Update button
+            document.getElementById('languageToggle').textContent = newLang === 'en' ? '🇪🇸 ES' : '🇺🇸 EN';
+        }
+        
+        function applyLanguage(lang) {
+            // Find all elements with data-en and data-es attributes
+            const elements = document.querySelectorAll('[data-en][data-es]');
+            elements.forEach(elem => {
+                const text = elem.getAttribute('data-' + lang);
+                if (text) {
+                    elem.textContent = text;
+                }
+            });
         }
         
         // Current Date
         function updateCurrentDate() {
+            const lang = localStorage.getItem('language') || 'en';
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            const today = new Date().toLocaleDateString('en-US', options);
+            const locale = lang === 'es' ? 'es-ES' : 'en-US';
+            const today = new Date().toLocaleDateString(locale, options);
             document.getElementById('currentDate').textContent = today;
         }
         
         // Run on load
         window.addEventListener('load', function() {
+            // Apply saved language
+            const savedLang = localStorage.getItem('language') || 'en';
+            applyLanguage(savedLang);
+            document.getElementById('languageToggle').textContent = savedLang === 'en' ? '🇪🇸 ES' : '🇺🇸 EN';
+            
+            // Update all countdowns
             updateJapanCountdown();
+            updateAnniversaryCountdown();
+            updateBrandonBdayCountdown();
+            updateJackyBdayCountdown();
             updateCurrentDate();
         });
     </script>
