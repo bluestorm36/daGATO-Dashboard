@@ -1285,8 +1285,9 @@
                     <div class="learning-card-title">Study Streak</div>
                     <div style="font-size: 2em; font-weight: bold; margin: 10px 0;" id="studyStreakCounter">0</div>
                     <div class="learning-card-desc">Días estudiando</div>
-                    <div style="margin-top: 10px;">
+                    <div style="margin-top: 10px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
                         <button class="streak-btn" onclick="incrementStudyStreak()" style="font-size: 0.85em; padding: 8px 15px;">✅ Estudié Hoy</button>
+                        <button class="streak-btn" onclick="resetStudyStreak()" style="font-size: 0.85em; padding: 8px 15px;">🔄 Reset</button>
                     </div>
                 </div>
             </div>
@@ -1726,6 +1727,14 @@
             // Celebrations!
             if (newStreak === 7) alert('🎉 ¡Una semana estudiando! ¡Increíble! (One week streak! Amazing!)');
             if (newStreak === 30) alert('🏆 ¡30 días! ¡Eres imparable! (30 days! You\'re unstoppable!)');
+        }
+        
+        function resetStudyStreak() {
+            if (confirm('¿Reiniciar racha de estudio a 0? (Reset study streak to 0?)')) {
+                localStorage.setItem('studyStreak', '0');
+                localStorage.removeItem('lastStudyDate');
+                document.getElementById('studyStreakCounter').textContent = '0';
+            }
         }
         
         // ===== NOTES FUNCTIONS =====
