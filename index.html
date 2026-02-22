@@ -1523,8 +1523,8 @@
             localStorage.setItem('language', newLang);
             applyLanguage(newLang);
             
-            // Update button
-            document.getElementById('languageToggle').textContent = newLang === 'en' ? '🇪🇸 ES' : '🇺🇸 EN';
+            // Update button to show current language
+            document.getElementById('languageToggle').textContent = newLang === 'es' ? '🇪🇸 ES' : '🇺🇸 EN';
         }
         
         function applyLanguage(lang) {
@@ -1915,7 +1915,7 @@
             // Apply saved language
             const savedLang = localStorage.getItem('language') || 'en';
             applyLanguage(savedLang);
-            document.getElementById('languageToggle').textContent = savedLang === 'en' ? '🇪🇸 ES' : '🇺🇸 EN';
+            document.getElementById('languageToggle').textContent = savedLang === 'es' ? '🇪🇸 ES' : '🇺🇸 EN';
             
             // Update all countdowns
             updateJapanCountdown();
