@@ -13,6 +13,8 @@
 | 2/21/2026 | Pet Supplies | PetSmart | -$21.19 | Cash | |
 | 2/21/2026 | Food/Dining | Taco Bell | -$12.29 | Ally Bank | |
 | 2/22/2026 | Groceries | Food Lion | -$54.24 | Cash | |
+| 2/22/2026 | Shopping | Walmart | -$6.06 | Cash | |
+| 2/22/2026 | Food/Dining | McDonald's | -$1.58 | Ally Bank | |
 
 ---
 
@@ -20,19 +22,19 @@
 
 | Category | Total Spent |
 |----------|-------------|
-| Shopping | $101.35 |
+| Shopping | $107.41 |
 | Pet Supplies | $21.19 |
-| Food/Dining | $12.29 |
+| Food/Dining | $13.87 |
 | Groceries | $54.24 |
-| **TOTAL** | **$189.07** |
+| **TOTAL** | **$196.71** |
 
 ---
 
 ## Cash Flow Tracking
 
 **Starting Cash (Feb 21):** $580.00  
-**Spent:** -$165.18  
-**Remaining Cash:** $414.82
+**Spent:** -$171.24  
+**Remaining Cash:** $408.76
 
 ---
 
