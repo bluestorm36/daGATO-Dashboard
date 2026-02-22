@@ -536,6 +536,13 @@
             padding: 15px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
         
         body.dark-mode .stat-box {
@@ -546,6 +553,12 @@
             font-size: 1.8em;
             font-weight: bold;
             color: #667eea;
+            transition: all 0.3s;
+        }
+        
+        .stat-value.hidden {
+            filter: blur(8px);
+            user-select: none;
         }
         
         body.dark-mode .stat-value {
@@ -1125,21 +1138,22 @@
         <!-- Quick Stats -->
         <div class="section">
             <h2 data-en="📊 Quick Stats" data-es="📊 Estadísticas Rápidas">📊 Quick Stats</h2>
+            <p style="text-align: center; color: #666; font-size: 0.9em; margin-bottom: 15px;" data-en="👀 Click to reveal numbers" data-es="👀 Haz clic para revelar números">👀 Click to reveal numbers</p>
             <div class="quick-stats">
-                <div class="stat-box">
-                    <div class="stat-value">$3,983</div>
+                <div class="stat-box" onclick="toggleStat(this)">
+                    <div class="stat-value hidden" data-value="$3,983">👀</div>
                     <div class="stat-label" data-en="💵 Liquid Assets" data-es="💵 Activos Líquidos">💵 Liquid Assets</div>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-value">$33,032</div>
+                <div class="stat-box" onclick="toggleStat(this)">
+                    <div class="stat-value hidden" data-value="$33,032">👀</div>
                     <div class="stat-label" data-en="📈 Investments Total" data-es="📈 Total de Inversiones">📈 Investments Total</div>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-value">$188,740</div>
+                <div class="stat-box" onclick="toggleStat(this)">
+                    <div class="stat-value hidden" data-value="$188,740">👀</div>
                     <div class="stat-label" data-en="💳 Total Debt" data-es="💳 Deuda Total">💳 Total Debt</div>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-value">-$151,602</div>
+                <div class="stat-box" onclick="toggleStat(this)">
+                    <div class="stat-value hidden" data-value="-$151,602">👀</div>
                     <div class="stat-label" data-en="💼 Net Worth" data-es="💼 Patrimonio Neto">💼 Net Worth</div>
                 </div>
             </div>
@@ -1641,6 +1655,20 @@
             setTimeout(() => {
                 document.getElementById('loadingScreen').classList.add('hidden');
             }, 1500);
+        }
+        
+        // Toggle Quick Stats Visibility
+        function toggleStat(element) {
+            const statValue = element.querySelector('.stat-value');
+            const actualValue = statValue.getAttribute('data-value');
+            
+            if (statValue.classList.contains('hidden')) {
+                statValue.textContent = actualValue;
+                statValue.classList.remove('hidden');
+            } else {
+                statValue.textContent = '👀';
+                statValue.classList.add('hidden');
+            }
         }
         
         // Word of the Day
