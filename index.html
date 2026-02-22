@@ -1730,7 +1730,38 @@
         }
         
         // Loading Screen
+        function playLoadingSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Create a pleasant ascending melody
+            const notes = [523.25, 587.33, 659.25, 783.99]; // C, D, E, G
+            
+            notes.forEach((freq, index) => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = freq;
+                oscillator.type = 'sine';
+                
+                const startTime = audioContext.currentTime + (index * 0.15);
+                const endTime = startTime + 0.2;
+                
+                gainNode.gain.setValueAtTime(0, startTime);
+                gainNode.gain.linearRampToValueAtTime(0.15, startTime + 0.01);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, endTime);
+                
+                oscillator.start(startTime);
+                oscillator.stop(endTime);
+            });
+        }
+        
         function hideLoadingScreen() {
+            // Play loading sound
+            playLoadingSound();
+            
             setTimeout(() => {
                 document.getElementById('loadingScreen').classList.add('hidden');
             }, 1500);
