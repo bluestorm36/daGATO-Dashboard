@@ -61,7 +61,73 @@
             text-align: center;
             color: rgba(255,255,255,0.9);
             font-size: 1.2em;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .fun-quote {
+            text-align: center;
+            color: rgba(255,255,255,0.85);
+            font-size: 1em;
+            margin-bottom: 30px;
+            font-style: italic;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Floating Flowers Background */
+        .floating-flowers {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .flower {
+            position: absolute;
+            font-size: 2em;
+            opacity: 0.15;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        body.dark-mode .flower {
+            opacity: 0.1;
+        }
+        
+        .flower:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 25s; }
+        .flower:nth-child(2) { left: 25%; animation-delay: 3s; animation-duration: 22s; }
+        .flower:nth-child(3) { left: 40%; animation-delay: 7s; animation-duration: 28s; }
+        .flower:nth-child(4) { left: 60%; animation-delay: 2s; animation-duration: 24s; }
+        .flower:nth-child(5) { left: 75%; animation-delay: 5s; animation-duration: 26s; }
+        .flower:nth-child(6) { left: 90%; animation-delay: 8s; animation-duration: 23s; }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.15;
+            }
+            90% {
+                opacity: 0.15;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
         }
         
         /* Theme Toggle */
@@ -767,6 +833,16 @@
         </div>
     </div>
     
+    <!-- Floating Flowers Background -->
+    <div class="floating-flowers">
+        <div class="flower">🌸</div>
+        <div class="flower">🌺</div>
+        <div class="flower">🌼</div>
+        <div class="flower">🌻</div>
+        <div class="flower">🌷</div>
+        <div class="flower">🌹</div>
+    </div>
+    
     <!-- Reset Button -->
     <button class="reset-btn" onclick="resetDashboard()" title="Reload synced data from daOracle">🔄 Sync</button>
     
@@ -782,6 +858,7 @@
     <div class="container">
         <h1>🎯 B&J Command Center</h1>
         <p class="subtitle">Brandon & Jacky's Personal Dashboard - All Documents Organized</p>
+        <p class="fun-quote" id="funQuote">✨ Loading magic... ✨</p>
 
         <!-- Photo Gallery -->
         <div class="photo-gallery">
@@ -1193,6 +1270,25 @@
             document.getElementById('currentDate').textContent = today;
         }
         
+        // Fun Rotating Quotes
+        function updateFunQuote() {
+            const quotes = [
+                "Ohana means family 💙",
+                "Mischief Managed ⚡",
+                "Gotta catch 'em all! 🔴",
+                "¡Viva México! 🇲🇽",
+                "Expecto Patronum! 🦌✨",
+                "626 - Experiment: Love 💕",
+                "Pikachu, I choose you! ⚡",
+                "Always. 🦌💚",
+                "Stitch is good! 👽",
+                "Hasta la vista! 🌮🇲🇽"
+            ];
+            
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('funQuote').textContent = randomQuote;
+        }
+        
         // ===== NOTES FUNCTIONS =====
         function initializeDefaultData() {
             // Only initialize if nothing exists yet
@@ -1379,6 +1475,9 @@
             updateBrandonBdayCountdown();
             updateJackyBdayCountdown();
             updateCurrentDate();
+            
+            // Update fun quote
+            updateFunQuote();
         });
     </script>
 </body>
