@@ -711,12 +711,12 @@
                     <div class="stat-label" data-en="🪙 Crypto Holdings" data-es="🪙 Criptomonedas">🪙 Crypto Holdings</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-value" id="japanCountdown">... Days</div>
-                    <div class="stat-label" data-en="🇯🇵 Until Japan Trip" data-es="🇯🇵 Hasta Viaje a Japón">🇯🇵 Until Japan Trip</div>
+                    <div class="stat-value">-$151,602</div>
+                    <div class="stat-label" data-en="💼 Net Worth" data-es="💼 Patrimonio Neto">💼 Net Worth</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-value">2</div>
-                    <div class="stat-label" data-en="👥 Travelers" data-es="👥 Viajeros">👥 Travelers</div>
+                    <div class="stat-value" id="daysTogetherCountdown">... Days</div>
+                    <div class="stat-label" data-en="❤️ Days Together" data-es="❤️ Días Juntos">❤️ Days Together</div>
                 </div>
             </div>
         </div>
@@ -726,8 +726,12 @@
             <h2 data-en="⏰ Special Dates" data-es="⏰ Fechas Especiales">⏰ Special Dates</h2>
             <div class="quick-stats">
                 <div class="stat-box">
+                    <div class="stat-value" id="japanCountdown">... Days</div>
+                    <div class="stat-label" data-en="🇯🇵 Until Japan Trip (Apr 2)" data-es="🇯🇵 Hasta Viaje a Japón (2 Abr)">🇯🇵 Until Japan Trip (Apr 2)</div>
+                </div>
+                <div class="stat-box">
                     <div class="stat-value" id="anniversaryCountdown">... Days</div>
-                    <div class="stat-label" data-en="❤️ Until Anniversary (Mar 1)" data-es="❤️ Hasta Aniversario (1 Mar)">❤️ Until Anniversary (Mar 1)</div>
+                    <div class="stat-label" data-en="💑 Until Anniversary (Mar 1)" data-es="💑 Hasta Aniversario (1 Mar)">💑 Until Anniversary (Mar 1)</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-value" id="brandonBdayCountdown">... Days</div>
@@ -1055,8 +1059,22 @@
         
         // Japan Countdown
         function updateJapanCountdown() {
-            const days = calculateDaysUntil('2026-04-03');
+            const days = calculateDaysUntil('2026-04-02');
             document.getElementById('japanCountdown').textContent = days + ' Days';
+        }
+        
+        // Days Together (counting UP from anniversary date)
+        function updateDaysTogetherCountdown() {
+            // Assuming you got together around Mar 1 (anniversary)
+            // Let's count from a past date - adjust year as needed
+            const startDate = new Date('2020-03-01'); // Adjust this to your actual start date!
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const diffTime = today - startDate;
+            const daysTogether = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            document.getElementById('daysTogetherCountdown').textContent = daysTogether.toLocaleString();
         }
         
         // Anniversary Countdown (March 1)
@@ -1308,6 +1326,7 @@
             updateAnniversaryCountdown();
             updateBrandonBdayCountdown();
             updateJackyBdayCountdown();
+            updateDaysTogetherCountdown();
             updateCurrentDate();
             
             // Load notes and events
