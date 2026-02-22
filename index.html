@@ -109,6 +109,29 @@
             background: rgba(255,255,255,0.3);
         }
         
+        /* Reset Button */
+        .reset-btn {
+            position: fixed;
+            top: 20px;
+            right: 150px;
+            background: rgba(231, 76, 60, 0.2);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .reset-btn:hover {
+            transform: scale(1.05);
+            background: rgba(231, 76, 60, 0.4);
+        }
+        
         /* Shared Notes Section */
         .notes-widget {
             background: #fff3cd;
@@ -659,6 +682,9 @@
         </div>
     </div>
     
+    <!-- Reset Button -->
+    <button class="reset-btn" onclick="resetDashboard()" title="Reload synced data from daOracle">🔄 Sync</button>
+    
     <!-- Language Toggle -->
     <button class="language-toggle" onclick="toggleLanguage()" id="languageToggle">🇪🇸 ES</button>
     
@@ -993,6 +1019,21 @@
                 top: 0,
                 behavior: 'smooth'
             });
+        }
+        
+        // Reset Dashboard - Clear localStorage and reload
+        function resetDashboard() {
+            if (confirm('🔄 Reload synced data from daOracle?\n\nThis will replace your current notes and events with the latest synced version.')) {
+                // Clear notes and events (keep language and dark mode preferences)
+                localStorage.removeItem('bjNotes');
+                localStorage.removeItem('bjEvents');
+                
+                // Scroll to top and reload
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => {
+                    location.reload();
+                }, 300);
+            }
         }
         
         // Countdown Calculator Helper
