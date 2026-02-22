@@ -113,8 +113,8 @@
         .reset-btn {
             position: fixed;
             top: 20px;
-            right: 150px;
-            background: rgba(231, 76, 60, 0.2);
+            left: 20px;
+            background: rgba(52, 152, 219, 0.2);
             border: none;
             border-radius: 25px;
             padding: 10px 20px;
@@ -129,7 +129,7 @@
         
         .reset-btn:hover {
             transform: scale(1.05);
-            background: rgba(231, 76, 60, 0.4);
+            background: rgba(52, 152, 219, 0.4);
         }
         
         /* Shared Notes Section */
@@ -714,10 +714,6 @@
                     <div class="stat-value">-$151,602</div>
                     <div class="stat-label" data-en="💼 Net Worth" data-es="💼 Patrimonio Neto">💼 Net Worth</div>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-value" id="daysTogetherCountdown">... Days</div>
-                    <div class="stat-label" data-en="❤️ Days Together" data-es="❤️ Días Juntos">❤️ Days Together</div>
-                </div>
             </div>
         </div>
 
@@ -742,57 +738,6 @@
                     <div class="stat-label" data-en="🎉 Until Jacky's Birthday (Jul 27)" data-es="🎉 Hasta Cumpleaños de Jacky (27 Jul)">🎉 Until Jacky's Birthday (Jul 27)</div>
                 </div>
             </div>
-        </div>
-
-        <!-- Shared Notes -->
-        <div class="section">
-            <h2 data-en="💬 Notes for Each Other" data-es="💬 Notas Para Nosotros">💬 Notes for Each Other</h2>
-            <div class="notes-widget">
-                <div id="notesList">
-                    <!-- Notes will be loaded here from localStorage -->
-                </div>
-                
-                <!-- Add Note Form -->
-                <div class="note-form" id="noteForm">
-                    <select id="noteAuthor">
-                        <option value="Brandon">Brandon →</option>
-                        <option value="Jacky">Jacky →</option>
-                    </select>
-                    <textarea id="noteText" placeholder="Type your message here..."></textarea>
-                    <div class="note-form-buttons">
-                        <button class="save-note-btn" onclick="saveNote()">💾 Save Note</button>
-                        <button class="cancel-note-btn" onclick="cancelNote()">❌ Cancel</button>
-                    </div>
-                </div>
-                
-                <button class="add-note-btn" onclick="showNoteForm()" data-en="➕ Add New Note" data-es="➕ Añadir Nota Nueva">➕ Add New Note</button>
-                
-                <p style="margin-top: 15px; color: #856404; font-style: italic; font-size: 0.9em;" data-en="💡 Notes are saved in your browser. Tell daOracle to sync them!" data-es="💡 Las notas se guardan en tu navegador. ¡Dile a daOracle para sincronizarlas!">💡 Notes are saved in your browser. Tell daOracle to sync them!</p>
-            </div>
-        </div>
-
-        <!-- Calendar/Events -->
-        <div class="section">
-            <h2 data-en="📅 Upcoming Events" data-es="📅 Próximos Eventos">📅 Upcoming Events</h2>
-            <div id="calendarEvents" class="calendar-grid">
-                <!-- Events will be loaded here from localStorage -->
-            </div>
-            
-            <!-- Add Event Form -->
-            <div class="event-form" id="eventForm">
-                <input type="text" id="eventTitle" placeholder="Event title (e.g., Doctor Appointment)">
-                <input type="date" id="eventDate">
-                <input type="time" id="eventTime">
-                <textarea id="eventNotes" placeholder="Additional notes (optional)"></textarea>
-                <div class="event-form-buttons">
-                    <button class="save-event-btn" onclick="saveEvent()">💾 Save Event</button>
-                    <button class="cancel-event-btn" onclick="cancelEvent()">❌ Cancel</button>
-                </div>
-            </div>
-            
-            <button class="add-event-btn" onclick="showEventForm()" data-en="➕ Add New Event" data-es="➕ Añadir Evento Nuevo">➕ Add New Event</button>
-            
-            <p style="margin-top: 15px; color: #667eea; font-style: italic; font-size: 0.9em;" data-en="📌 Events are saved locally. Message daOracle to sync!" data-es="📌 Los eventos se guardan localmente. ¡Envía mensaje a daOracle para sincronizar!">📌 Events are saved locally. Message daOracle to sync!</p>
         </div>
 
         <!-- Finance Section -->
@@ -1025,19 +970,13 @@
             });
         }
         
-        // Reset Dashboard - Clear localStorage and reload
+        // Reset Dashboard - Reload page
         function resetDashboard() {
-            if (confirm('🔄 Reload synced data from daOracle?\n\nThis will replace your current notes and events with the latest synced version.')) {
-                // Clear notes and events (keep language and dark mode preferences)
-                localStorage.removeItem('bjNotes');
-                localStorage.removeItem('bjEvents');
-                
-                // Scroll to top and reload
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                setTimeout(() => {
-                    location.reload();
-                }, 300);
-            }
+            // Scroll to top and reload
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => {
+                location.reload();
+            }, 300);
         }
         
         // Countdown Calculator Helper
@@ -1326,12 +1265,7 @@
             updateAnniversaryCountdown();
             updateBrandonBdayCountdown();
             updateJackyBdayCountdown();
-            updateDaysTogetherCountdown();
             updateCurrentDate();
-            
-            // Load notes and events
-            loadNotes();
-            loadEvents();
         });
     </script>
 </body>
