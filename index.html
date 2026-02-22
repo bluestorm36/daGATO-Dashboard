@@ -481,6 +481,170 @@
         body.dark-mode .access-code {
             color: #e0e0e0;
         }
+        
+        /* Interactive Features */
+        .add-note-btn, .add-event-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        
+        .add-note-btn:hover, .add-event-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        .note-form, .event-form {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 2px solid #667eea;
+        }
+        
+        body.dark-mode .note-form, body.dark-mode .event-form {
+            background: #3a3a4e;
+            color: #e0e0e0;
+        }
+        
+        .note-form.active, .event-form.active {
+            display: block;
+        }
+        
+        .note-form select, .note-form textarea, .event-form input, .event-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1em;
+            font-family: inherit;
+        }
+        
+        .note-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .note-form-buttons, .event-form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .note-form button, .event-form button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .save-note-btn, .save-event-btn {
+            background: #28a745;
+            color: white;
+        }
+        
+        .save-note-btn:hover, .save-event-btn:hover {
+            background: #218838;
+        }
+        
+        .cancel-note-btn, .cancel-event-btn {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .cancel-note-btn:hover, .cancel-event-btn:hover {
+            background: #5a6268;
+        }
+        
+        .delete-note-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+        
+        .delete-note-btn:hover {
+            background: #c0392b;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .calendar-event {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            position: relative;
+        }
+        
+        body.dark-mode .calendar-event {
+            background: #3a3a4e;
+        }
+        
+        .event-date {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        
+        .event-title {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        body.dark-mode .event-title {
+            color: #e0e0e0;
+        }
+        
+        .event-time {
+            color: #999;
+            font-size: 0.9em;
+        }
+        
+        .delete-event-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+        
+        .delete-event-btn:hover {
+            background: #c0392b;
+        }
+        
+        .no-events {
+            text-align: center;
+            color: #999;
+            padding: 30px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -554,18 +718,51 @@
         <div class="section">
             <h2 data-en="💬 Notes for Each Other" data-es="💬 Notas Para Nosotros">💬 Notes for Each Other</h2>
             <div class="notes-widget">
-                <div class="note-item">
-                    <div class="note-author">Brandon →</div>
-                    <div class="note-text" data-en="Don't forget to book Harry Potter Studio Tour tickets! 🏰" data-es="¡No olvides reservar los boletos del Harry Potter Studio Tour! 🏰">Don't forget to book Harry Potter Studio Tour tickets! 🏰</div>
-                    <div class="note-date">Feb 22, 2026</div>
+                <div id="notesList">
+                    <!-- Notes will be loaded here from localStorage -->
                 </div>
-                <div class="note-item">
-                    <div class="note-author">Jacky →</div>
-                    <div class="note-text" data-en="Can't wait for Japan! Love you! ❤️" data-es="¡No puedo esperar para Japón! ¡Te amo! ❤️">Can't wait for Japan! Love you! ❤️</div>
-                    <div class="note-date">Feb 22, 2026</div>
+                
+                <!-- Add Note Form -->
+                <div class="note-form" id="noteForm">
+                    <select id="noteAuthor">
+                        <option value="Brandon">Brandon →</option>
+                        <option value="Jacky">Jacky →</option>
+                    </select>
+                    <textarea id="noteText" placeholder="Type your message here..."></textarea>
+                    <div class="note-form-buttons">
+                        <button class="save-note-btn" onclick="saveNote()">💾 Save Note</button>
+                        <button class="cancel-note-btn" onclick="cancelNote()">❌ Cancel</button>
+                    </div>
                 </div>
-                <p style="margin-top: 15px; color: #856404; font-style: italic; font-size: 0.9em;" data-en="💡 Tip: Message daOracle in Telegram to add new notes!" data-es="💡 Consejo: ¡Envía mensaje a daOracle en Telegram para añadir notas nuevas!">💡 Tip: Message daOracle in Telegram to add new notes!</p>
+                
+                <button class="add-note-btn" onclick="showNoteForm()" data-en="➕ Add New Note" data-es="➕ Añadir Nota Nueva">➕ Add New Note</button>
+                
+                <p style="margin-top: 15px; color: #856404; font-style: italic; font-size: 0.9em;" data-en="💡 Notes are saved in your browser. Tell daOracle to sync them!" data-es="💡 Las notas se guardan en tu navegador. ¡Dile a daOracle para sincronizarlas!">💡 Notes are saved in your browser. Tell daOracle to sync them!</p>
             </div>
+        </div>
+
+        <!-- Calendar/Events -->
+        <div class="section">
+            <h2 data-en="📅 Upcoming Events" data-es="📅 Próximos Eventos">📅 Upcoming Events</h2>
+            <div id="calendarEvents" class="calendar-grid">
+                <!-- Events will be loaded here from localStorage -->
+            </div>
+            
+            <!-- Add Event Form -->
+            <div class="event-form" id="eventForm">
+                <input type="text" id="eventTitle" placeholder="Event title (e.g., Doctor Appointment)">
+                <input type="date" id="eventDate">
+                <input type="time" id="eventTime">
+                <textarea id="eventNotes" placeholder="Additional notes (optional)"></textarea>
+                <div class="event-form-buttons">
+                    <button class="save-event-btn" onclick="saveEvent()">💾 Save Event</button>
+                    <button class="cancel-event-btn" onclick="cancelEvent()">❌ Cancel</button>
+                </div>
+            </div>
+            
+            <button class="add-event-btn" onclick="showEventForm()" data-en="➕ Add New Event" data-es="➕ Añadir Evento Nuevo">➕ Add New Event</button>
+            
+            <p style="margin-top: 15px; color: #667eea; font-style: italic; font-size: 0.9em;" data-en="📌 Events are saved locally. Message daOracle to sync!" data-es="📌 Los eventos se guardan localmente. ¡Envía mensaje a daOracle para sincronizar!">📌 Events are saved locally. Message daOracle to sync!</p>
         </div>
 
         <!-- Finance Section -->
@@ -885,6 +1082,145 @@
             document.getElementById('currentDate').textContent = today;
         }
         
+        // ===== NOTES FUNCTIONS =====
+        function loadNotes() {
+            const notes = JSON.parse(localStorage.getItem('bjNotes') || '[]');
+            const notesList = document.getElementById('notesList');
+            
+            if (notes.length === 0) {
+                notesList.innerHTML = '<div class="note-item"><div class="note-text" style="text-align: center; color: #999;">No notes yet. Click "Add New Note" to get started! 💬</div></div>';
+                return;
+            }
+            
+            notesList.innerHTML = notes.map((note, index) => `
+                <div class="note-item">
+                    <div class="note-author">${note.author} →</div>
+                    <div class="note-text">${note.text}</div>
+                    <div class="note-date">${note.date} <button class="delete-note-btn" onclick="deleteNote(${index})">🗑️ Delete</button></div>
+                </div>
+            `).join('');
+        }
+        
+        function showNoteForm() {
+            document.getElementById('noteForm').classList.add('active');
+        }
+        
+        function cancelNote() {
+            document.getElementById('noteForm').classList.remove('active');
+            document.getElementById('noteText').value = '';
+        }
+        
+        function saveNote() {
+            const author = document.getElementById('noteAuthor').value;
+            const text = document.getElementById('noteText').value.trim();
+            
+            if (!text) {
+                alert('Please enter a message!');
+                return;
+            }
+            
+            const notes = JSON.parse(localStorage.getItem('bjNotes') || '[]');
+            const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            
+            notes.push({
+                author: author,
+                text: text,
+                date: today
+            });
+            
+            localStorage.setItem('bjNotes', JSON.stringify(notes));
+            document.getElementById('noteText').value = '';
+            cancelNote();
+            loadNotes();
+        }
+        
+        function deleteNote(index) {
+            if (!confirm('Delete this note?')) return;
+            
+            const notes = JSON.parse(localStorage.getItem('bjNotes') || '[]');
+            notes.splice(index, 1);
+            localStorage.setItem('bjNotes', JSON.stringify(notes));
+            loadNotes();
+        }
+        
+        // ===== CALENDAR FUNCTIONS =====
+        function loadEvents() {
+            const events = JSON.parse(localStorage.getItem('bjEvents') || '[]');
+            const calendarDiv = document.getElementById('calendarEvents');
+            
+            if (events.length === 0) {
+                calendarDiv.innerHTML = '<div class="no-events">No upcoming events. Click "Add New Event" to schedule something! 📅</div>';
+                return;
+            }
+            
+            // Sort by date
+            events.sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            calendarDiv.innerHTML = events.map((event, index) => {
+                const eventDate = new Date(event.date);
+                const formattedDate = eventDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+                
+                return `
+                    <div class="calendar-event">
+                        <button class="delete-event-btn" onclick="deleteEvent(${index})">🗑️</button>
+                        <div class="event-date">${formattedDate}</div>
+                        <div class="event-title">${event.title}</div>
+                        ${event.time ? `<div class="event-time">⏰ ${event.time}</div>` : ''}
+                        ${event.notes ? `<div class="event-time" style="margin-top: 8px;">${event.notes}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function showEventForm() {
+            document.getElementById('eventForm').classList.add('active');
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('eventDate').value = today;
+        }
+        
+        function cancelEvent() {
+            document.getElementById('eventForm').classList.remove('active');
+            document.getElementById('eventTitle').value = '';
+            document.getElementById('eventDate').value = '';
+            document.getElementById('eventTime').value = '';
+            document.getElementById('eventNotes').value = '';
+        }
+        
+        function saveEvent() {
+            const title = document.getElementById('eventTitle').value.trim();
+            const date = document.getElementById('eventDate').value;
+            const time = document.getElementById('eventTime').value;
+            const notes = document.getElementById('eventNotes').value.trim();
+            
+            if (!title || !date) {
+                alert('Please enter a title and date!');
+                return;
+            }
+            
+            const events = JSON.parse(localStorage.getItem('bjEvents') || '[]');
+            
+            events.push({
+                title: title,
+                date: date,
+                time: time,
+                notes: notes
+            });
+            
+            localStorage.setItem('bjEvents', JSON.stringify(events));
+            cancelEvent();
+            loadEvents();
+        }
+        
+        function deleteEvent(index) {
+            if (!confirm('Delete this event?')) return;
+            
+            const events = JSON.parse(localStorage.getItem('bjEvents') || '[]');
+            events.splice(index, 1);
+            localStorage.setItem('bjEvents', JSON.stringify(events));
+            loadEvents();
+        }
+        
         // Run on load
         window.addEventListener('load', function() {
             // Apply saved language
@@ -898,6 +1234,10 @@
             updateBrandonBdayCountdown();
             updateJackyBdayCountdown();
             updateCurrentDate();
+            
+            // Load notes and events
+            loadNotes();
+            loadEvents();
         });
     </script>
 </body>
