@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japan Trip Calendar - April 2026</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 { 
+            font-size: 2.5em; 
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header p { 
+            font-size: 1.2em; 
+            opacity: 0.95;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #dee2e6;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        .legend-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid rgba(0,0,0,0.1);
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 30px;
+        }
+        @media (max-width: 1200px) {
+            .calendar { grid-template-columns: 1fr; }
+        }
+        .day-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 8px solid #ccc;
+        }
+        .day-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .day-header {
+            padding: 20px;
+            color: white;
+            font-weight: bold;
+        }
+        .day-number {
+            font-size: 3em;
+            line-height: 1;
+            opacity: 0.3;
+            float: right;
+            margin-top: -10px;
+        }
+        .day-name {
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            opacity: 0.9;
+        }
+        .day-date {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        .day-title {
+            font-size: 1.3em;
+            margin-top: 5px;
+        }
+        .day-content {
+            padding: 20px;
+        }
+        .location-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: bold;
+            margin: 5px 5px 5px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .hotel {
+            background: #e8f4f8;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #17a2b8;
+            font-size: 0.95em;
+        }
+        .activity {
+            margin: 15px 0;
+        }
+        .activity-time {
+            font-weight: bold;
+            color: #c41e3a;
+            margin: 12px 0 8px 0;
+            font-size: 1.05em;
+        }
+        .activity-list {
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #333;
+        }
+        .activity-list li {
+            margin: 5px 0;
+        }
+        .highlight {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        .express-pass {
+            background: #e6f3ff;
+            border: 2px solid #0066cc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .express-pass strong {
+            color: #0066cc;
+        }
+        
+        /* Color schemes for different locations/types */
+        .tokyo-day { border-left-color: #4169E1; }
+        .tokyo-day .day-header { background: linear-gradient(135deg, #4169E1 0%, #1e3a8a 100%); }
+        .tokyo-badge { background: #4169E1; color: white; }
+        
+        .osaka-day { border-left-color: #FFD700; }
+        .osaka-day .day-header { background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #333; }
+        .osaka-badge { background: #FFD700; color: #333; }
+        
+        .kyoto-day { border-left-color: #D2691E; }
+        .kyoto-day .day-header { background: linear-gradient(135deg, #D2691E 0%, #8B4513 100%); }
+        .kyoto-badge { background: #D2691E; color: white; }
+        
+        .free-day { border-left-color: #32CD32; }
+        .free-day .day-header { background: linear-gradient(135deg, #32CD32 0%, #228B22 100%); }
+        .free-badge { background: #32CD32; color: white; }
+        
+        .special-day { border-left-color: #9370DB; }
+        .special-day .day-header { background: linear-gradient(135deg, #9370DB 0%, #6A1B9A 100%); }
+        .special-badge { background: #9370DB; color: white; }
+        
+        .travel-day { border-left-color: #FF6347; }
+        .travel-day .day-header { background: linear-gradient(135deg, #FF6347 0%, #DC143C 100%); }
+        .travel-badge { background: #FF6347; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🇯🇵 JAPAN ADVENTURE 2026 🇯🇵</h1>
+            <p>📅 April 3-14, 2026 | 12 Days, 11 Nights | 2 Travelers</p>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #4169E1;"></div>
+                <span>Tokyo</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #FFD700;"></div>
+                <span>Osaka</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #D2691E;"></div>
+                <span>Kyoto/Nara</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #32CD32;"></div>
+                <span>Free Day</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #9370DB;"></div>
+                <span>Special Activity</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #FF6347;"></div>
+                <span>Travel Day</span>
+            </div>
+        </div>
+
+        <div class="calendar">
+            <!-- DAY 1 - FRIDAY APRIL 3 -->
+            <div class="day-card tokyo-day">
+                <div class="day-header">
+                    <div class="day-number">3</div>
+                    <div class="day-name">Friday</div>
+                    <div class="day-date">April 3, 2026</div>
+                    <div class="day-title">✈️ Arrival in Tokyo</div>
+                </div>
+                <div class="day-content">
+                    <div class="location-badge tokyo-badge">TOKYO</div>
+                    <div class="hotel">🏨 <strong>Akabane Holic Hotel</strong> (Check-in)</div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">✈️ Afternoon: Arrival</div>
+                        <ul class="activity-list">
+                            <li>Land at Airport (~2:00 PM)</li>
+                            <li>Train to Akabane area</li>
+                            <li>Check into hotel</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🌆 Evening: Light Exploration</div>
+                        <ul class="activity-list">
+                            <li>Walk around Akabane station</li>
+                            <li>Convenience store run</li>
+                            <li>Easy dinner nearby</li>
+                            <li>Early rest (jet lag recovery)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 2 - SATURDAY APRIL 4 -->
+            <div class="day-card free-day">
+                <div class="day-header">
+                    <div class="day-number">4</div>
+                    <div class="day-name">Saturday</div>
+                    <div class="day-date">April 4, 2026</div>
+                    <div class="day-title">🎮 Free Roam Tokyo</div>
+                </div>
+                <div class="day-content">
+                    <div class="location-badge free-badge">FREE DAY</div>
+                    <div class="hotel">🏨 <strong>Akabane Holic Hotel</strong> (Night 2)</div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">☀️ Sleep In & Recover</div>
+                        <ul class="activity-list">
+                            <li>No rush - wake when ready</li>
+                            <li>Hotel breakfast or nearby café</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🎯 Explore at Your Pace - Ideas:</div>
+                        <ul class="activity-list">
+                            <li>Akihabara (anime/gaming)</li>
+                            <li>Tokyo Station Character Street</li>
+                            <li>Shinjuku (skyscrapers)</li>
+                            <li>Shibuya crossing</li>
+                            <li>Harajuku fashion</li>
+                            <li>Don Quijote shopping</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 3 - SUNDAY APRIL 5 -->
+            <div class="day-card free-day">
+                <div class="day-header">
+                    <div class="day-number">5</div>
+                    <div class="day-name">Sunday</div>
+                    <div class="day-date">April 5, 2026</div>
+                    <div class="day-title">📅 Free Day / TBD</div>
+                </div>
+                <div class="day-content">
+                    <div class="location-badge free-badge">FREE DAY</div>
+                    <div class="hotel">🏨 <strong>Akabane Holic Hotel</strong> (Night 3)</div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🎯 Open for Planning</div>
+                        <ul class="activity-list">
+                            <li>Explore more of Tokyo</li>
+                            <li>Day trip options (TBD)</li>
+                            <li>Relax and recover</li>
+                            <li>Shopping & sightseeing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 4 - MONDAY APRIL 6 -->
+            <div class="day-card travel-day">
+                <div class="day-header">
+                    <div class="day-number">6</div>
+                    <div class="day-name">Monday</div>
+                    <div class="day-date">April 6, 2026</div>
+                    <div class="day-title">🚄 Travel to Osaka</div>
+                </div>
+                <div class="day-content">
+                    <div class="location-badge tokyo-badge">TOKYO</div>
+                    <div class="location-badge osaka-badge">→ OSAKA</div>
+                    <div class="hotel">🏨 <strong>Oriental Hotel Universal City</strong> (Check-in)</div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🚄 Shinkansen Journey</div>
+                        <ul class="activity-list">
+                            <li>Check out of Akabane Holic</li>
+                            <li>Tokyo → Osaka (~2.5 hours)</li>
+                            <li>Check into hotel near Universal</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🍜 Evening: Osaka Food Paradise</div>
+                        <ul class="activity-list">
+                            <li>Dōtonbori - iconic neon signs 🏃</li>
+                            <li>Takoyaki (octopus balls) 🐙</li>
+                            <li>Okonomiyaki (savory pancake)</li>
+                            <li>Kushikatsu (fried skewers)</li>
+                            <li>Namba area shopping</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 5 - TUESDAY APRIL 7 -->
+            <div class="day-card special-day">
+                <div class="day-header">
+                    <div class="day-number">7</div>
+                    <div class="day-name">Tuesday</div>
+                    <div class="day-date">April 7, 2026</div>
+                    <div class="day-title">🎢 Universal Studios (Day 1)</div>
+                </div>
+                <div class="day-content">
+                    <div class="location-badge special-badge">UNIVERSAL STUDIOS</div>
+                    <div class="hotel">🏨 <strong>Oriental Hotel</strong> (Night 2)</div>
+                    
+                    <div class="highlight">✅ <strong>PRE-BOOKED:</strong> Express Pass 5 ~ Race & Minecart Special</div>
+                    
+                    <div class="express-pass">
+                        <strong>⏰ Timed Entry:</strong>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li><strong>11:00-12:00</strong> - Super Nintendo World™</li>
+                            <li><strong>11:00-11:30</strong> - Mario Kart™</li>
+                            <li><strong>11:30-12:00</strong> - Mine Cart Madness™</li>
+                            <li><strong>13:00-13:30</strong> - Minion Blast</li>
+                            <li>Flying Dinosaur (anytime)</li>
+                            <li>Harry Potter Forbidden Journey (anytime)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🎢 Full Day Plan</div>
+                        <ul class="activity-list">
+                            <li>Arrive by 10:30 AM</li>
+                            <li>Follow Express Pass schedule</li>
+                            <li>Explore other areas between rides</li>
+                            <li>Try Butterbeer in Harry Potter area!</li>
+                            <li>Stay until closing (~9-10 PM)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 6 - WEDNESDAY APRIL 8 -->
+            <div class="day-card special-day">
+                <div class="day-header">
+                    <div class="day-number">8</div>
+                    <div class="day-name">Wednesday</div>
+                    <div class="day-date">April 8, 2026</div>
+                    <div class="day-title">🎢 Universal Studios (Day 2)</div>
+                </div>
+                <div class="day-content">
+                    <div class="location-badge special-badge">UNIVERSAL STUDIOS</div>
+                    <div class="hotel">🏨 <strong>Oriental Hotel</strong> (Night 3)</div>
+                    
+                    <div class="highlight">✅ <strong>PRE-BOOKED:</strong> USJ Tickets</div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🎢 Full Day Fun</div>
+                        <ul class="activity-list">
+                            <li>Finish attractions missed Day 1</li>
+                            <li>Re-ride favorites!</li>
+                            <li>Character meet & greets</li>
+                            <li>Souvenir shopping</li>
+                            <li>Try different park restaurants</li>
+                            <li>Evening shows & parades</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 7 - THURSDAY APRIL 9 -->
+            <div class="day-card kyoto-day">
+                <div class="day-header">
+                    <div class="day-number">9</div>
+                    <div class="day-name">Thursday</div>
+                    <div class="day-date">April 9, 2026</div>
+                    <div class="day-title">🦌 Kyoto & Nara Day Trip</div>
+                </div>
+                <div class="day-content">
+                    <div class="location-badge kyoto-badge">KYOTO/NARA</div>
+                    <div class="hotel">🏨 <strong>Oriental Hotel</strong> (Night 4 - pack for Tokyo tomorrow!)</div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🦌 Morning: NARA (3-4 hours)</div>
+                        <ul class="activity-list">
+                            <li>Train from Osaka (~45 min)</li>
+                            <li>Nara Park - Feed the deer! 🦌</li>
+                            <li>Todaiji Temple - Giant Buddha</li>
+                            <li>Kasuga Taisha - Lantern shrine</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">⛩️ Afternoon: KYOTO (3-4 hours)</div>
+                        <ul class="activity-list">
+                            <li>Train to Kyoto (~45 min)</li>
+                            <li>Fushimi Inari - 1000 red gates! 🎌</li>
+                            <li>Hike as far as you want (1-2 hrs)</li>
+                            <li>Optional: Kiyomizu-dera or Bamboo Grove</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🌆 Evening: Return to Osaka</div>
+                        <ul class="activity-list">
+                            <li>Train back to Osaka (~1 hour)</li>
+                            <li>Dinner near hotel</li>
+                            <li><strong>Pack bags for Tokyo!</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 8 - FRIDAY APRIL 10 -->
+            <div class="day-card travel-day">
+                <div class="day-header">
+                    <div class="day-number">10</div>
+                    <div class="day-name">Friday</div>
+                    <div class="day-date">April 10, 2026</div>
+                    <div class="day-title">🚄 Osaka → Tokyo</div>
+                </div>
+                <div class="day-content">
+                    <div class="location-badge osaka-badge">OSAKA</div>
+                    <div class="location-badge tokyo-badge">→ TOKYO</div>
+                    <div class="hotel">🏨 <strong>APA Hotel Nishishinjuku</strong> (Check-in)</div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🚄 Return to Tokyo</div>
+                        <ul class="activity-list">
+                            <li>Check out of Oriental Hotel</li>
+                            <li>Shinkansen (~2.5 hours)</li>
+                            <li>Check into APA Hotel</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🎯 Evening: Explore Shinjuku</div>
+                        <ul class="activity-list">
+                            <li>Tokyo Gov't Building - free observation deck</li>
+                            <li>Kabukicho entertainment district</li>
+                            <li>Omoide Yokocho - tiny restaurants</li>
+                            <li>Dinner in Shinjuku</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 9 - SATURDAY APRIL 11 -->
+            <div class="day-card special-day">
+                <div class="day-header">
+                    <div class="day-number">11</div>
+                    <div class="day-name">Saturday</div>
+                    <div class="day-date">April 11, 2026</div>
+                    <div class="day-title">🎨 teamLab Borderless</div>
+                </div>
+                <div class="day-content">
+                    <div class="location-badge special-badge">TEAMLAB</div>
+                    <div class="hotel">🏨 <strong>APA Hotel Nishishinjuku</strong> (Night 2)</div>
+                    
+                    <div class="highlight">✅ <strong>RESERVED:</strong> 12:00-12:30 PM Entry</div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🎨 Midday: teamLab Borderless</div>
+                        <ul class="activity-list">
+                            <li>Digital art immersive museum (2-3 hrs)</li>
+                            <li>Mind-blowing interactive installations</li>
+                            <li>Take LOTS of photos/videos!</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🌆 Evening: Harajuku & Shibuya</div>
+                        <ul class="activity-list">
+                            <li>Harajuku - Takeshita Street</li>
+                            <li>Shibuya scramble crossing</li>
+                            <li>Pokémon Center Shibuya</li>
+                            <li>Dinner: Gyukatsu Motomura or similar</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 10 - SUNDAY APRIL 12 -->
+            <div class="day-card special-day">
+                <div class="day-header">
+                    <div class="day-number">12</div>
+                    <div class="day-name">Sunday</div>
+                    <div class="day-date">April 12, 2026</div>
+                    <div class="day-title">⚡ Harry Potter Studio Tour</div>
+                </div>
+                <div class="day-content">
+                    <div class="location-badge special-badge">HARRY POTTER</div>
+                    <div class="hotel">🏨 <strong>APA Hotel Nishishinjuku</strong> (Night 3)</div>
+                    
+                    <div class="highlight">⚠️ <strong>BOOK NOW!</strong> Sells out weeks in advance</div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">⚡ Warner Bros. Studio Tour</div>
+                        <ul class="activity-list">
+                            <li>Train to Toshimaen (~30 min)</li>
+                            <li>Great Hall, Diagon Alley, Platform 9¾</li>
+                            <li>Hogwarts Express</li>
+                            <li>Try Butterbeer!</li>
+                            <li>Props, costumes, detailed sets (3-4 hrs)</li>
+                            <li>Gift shop (bring extra yen!)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🌆 Late Afternoon/Evening</div>
+                        <ul class="activity-list">
+                            <li>Return to Shinjuku</li>
+                            <li>Pokémon Café (if reserved)</li>
+                            <li>Cat Café experience</li>
+                            <li>Last-minute shopping</li>
+                            <li>Rest before DisneySea tomorrow</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 11 - MONDAY APRIL 13 -->
+            <div class="day-card special-day">
+                <div class="day-header">
+                    <div class="day-number">13</div>
+                    <div class="day-name">Monday</div>
+                    <div class="day-date">April 13, 2026</div>
+                    <div class="day-title">🌊 Tokyo DisneySea</div>
+                </div>
+                <div class="day-content">
+                    <div class="location-badge special-badge">DISNEYSEA</div>
+                    <div class="hotel">🏨 <strong>APA Hotel Nishishinjuku</strong> (Night 4)</div>
+                    
+                    <div class="highlight">✅ <strong>CONFIRMED:</strong> DisneySea Tickets Purchased!</div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🎢 Full Day - DisneySea</div>
+                        <ul class="activity-list">
+                            <li>Train to Maihama Station (~35 min)</li>
+                            <li>Arrive at opening (~9:00 AM)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🌟 Priority Attractions:</div>
+                        <ul class="activity-list">
+                            <li>🌋 Journey to Center of the Earth</li>
+                            <li>🚢 Tower of Terror</li>
+                            <li>🧞 Sindbad's Storybook Voyage</li>
+                            <li>🎠 20,000 Leagues Under the Sea</li>
+                            <li>🏔️ Indiana Jones Adventure</li>
+                            <li>🎆 Fantasmic! (nighttime show)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">🗺️ Areas to Explore:</div>
+                        <ul class="activity-list">
+                            <li>Mediterranean Harbor (entrance)</li>
+                            <li>Mysterious Island</li>
+                            <li>Arabian Coast</li>
+                            <li>Mermaid Lagoon</li>
+                            <li>American Waterfront</li>
+                            <li>Stay until closing (~10:00 PM)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 12 - TUESDAY APRIL 14 -->
+            <div class="day-card tokyo-day">
+                <div class="day-header">
+                    <div class="day-number">14</div>
+                    <div class="day-name">Tuesday</div>
+                    <div class="day-date">April 14, 2026</div>
+                    <div class="day-title">✈️ Last Morning & Departure</div>
+                </div>
+                <div class="day-content">
+                    <div class="location-badge tokyo-badge">TOKYO</div>
+                    <div class="hotel">🏨 <strong>APA Hotel</strong> (Check-out)</div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">☀️ Morning: Last Shopping</div>
+                        <ul class="activity-list">
+                            <li>Check out, store luggage</li>
+                            <li>Pokémon Center - last chance!</li>
+                            <li>Don Quijote - souvenirs</li>
+                            <li>Tokyo Station Character Street</li>
+                            <li>Grab bento boxes for flight</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity">
+                        <div class="activity-time">✈️ Afternoon: Airport Departure</div>
+                        <ul class="activity-list">
+                            <li><strong>12:00-1:00 PM:</strong> Head to airport</li>
+                            <li>
