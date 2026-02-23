@@ -1038,26 +1038,42 @@
         }
         
         .photo-item {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transition: transform 0.3s, box-shadow 0.3s;
-            background: #f0f0f0;
+            perspective: 1000px;
             aspect-ratio: 4/3;
             cursor: pointer;
         }
         
-        .photo-item:hover {
-            transform: translateY(-5px);
+        .photo-flip-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .photo-item.flipped .photo-flip-container {
+            transform: rotateY(180deg);
+        }
+        
+        .photo-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .photo-face-back {
+            transform: rotateY(180deg);
+        }
+        
+        .photo-item:hover .photo-face {
             box-shadow: 0 8px 20px rgba(0,0,0,0.25);
         }
         
-        .photo-item:active {
-            transform: translateY(-3px) scale(0.98);
-        }
-        
-        .photo-item img {
+        .photo-face img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -1318,22 +1334,55 @@
         <!-- Photo Gallery -->
         <div class="photo-gallery">
             <h2 data-en="🐾 Our Fur Babies" data-es="🐾 Nuestras Mascotas">🐾 Our Fur Babies</h2>
+            <p style="text-align: center; color: #667eea; font-size: 0.9em; margin-bottom: 15px;" data-en="💡 Click photos to flip!" data-es="💡 ¡Haz clic para voltear las fotos!">💡 Click photos to flip!</p>
             <div class="photo-grid">
-                <div class="photo-item" onclick="openPhoto('photos/photo1.jpg', 'Teddy 🐶💕', 'dog')">
-                    <img src="photos/photo1.jpg" alt="Teddy" loading="lazy">
-                    <div class="photo-caption" data-en="Teddy 🐶💕" data-es="Teddy 🐶💕">Teddy 🐶💕</div>
+                <div class="photo-item" onclick="this.classList.toggle('flipped')">
+                    <div class="photo-flip-container">
+                        <div class="photo-face photo-face-front">
+                            <img src="photos/photo1.jpg" alt="Teddy" loading="lazy">
+                            <div class="photo-caption" data-en="Teddy 🐶💕" data-es="Teddy 🐶💕">Teddy 🐶💕</div>
+                        </div>
+                        <div class="photo-face photo-face-back">
+                            <img src="photos/photo1-alt.jpg" alt="Teddy alt" loading="lazy">
+                            <div class="photo-caption" data-en="Teddy 🐶💕" data-es="Teddy 🐶💕">Teddy 🐶💕</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="photo-item" onclick="openPhoto('photos/photo2.jpg', 'Mia 🐩✨', 'dog')">
-                    <img src="photos/photo2.jpg" alt="Mia" loading="lazy">
-                    <div class="photo-caption" data-en="Mia 🐩✨" data-es="Mia 🐩✨">Mia 🐩✨</div>
+                <div class="photo-item" onclick="this.classList.toggle('flipped')">
+                    <div class="photo-flip-container">
+                        <div class="photo-face photo-face-front">
+                            <img src="photos/photo2.jpg" alt="Mia" loading="lazy">
+                            <div class="photo-caption" data-en="Mia 🐩✨" data-es="Mia 🐩✨">Mia 🐩✨</div>
+                        </div>
+                        <div class="photo-face photo-face-back">
+                            <img src="photos/photo2-alt.jpg" alt="Mia alt" loading="lazy">
+                            <div class="photo-caption" data-en="Mia 🐩✨" data-es="Mia 🐩✨">Mia 🐩✨</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="photo-item" onclick="openPhoto('photos/photo3.jpg', 'Cookie 😸🍪', 'cat')">
-                    <img src="photos/photo3.jpg" alt="Cookie" loading="lazy">
-                    <div class="photo-caption" data-en="Cookie 😸🍪" data-es="Cookie 😸🍪">Cookie 😸🍪</div>
+                <div class="photo-item" onclick="this.classList.toggle('flipped')">
+                    <div class="photo-flip-container">
+                        <div class="photo-face photo-face-front">
+                            <img src="photos/photo3.jpg" alt="Cookie" loading="lazy">
+                            <div class="photo-caption" data-en="Cookie 😸🍪" data-es="Cookie 😸🍪">Cookie 😸🍪</div>
+                        </div>
+                        <div class="photo-face photo-face-back">
+                            <img src="photos/photo3-alt.jpg" alt="Cookie alt" loading="lazy">
+                            <div class="photo-caption" data-en="Cookie 😸🍪" data-es="Cookie 😸🍪">Cookie 😸🍪</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="photo-item" onclick="openPhoto('photos/photo4.jpg', 'Hedwig 😻🦉', 'cat')">
-                    <img src="photos/photo4.jpg" alt="Hedwig" loading="lazy">
-                    <div class="photo-caption" data-en="Hedwig 😻🦉" data-es="Hedwig 😻🦉">Hedwig 😻🦉</div>
+                <div class="photo-item" onclick="this.classList.toggle('flipped')">
+                    <div class="photo-flip-container">
+                        <div class="photo-face photo-face-front">
+                            <img src="photos/photo4.jpg" alt="Hedwig" loading="lazy">
+                            <div class="photo-caption" data-en="Hedwig 😻🦉" data-es="Hedwig 😻🦉">Hedwig 😻🦉</div>
+                        </div>
+                        <div class="photo-face photo-face-back">
+                            <img src="photos/photo4-alt.jpg" alt="Hedwig alt" loading="lazy">
+                            <div class="photo-caption" data-en="Hedwig 😻🦉" data-es="Hedwig 😻🦉">Hedwig 😻🦉</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <p style="margin-top: 20px; text-align: center; color: #667eea; font-style: italic; font-size: 0.95em;" data-en="💡 Teddy, Mia, Cookie & Hedwig ❤️" data-es="💡 Teddy, Mia, Cookie y Hedwig ❤️">💡 Teddy, Mia, Cookie & Hedwig ❤️</p>
