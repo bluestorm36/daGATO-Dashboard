@@ -575,6 +575,56 @@
             color: #b0b0b0;
         }
         
+        .health-score-meter {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 10px;
+            border-radius: 50%;
+            border: 8px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .health-score-excellent {
+            border-color: #28a745;
+            color: #28a745;
+            box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);
+        }
+        
+        .health-score-good {
+            border-color: #17a2b8;
+            color: #17a2b8;
+            box-shadow: 0 0 15px rgba(23, 162, 184, 0.3);
+        }
+        
+        .health-score-fair {
+            border-color: #ffc107;
+            color: #ffc107;
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.3);
+        }
+        
+        .health-score-poor {
+            border-color: #fd7e14;
+            color: #fd7e14;
+            box-shadow: 0 0 15px rgba(253, 126, 20, 0.3);
+        }
+        
+        .health-score-critical {
+            border-color: #dc3545;
+            color: #dc3545;
+            box-shadow: 0 0 15px rgba(220, 53, 69, 0.3);
+        }
+        
+        .health-score-description {
+            font-size: 0.75em;
+            color: #999;
+            margin-top: 5px;
+        }
+        
         .access-code {
             background: #fff3cd;
             border-left: 4px solid #ffc107;
@@ -1413,6 +1463,11 @@
                     <div class="stat-value hidden" data-value="-$151,602">👀</div>
                     <div class="stat-label" data-en="💼 Net Worth" data-es="💼 Patrimonio Neto">💼 Net Worth</div>
                 </div>
+                <div class="stat-box">
+                    <div class="health-score-meter" id="healthScoreMeter">--</div>
+                    <div class="stat-label" data-en="🏥 Financial Health" data-es="🏥 Salud Financiera">🏥 Financial Health</div>
+                    <div class="health-score-description" id="healthScoreDesc">Loading...</div>
+                </div>
             </div>
         </div>
 
@@ -1756,6 +1811,120 @@
             const diffTime = target - today;
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             return diffDays;
+        }
+        
+        // Financial Health Score Calculator
+        function calculateFinancialHealth() {
+            // Current financial data
+            const monthlyIncome = 7130.65;
+            const monthlyExpenses = 7238.30;
+            const liquidAssets = 3921.18;
+            const totalDebt = 188740;
+            const totalAssets = 37138;
+            
+            let score = 0;
+            let factors = [];
+            
+            // Factor 1: Monthly Cash Flow (30 points max)
+            const monthlyCashFlow = monthlyIncome - monthlyExpenses;
+            if (monthlyCashFlow >= 1000) {
+                score += 30;
+                factors.push("Strong positive cash flow");
+            } else if (monthlyCashFlow >= 500) {
+                score += 25;
+                factors.push("Good cash flow");
+            } else if (monthlyCashFlow >= 0) {
+                score += 20;
+                factors.push("Breaking even");
+            } else if (monthlyCashFlow >= -500) {
+                score += 10;
+                factors.push("Minor deficit");
+            } else {
+                score += 0;
+                factors.push("Significant deficit");
+            }
+            
+            // Factor 2: Emergency Fund (25 points max)
+            const emergencyMonths = liquidAssets / monthlyExpenses;
+            if (emergencyMonths >= 6) {
+                score += 25;
+                factors.push("6+ months saved");
+            } else if (emergencyMonths >= 3) {
+                score += 20;
+                factors.push("3-6 months saved");
+            } else if (emergencyMonths >= 1) {
+                score += 15;
+                factors.push("1-3 months saved");
+            } else if (emergencyMonths >= 0.5) {
+                score += 8;
+                factors.push("Building emergency fund");
+            } else {
+                score += 0;
+                factors.push("No emergency fund");
+            }
+            
+            // Factor 3: Debt-to-Income Ratio (25 points max)
+            const annualIncome = monthlyIncome * 12;
+            const debtToIncomeRatio = totalDebt / annualIncome;
+            if (debtToIncomeRatio <= 1) {
+                score += 25;
+                factors.push("Low debt burden");
+            } else if (debtToIncomeRatio <= 2) {
+                score += 20;
+                factors.push("Moderate debt");
+            } else if (debtToIncomeRatio <= 3) {
+                score += 10;
+                factors.push("High debt burden");
+            } else {
+                score += 5;
+                factors.push("Very high debt");
+            }
+            
+            // Factor 4: Net Worth Progress (20 points max)
+            const netWorth = totalAssets - totalDebt;
+            if (netWorth >= 0) {
+                score += 20;
+                factors.push("Positive net worth");
+            } else if (netWorth >= -50000) {
+                score += 15;
+                factors.push("Net worth improving");
+            } else if (netWorth >= -100000) {
+                score += 10;
+                factors.push("Working on net worth");
+            } else if (netWorth >= -150000) {
+                score += 5;
+                factors.push("Significant debt load");
+            } else {
+                score += 2;
+                factors.push("Heavy debt burden");
+            }
+            
+            // Display score
+            const meter = document.getElementById('healthScoreMeter');
+            const desc = document.getElementById('healthScoreDesc');
+            
+            meter.textContent = score;
+            
+            // Remove all score classes
+            meter.className = 'health-score-meter';
+            
+            // Add appropriate class based on score
+            if (score >= 80) {
+                meter.classList.add('health-score-excellent');
+                desc.textContent = 'Excellent';
+            } else if (score >= 60) {
+                meter.classList.add('health-score-good');
+                desc.textContent = 'Good';
+            } else if (score >= 40) {
+                meter.classList.add('health-score-fair');
+                desc.textContent = 'Fair';
+            } else if (score >= 20) {
+                meter.classList.add('health-score-poor');
+                desc.textContent = 'Needs Work';
+            } else {
+                meter.classList.add('health-score-critical');
+                desc.textContent = 'Critical';
+            }
         }
         
         // Japan Countdown
@@ -2429,6 +2598,9 @@
             // Load word of the day and study streak
             updateWordOfTheDay();
             loadStudyStreak();
+            
+            // Calculate financial health score
+            calculateFinancialHealth();
             
             // Hide loading screen
             hideLoadingScreen();
