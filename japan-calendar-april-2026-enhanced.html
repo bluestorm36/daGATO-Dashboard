@@ -497,7 +497,125 @@
             font-size: 1.5em;
             margin-top: 20px;
         }
-    </style>
+    
+        /* ===== FLIP CARD ENHANCEMENT ===== */
+        .day-card-flipper {
+            perspective: 1500px;
+            position: relative;
+        }
+        
+        .day-card-flipper-inner {
+            position: relative;
+            width: 100%;
+            transition: transform 0.6s ease-in-out;
+            transform-style: preserve-3d;
+        }
+        
+        .day-card.flipped .day-card-flipper-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .day-card-front,
+        .day-card-back {
+            width: 100%;
+            backface-visibility: hidden;
+        }
+        
+        .day-card-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: rotateY(180deg);
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .flip-btn {
+            margin-top: 15px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            width: 100%;
+        }
+        
+        .flip-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+        
+        .back-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .back-header h3 {
+            color: #667eea;
+            margin: 0 0 10px 0;
+        }
+        
+        .info-section {
+            margin-bottom: 18px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info-section h4 {
+            color: #667eea;
+            margin: 0 0 10px 0;
+            font-size: 1.05em;
+        }
+        
+        .info-section ul {
+            margin: 0 0 0 20px;
+            padding: 0;
+            line-height: 1.8;
+        }
+        
+        .info-section li {
+            margin-bottom: 6px;
+        }
+        
+        .tip-section {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+        
+        .tip-section h4 {
+            color: #ff6b35;
+        }
+        
+        @media (max-width: 768px) {
+            .day-card-back {
+                padding: 20px;
+            }
+        }
+        
+        @media print {
+            .day-card.flipped .day-card-flipper-inner {
+                transform: none !important;
+            }
+            .day-card-back {
+                position: static !important;
+                transform: none !important;
+                page-break-before: always;
+                margin-top: 20px;
+            }
+            .flip-btn {
+                display: none !important;
+            }
+        }
+</style>
 </head>
 <body>
     <!-- Loading Screen -->
@@ -804,7 +922,17 @@ const calendarData = [
         ]
     }
 ];
-        // Render calendar
+        
+        // Flip card to show/hide details
+        function flipCard(dayNum) {
+            const card = document.querySelector(`[data-day="${dayNum}"]`);
+            card.classList.toggle('flipped');
+            setTimeout(() => {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
+        
+// Render calendar
         function renderCalendar() {
             const calendar = document.getElementById('calendar');
             calendar.innerHTML = '';
@@ -815,6 +943,7 @@ const calendarData = [
                 card.setAttribute('data-day', index + 1);
                 
                 card.innerHTML = `
+                    ${day.day === 1 ? '<div class="day-card-flipper"><div class="day-card-flipper-inner"><div class="day-card-front">' : ''}
                     <div class="day-type-icon">${day.icon}</div>
                     <div class="day-header" onclick="toggleDay(${index + 1})">
                         <div class="day-number">${day.day}</div>
@@ -832,7 +961,71 @@ const calendarData = [
                                 </div>
                             `).join('')}
                         </div>
+                        ${day.day === 1 ? `
+                            <button class="flip-btn" onclick="flipCard(1)">📋 View Travel Details</button>
+                        ` : ''}
                     </div>
+                    ${day.day === 1 ? `
+                    </div>
+                    <div class="day-card-back">
+                        <div class="back-header">
+                            <h3>🚇 Travel & Logistics</h3>
+                            <button class="flip-btn" onclick="flipCard(1)">← Back to Timeline</button>
+                        </div>
+                        
+                        <div class="info-section">
+                            <h4>🛫 Airport to Akabane</h4>
+                            <ul>
+                                <li><strong>From Narita:</strong> Narita Express → Tokyo Station → JR Keihin-Tohoku Line → Akabane (~90 min)</li>
+                                <li><strong>From Haneda:</strong> Tokyo Monorail → Hamamatsucho → JR Yamanote Line → Akabane (~45 min)</li>
+                                <li><strong>IC Card:</strong> Buy Suica/PASMO at airport (¥2000 recommended)</li>
+                                <li><strong>Cost:</strong> ~¥3,000-4,000 depending on airport</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="info-section">
+                            <h4>🏨 Akabane Holic Hotel</h4>
+                            <ul>
+                                <li><strong>Exit:</strong> Akabane Station East Exit</li>
+                                <li><strong>Walk:</strong> 5 minutes straight from station</li>
+                                <li><strong>Address:</strong> 1-10-5 Akabane, Kita-ku, Tokyo</li>
+                                <li><strong>Check-in:</strong> 3:00 PM (can store luggage earlier)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="info-section">
+                            <h4>🏪 Nearby Essentials</h4>
+                            <ul>
+                                <li><strong>FamilyMart:</strong> 2 min walk from hotel</li>
+                                <li><strong>7-Eleven:</strong> At station exit</li>
+                                <li><strong>Lawson:</strong> 3 min walk</li>
+                                <li><strong>ATMs:</strong> All konbini have 7-Bank (accept foreign cards)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="info-section">
+                            <h4>🍜 Easy Dinner Options</h4>
+                            <ul>
+                                <li><strong>Sukiya:</strong> 5 min walk, beef bowl (~¥500)</li>
+                                <li><strong>Yoshinoya:</strong> Near station, classic gyudon</li>
+                                <li><strong>Ramen:</strong> Multiple shops around station</li>
+                                <li><strong>Konbini:</strong> Great for easy Day 1 dinner!</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="info-section tip-section">
+                            <h4>💡 Day 1 Tips</h4>
+                            <ul>
+                                <li>Don't overdo it - jet lag is real!</li>
+                                <li>Akabane is residential & chill - perfect for Day 1</li>
+                                <li>Buy water at konbini (vending machines everywhere)</li>
+                                <li>Station has everything you need</li>
+                                <li>Early rest - big days ahead!</li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div></div>
+                    ` : ''}
                 `;
                 
                 calendar.appendChild(card);
