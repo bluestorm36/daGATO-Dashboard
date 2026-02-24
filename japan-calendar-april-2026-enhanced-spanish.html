@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#c41e3a">
+    <title>🇯🇵 Calendario Viaje a Japón - Abril 2026 (Mejorado)</title>
+    
+    <!-- PWA Manifest for Offline Mode -->
+    <link rel="manifest" href="japan-calendar-manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --travel-color: #667eea;
+            --theme-park-color: #ff6b6b;
+            --cultural-color: #ffd93d;
+            --chill-color: #6bcf7f;
+        }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            padding: 10px;
+            min-height: 100vh;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+        }
+        
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        @media print {
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+        
+        /* Sticky Header */
+        .header {
+            background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px 15px;
+            }
+        }
+        
+        @media print {
+            .header {
+                position: static;
+                box-shadow: none;
+            }
+        }
+        
+        .header h1 { 
+            font-size: clamp(1.5em, 5vw, 2.5em);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p { 
+            font-size: clamp(0.9em, 3vw, 1.2em);
+            opacity: 0.95;
+        }
+        
+        /* Progress Indicator */
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            height: 6px;
+            border-radius: 3px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: white;
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            margin-top: 10px;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        @media print {
+            .progress-bar, .progress-text {
+                display: none;
+            }
+        }
+        
+        /* Control Buttons */
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            padding: 20px;
+            background: #f5f5f5;
+            flex-wrap: wrap;
+        }
+        
+        @media print {
+            .controls {
+                display: none;
+            }
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: clamp(0.85em, 2vw, 1em);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .btn:hover, .btn:active {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+        
+        /* Weather Widget */
+        .weather-widget {
+            background: linear-gradient(135deg, #56ccf2, #2f80ed);
+            color: white;
+            padding: 15px 20px;
+            margin: 20px 30px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .weather-widget {
+                margin: 15px;
+                padding: 12px 15px;
+            }
+        }
+        
+        @media print {
+            .weather-widget {
+                background: #e8f4f8;
+                color: #333;
+                page-break-inside: avoid;
+            }
+        }
+        
+        .weather-item {
+            text-align: center;
+        }
+        
+        .weather-location {
+            font-size: clamp(0.8em, 2vw, 1em);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .weather-temp {
+            font-size: clamp(1.2em, 3vw, 1.5em);
+            margin: 5px 0;
+        }
+        
+        .weather-desc {
+            font-size: clamp(0.75em, 1.8vw, 0.85em);
+            opacity: 0.9;
+        }
+        
+        /* Calendar Grid */
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 30px;
+        }
+        
+        @media (max-width: 1200px) {
+            .calendar { 
+                grid-template-columns: 1fr;
+                padding: 20px 15px;
+                gap: 15px;
+            }
+        }
+        
+        @media print {
+            .calendar {
+                gap: 15px;
+            }
+        }
+        
+        /* Day Cards */
+        .day-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border-left: 8px solid #ccc;
+            cursor: pointer;
+            position: relative;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .day-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .day-card:active {
+            transform: translateY(-2px);
+        }
+        
+        .day-card.expanded {
+            grid-column: span 2;
+        }
+        
+        @media (max-width: 1200px) {
+            .day-card.expanded { 
+                grid-column: span 1; 
+            }
+        }
+        
+        @media print {
+            .day-card {
+                page-break-inside: avoid;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                margin-bottom: 10px;
+            }
+            
+            .day-card.expanded {
+                grid-column: span 2;
+            }
+        }
+        
+        /* Day Type Icons */
+        .day-type-icon {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 2em;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        
+        /* Day Header */
+        .day-header {
+            padding: 20px;
+            padding-left: 70px;
+            color: white;
+            font-weight: bold;
+            position: relative;
+        }
+        
+        @media (max-width: 768px) {
+            .day-header {
+                padding: 15px 15px 15px 60px;
+            }
+        }
+        
+        .expand-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5em;
+            transition: transform 0.3s;
+        }
+        
+        .day-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+        
+        @media print {
+            .expand-icon {
+                display: none;
+            }
+        }
+        
+        .day-number {
+            font-size: clamp(2em, 5vw, 3em);
+            line-height: 1;
+            opacity: 0.3;
+            position: absolute;
+            top: 10px;
+            right: 60px;
+        }
+        
+        .day-name {
+            font-size: clamp(0.85em, 2vw, 1em);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            opacity: 0.9;
+        }
+        
+        .day-date {
+            font-size: clamp(0.95em, 2.2vw, 1.1em);
+            margin-bottom: 8px;
+        }
+        
+        .day-title {
+            font-size: clamp(1.1em, 2.5vw, 1.3em);
+            margin-top: 5px;
+        }
+        
+        /* Day Content */
+        .day-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            padding: 0 20px;
+        }
+        
+        .day-card.expanded .day-content {
+            max-height: 3000px;
+            padding: 20px;
+        }
+        
+        @media print {
+            .day-content {
+                max-height: none !important;
+                padding: 20px !important;
+            }
+        }
+        
+        .timeline {
+            margin-top: 15px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+        
+        .time {
+            font-weight: bold;
+            color: #667eea;
+            min-width: 80px;
+            font-size: clamp(0.85em, 2vw, 0.95em);
+        }
+        
+        .activity {
+            flex: 1;
+            line-height: 1.6;
+            font-size: clamp(0.85em, 2vw, 0.95em);
+        }
+        
+        .activity strong {
+            color: #333;
+            display: block;
+            margin-bottom: 3px;
+        }
+        
+        /* Swipe Navigation Hints */
+        .swipe-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 200;
+        }
+        
+        .swipe-hint.visible {
+            opacity: 1;
+        }
+        
+        @media print {
+            .swipe-hint {
+                display: none;
+            }
+        }
+        
+        /* Print Styles */
+        @media print {
+            body {
+                padding: 0;
+            }
+            
+            .day-card {
+                break-inside: avoid;
+            }
+            
+            .day-content {
+                max-height: none !important;
+            }
+        }
+        
+        /* Color Coding */
+        .day-card.travel { border-left-color: var(--travel-color); }
+        .day-card.travel .day-header { background: linear-gradient(135deg, var(--travel-color), #5568d3); }
+        
+        .day-card.theme-park { border-left-color: var(--theme-park-color); }
+        .day-card.theme-park .day-header { background: linear-gradient(135deg, var(--theme-park-color), #e74c3c); }
+        
+        .day-card.cultural { border-left-color: var(--cultural-color); }
+        .day-card.cultural .day-header { background: linear-gradient(135deg, var(--cultural-color), #f39c12); }
+        
+        .day-card.chill { border-left-color: var(--chill-color); }
+        .day-card.chill .day-header { background: linear-gradient(135deg, var(--chill-color), #27ae60); }
+        
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s;
+        }
+        
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+        
+        .loading-icon {
+            font-size: 5em;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .loading-text {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="loading-content">
+            <div class="loading-icon">🇯🇵</div>
+            <div class="loading-text">Cargando tu aventura en Japón...</div>
+        </div>
+    </div>
+    
+    <!-- Swipe Hint -->
+    <div class="swipe-hint" id="swipeHint">
+        ← Desliza para navegar días →
+    </div>
+    
+    <div class="container">
+        <!-- Sticky Header -->
+        <div class="header">
+            <h1>🇯🇵 Calendario Viaje a Japón</h1>
+            <p>3-14 Abril, 2026 • 12 Días de Aventura</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0 de 12 días expandidos</div>
+        </div>
+        
+        <!-- Weather Widget -->
+        <div class="weather-widget">
+            <div class="weather-item">
+                <div class="weather-location">🗼 Tokio</div>
+                <div class="weather-temp">15°C / 59°F</div>
+                <div class="weather-desc">Parcialmente Nublado</div>
+            </div>
+            <div class="weather-item">
+                <div class="weather-location">🏯 Osaka</div>
+                <div class="weather-temp">16°C / 61°F</div>
+                <div class="weather-desc">Templado y Soleado</div>
+            </div>
+            <div class="weather-item">
+                <div class="weather-location">⛩️ Kioto</div>
+                <div class="weather-temp">14°C / 57°F</div>
+                <div class="weather-desc">Fresco y Despejado</div>
+            </div>
+        </div>
+        
+        <!-- Control Buttons -->
+        <div class="controls">
+            <button class="btn btn-primary" onclick="expandAll()">📖 Expandir Todos</button>
+            <button class="btn btn-secondary" onclick="collapseAll()">📕 Colapsar Todos</button>
+            <button class="btn btn-success" onclick="printCalendar()">🖨️ Vista para Imprimir</button>
+        </div>
+        
+        <!-- Calendar Grid -->
+        <div class="calendar" id="calendar">
+            <!-- Days will be inserted here by JavaScript -->
+        </div>
+    </div>
+    
+    <script>
+        // Calendar Data
+        const calendarData = [
+            {
+                day: 1,
+                dayName: "Viernes",
+                date: "3 de Abril, 2026",
+                title: "Día de Viaje - BWI → Tokio",
+                type: "travel",
+                icon: "✈️",
+                timeline: [
+                    { time: "2:00 PM", activity: "<strong>Salida de BWI</strong><br>Vuelo AA123 a LAX" },
+                    { time: "10:00 PM", activity: "<strong>Escala en LAX</strong><br>~3 horas" },
+                    { time: "1:00 AM+1", activity: "<strong>Salida de LAX</strong><br>Vuelo AA456 a Narita (NRT)" }
+                ]
+            },
+            {
+                day: 2,
+                dayName: "Sábado",
+                date: "4 de Abril, 2026",
+                title: "Llegada y Exploración de Shibuya",
+                type: "cultural",
+                icon: "🏙️",
+                timeline: [
+                    { time: "5:00 AM", activity: "<strong>Llegada a Narita (NRT)</strong><br>Inmigración, equipaje, aduana" },
+                    { time: "7:00 AM", activity: "<strong>Narita Express a Tokio</strong><br>~1 hora en tren" },
+                    { time: "9:00 AM", activity: "<strong>Check-in Hotel</strong><br>Dejar maletas, refrescarse" },
+                    { time: "11:00 AM", activity: "<strong>Cruce de Shibuya</strong><br>Experiencia icónica de Tokio" },
+                    { time: "1:00 PM", activity: "<strong>Almuerzo en Shibuya</strong><br>Probar ramen o sushi auténtico" },
+                    { time: "3:00 PM", activity: "<strong>Harajuku y Calle Takeshita</strong><br>Comida callejera, tiendas, cultura vibrante" },
+                    { time: "6:00 PM", activity: "<strong>Cena en Shinjuku</strong><br>Explorar calles de neón" },
+                    { time: "9:00 PM", activity: "<strong>Descanso</strong><br>Recuperarse del jet lag" }
+                ]
+            },
+            {
+                day: 3,
+                dayName: "Domingo",
+                date: "5 de Abril, 2026",
+                title: "teamLab Borderless + DisneySea",
+                type: "theme-park",
+                icon: "🎨",
+                timeline: [
+                    { time: "9:00 AM", activity: "<strong>teamLab Borderless</strong><br>Museo de arte digital inmersivo" },
+                    { time: "12:00 PM", activity: "<strong>Almuerzo en Odaiba</strong><br>Comida frente al mar" },
+                    { time: "2:00 PM", activity: "<strong>Tokyo DisneySea</strong><br>Experiencia única de parque Disney" },
+                    { time: "9:00 PM", activity: "<strong>Regresar al hotel</strong>" }
+                ]
+            },
+            {
+                day: 4,
+                dayName: "Lunes",
+                date: "6 de Abril, 2026",
+                title: "Asakusa y Tokyo Skytree",
+                type: "cultural",
+                icon: "⛩️",
+                timeline: [
+                    { time: "9:00 AM", activity: "<strong>Templo Sensō-ji (Asakusa)</strong><br>El templo más antiguo de Tokio" },
+                    { time: "11:00 AM", activity: "<strong>Calle Comercial Nakamise</strong><br>Bocadillos tradicionales y souvenirs" },
+                    { time: "1:00 PM", activity: "<strong>Almuerzo</strong><br>Cocina local" },
+                    { time: "3:00 PM", activity: "<strong>Tokyo Skytree</strong><br>Vistas desde la plataforma de observación" },
+                    { time: "6:00 PM", activity: "<strong>Cena y explorar</strong>" }
+                ]
+            },
+            {
+                day: 5,
+                dayName: "Martes",
+                date: "7 de Abril, 2026",
+                title: "Akihabara y Día Relajado",
+                type: "chill",
+                icon: "🎮",
+                timeline: [
+                    { time: "10:00 AM", activity: "<strong>Akihabara Electric Town</strong><br>Anime, manga, electrónicos" },
+                    { time: "12:00 PM", activity: "<strong>Experiencia Maid Cafe</strong><br>Cultura única de Tokio" },
+                    { time: "2:00 PM", activity: "<strong>Explorar arcades y tiendas</strong>" },
+                    { time: "5:00 PM", activity: "<strong>Tiempo libre / relajarse</strong>" }
+                ]
+            },
+            {
+                day: 6,
+                dayName: "Miércoles",
+                date: "8 de Abril, 2026",
+                title: "Viaje a Osaka + Universal Studios",
+                type: "theme-park",
+                icon: "🎢",
+                timeline: [
+                    { time: "8:00 AM", activity: "<strong>Shinkansen a Osaka</strong><br>~2.5 horas en tren bala" },
+                    { time: "11:00 AM", activity: "<strong>Check-in hotel en Osaka</strong>" },
+                    { time: "12:00 PM", activity: "<strong>Universal Studios Japan</strong><br>Harry Potter, Nintendo World, atracciones" },
+                    { time: "9:00 PM", activity: "<strong>Regresar al hotel</strong>" }
+                ]
+            },
+            {
+                day: 7,
+                dayName: "Jueves",
+                date: "9 de Abril, 2026",
+                title: "Castillo de Osaka y Dōtonbori",
+                type: "cultural",
+                icon: "🏯",
+                timeline: [
+                    { time: "9:00 AM", activity: "<strong>Castillo de Osaka</strong><br>Monumento histórico y museo" },
+                    { time: "12:00 PM", activity: "<strong>Almuerzo</strong>" },
+                    { time: "2:00 PM", activity: "<strong>Namba y Dōtonbori</strong><br>Letreros de neón icónicos, comida callejera" },
+                    { time: "6:00 PM", activity: "<strong>Cena de Takoyaki y Okonomiyaki</strong><br>Especialidades de Osaka" }
+                ]
+            },
+            {
+                day: 8,
+                dayName: "Viernes",
+                date: "10 de Abril, 2026",
+                title: "Excursión a Kioto",
+                type: "cultural",
+                icon: "🎋",
+                timeline: [
+                    { time: "8:00 AM", activity: "<strong>Tren a Kioto</strong><br>~30 minutos desde Osaka" },
+                    { time: "9:00 AM", activity: "<strong>Santuario Fushimi Inari</strong><br>Miles de puertas torii rojas" },
+                    { time: "12:00 PM", activity: "<strong>Almuerzo en Gion</strong>" },
+                    { time: "2:00 PM", activity: "<strong>Kinkaku-ji (Pabellón Dorado)</strong>" },
+                    { time: "4:00 PM", activity: "<strong>Bosque de Bambú de Arashiyama</strong>" },
+                    { time: "7:00 PM", activity: "<strong>Regresar a Osaka</strong>" }
+                ]
+            },
+            {
+                day: 9,
+                dayName: "Saturday",
+                date: "11 de Abril, 2026",
+                title: "Excursión a Nara",
+                type: "cultural",
+                icon: "🦌",
+                timeline: [
+                    { time: "9:00 AM", activity: "<strong>Tren a Nara</strong><br>~45 minutos" },
+                    { time: "10:00 AM", activity: "<strong>Parque de Nara</strong><br>Alimentar a los ciervos amigables" },
+                    { time: "11:30 AM", activity: "<strong>Templo Tōdai-ji</strong><br>Estatua del Gran Buda" },
+                    { time: "1:00 PM", activity: "<strong>Almuerzo</strong>" },
+                    { time: "3:00 PM", activity: "<strong>Explorar Naramachi</strong><br>Distrito histórico" },
+                    { time: "6:00 PM", activity: "<strong>Regresar a Osaka</strong>" }
+                ]
+            },
+            {
+                day: 10,
+                dayName: "Domingo",
+                date: "12 de Abril, 2026",
+                title: "Acuario de Osaka y Compras",
+                type: "chill",
+                icon: "🐠",
+                timeline: [
+                    { time: "10:00 AM", activity: "<strong>Acuario Kaiyukan de Osaka</strong><br>Uno de los acuarios más grandes del mundo" },
+                    { time: "1:00 PM", activity: "<strong>Almuerzo en Tempozan</strong>" },
+                    { time: "3:00 PM", activity: "<strong>Compras en Shinsaibashi</strong>" },
+                    { time: "6:00 PM", activity: "<strong>Cena final en Osaka</strong>" }
+                ]
+            },
+            {
+                day: 11,
+                dayName: "Lunes",
+                date: "13 de Abril, 2026",
+                title: "Regreso a Tokio",
+                type: "travel",
+                icon: "🚄",
+                timeline: [
+                    { time: "10:00 AM", activity: "<strong>Shinkansen de regreso a Tokio</strong>" },
+                    { time: "1:00 PM", activity: "<strong>Compras de último minuto en Tokio</strong><br>Souvenirs, regalos" },
+                    { time: "6:00 PM", activity: "<strong>Empacar para el vuelo</strong>" },
+                    { time: "8:00 PM", activity: "<strong>Cena de despedida</strong>" }
+                ]
+            },
+            {
+                day: 12,
+                dayName: "Martes",
+                date: "14 de Abril, 2026",
+                title: "Partida - Tokio → Casa",
+                type: "travel",
+                icon: "🛫",
+                timeline: [
+                    { time: "8:00 AM", activity: "<strong>Narita Express al aeropuerto</strong>" },
+                    { time: "11:00 AM", activity: "<strong>Salida de Narita</strong><br>Vuelo a casa" },
+                    { time: "2:00 PM", activity: "<strong>Llegada a LAX</strong>" },
+                    { time: "6:00 PM", activity: "<strong>Llegada a BWI</strong><br>¡Fin del viaje increíble!" }
+                ]
+            }
+        ];
+        
+        // Render calendar
+        function renderCalendar() {
+            const calendar = document.getElementById('calendar');
+            calendar.innerHTML = '';
+            
+            calendarData.forEach((day, index) => {
+                const card = document.createElement('div');
+                card.className = `day-card ${day.type}`;
+                card.setAttribute('data-day', index + 1);
+                
+                card.innerHTML = `
+                    <div class="day-type-icon">${day.icon}</div>
+                    <div class="day-header" onclick="toggleDay(${index + 1})">
+                        <div class="day-number">${day.day}</div>
+                        <div class="day-name">${day.dayName}</div>
+                        <div class="day-date">${day.date}</div>
+                        <div class="day-title">${day.title}</div>
+                        <div class="expand-icon">▼</div>
+                    </div>
+                    <div class="day-content">
+                        <div class="timeline">
+                            ${day.timeline.map(item => `
+                                <div class="timeline-item">
+                                    <div class="time">${item.time}</div>
+                                    <div class="activity">${item.activity}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                calendar.appendChild(card);
+                
+                // Add swipe support
+                addSwipeSupport(card, index);
+            });
+            
+            // Hide loading
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
+        }
+        
+        // Toggle day expansion
+        function toggleDay(dayNum) {
+            const card = document.querySelector(`[data-day="${dayNum}"]`);
+            const wasExpanded = card.classList.contains('expanded');
+            
+            card.classList.toggle('expanded');
+            
+            // Smooth scroll to card
+            if (!wasExpanded) {
+                setTimeout(() => {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+            
+            updateProgress();
+        }
+        
+        // Expand all days
+        function expandAll() {
+            document.querySelectorAll('.day-card').forEach(card => {
+                card.classList.add('expanded');
+            });
+            updateProgress();
+        }
+        
+        // Collapse all days
+        function collapseAll() {
+            document.querySelectorAll('.day-card').forEach(card => {
+                card.classList.remove('expanded');
+            });            updateProgress();
+        }
+        
+        // Update progress bar
+        function updateProgress() {
+            const total = document.querySelectorAll('.day-card').length;
+            const expanded = document.querySelectorAll('.day-card.expanded').length;
+            const percentage = (expanded / total) * 100;
+            
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${expanded} of ${total} days expanded`;
+        }
+        
+        // Print-friendly view
+        function printCalendar() {
+            // Expand all first
+            expandAll();
+            
+            // Wait for animation, then print
+            setTimeout(() => {
+                window.print();
+            }, 500);
+        }
+        
+        // Add swipe support
+        function addSwipeSupport(element, index) {
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            element.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+                showSwipeHint();
+            });
+            
+            element.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe(index);
+                hideSwipeHint();
+            });
+            
+            function handleSwipe(currentIndex) {
+                const threshold = 50;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) < threshold) return;
+                
+                if (diff > 0) {
+                    // Swiped left - next day
+                    if (currentIndex < calendarData.length - 1) {
+                        const nextCard = document.querySelector(`[data-day="${currentIndex + 2}"]`);
+                        nextCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                } else {
+                    // Swiped right - previous day
+                    if (currentIndex > 0) {
+                        const prevCard = document.querySelector(`[data-day="${currentIndex}"]`);
+                        prevCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            }
+        }
+        
+        // Swipe hint
+        function showSwipeHint() {
+            document.getElementById('swipeHint').classList.add('visible');
+        }
+        
+        function hideSwipeHint() {
+            setTimeout(() => {
+                document.getElementById('swipeHint').classList.remove('visible');
+            }, 1000);
+        }
+        
+        // Initialize
+        renderCalendar();
+        
+        // Register Service Worker for offline mode (PWA)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                console.log('Service Worker registered:', registration);
+            }).catch(function(error) {
+                console.log('Service Worker registration failed:', error);
+            });
+        }
+    </script>
+</body>
+</html>
