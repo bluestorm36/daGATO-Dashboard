@@ -559,184 +559,253 @@
     <script>
         // Calendar Data
         const calendarData = [
-            {
-                day: 1,
-                dayName: "Viernes",
-                date: "3 de Abril, 2026",
-                title: "Día de Viaje - BWI → Tokio",
-                type: "travel",
-                icon: "✈️",
-                timeline: [
-                    { time: "2:00 PM", activity: "<strong>Salida de BWI</strong><br>Vuelo AA123 a LAX" },
-                    { time: "10:00 PM", activity: "<strong>Escala en LAX</strong><br>~3 horas" },
-                    { time: "1:00 AM+1", activity: "<strong>Salida de LAX</strong><br>Vuelo AA456 a Narita (NRT)" }
-                ]
-            },
-            {
-                day: 2,
-                dayName: "Sábado",
-                date: "4 de Abril, 2026",
-                title: "Llegada y Exploración de Shibuya",
-                type: "cultural",
-                icon: "🏙️",
-                timeline: [
-                    { time: "5:00 AM", activity: "<strong>Llegada a Narita (NRT)</strong><br>Inmigración, equipaje, aduana" },
-                    { time: "7:00 AM", activity: "<strong>Narita Express a Tokio</strong><br>~1 hora en tren" },
-                    { time: "9:00 AM", activity: "<strong>Check-in Hotel</strong><br>Dejar maletas, refrescarse" },
-                    { time: "11:00 AM", activity: "<strong>Cruce de Shibuya</strong><br>Experiencia icónica de Tokio" },
-                    { time: "1:00 PM", activity: "<strong>Almuerzo en Shibuya</strong><br>Probar ramen o sushi auténtico" },
-                    { time: "3:00 PM", activity: "<strong>Harajuku y Calle Takeshita</strong><br>Comida callejera, tiendas, cultura vibrante" },
-                    { time: "6:00 PM", activity: "<strong>Cena en Shinjuku</strong><br>Explorar calles de neón" },
-                    { time: "9:00 PM", activity: "<strong>Descanso</strong><br>Recuperarse del jet lag" }
-                ]
-            },
-            {
-                day: 3,
-                dayName: "Domingo",
-                date: "5 de Abril, 2026",
-                title: "teamLab Borderless + DisneySea",
-                type: "theme-park",
-                icon: "🎨",
-                timeline: [
-                    { time: "9:00 AM", activity: "<strong>teamLab Borderless</strong><br>Museo de arte digital inmersivo" },
-                    { time: "12:00 PM", activity: "<strong>Almuerzo en Odaiba</strong><br>Comida frente al mar" },
-                    { time: "2:00 PM", activity: "<strong>Tokyo DisneySea</strong><br>Experiencia única de parque Disney" },
-                    { time: "9:00 PM", activity: "<strong>Regresar al hotel</strong>" }
-                ]
-            },
-            {
-                day: 4,
-                dayName: "Lunes",
-                date: "6 de Abril, 2026",
-                title: "Asakusa y Tokyo Skytree",
-                type: "cultural",
-                icon: "⛩️",
-                timeline: [
-                    { time: "9:00 AM", activity: "<strong>Templo Sensō-ji (Asakusa)</strong><br>El templo más antiguo de Tokio" },
-                    { time: "11:00 AM", activity: "<strong>Calle Comercial Nakamise</strong><br>Bocadillos tradicionales y souvenirs" },
-                    { time: "1:00 PM", activity: "<strong>Almuerzo</strong><br>Cocina local" },
-                    { time: "3:00 PM", activity: "<strong>Tokyo Skytree</strong><br>Vistas desde la plataforma de observación" },
-                    { time: "6:00 PM", activity: "<strong>Cena y explorar</strong>" }
-                ]
-            },
-            {
-                day: 5,
-                dayName: "Martes",
-                date: "7 de Abril, 2026",
-                title: "Akihabara y Día Relajado",
-                type: "chill",
-                icon: "🎮",
-                timeline: [
-                    { time: "10:00 AM", activity: "<strong>Akihabara Electric Town</strong><br>Anime, manga, electrónicos" },
-                    { time: "12:00 PM", activity: "<strong>Experiencia Maid Cafe</strong><br>Cultura única de Tokio" },
-                    { time: "2:00 PM", activity: "<strong>Explorar arcades y tiendas</strong>" },
-                    { time: "5:00 PM", activity: "<strong>Tiempo libre / relajarse</strong>" }
-                ]
-            },
-            {
-                day: 6,
-                dayName: "Miércoles",
-                date: "8 de Abril, 2026",
-                title: "Viaje a Osaka + Universal Studios",
-                type: "theme-park",
-                icon: "🎢",
-                timeline: [
-                    { time: "8:00 AM", activity: "<strong>Shinkansen a Osaka</strong><br>~2.5 horas en tren bala" },
-                    { time: "11:00 AM", activity: "<strong>Check-in hotel en Osaka</strong>" },
-                    { time: "12:00 PM", activity: "<strong>Universal Studios Japan</strong><br>Harry Potter, Nintendo World, atracciones" },
-                    { time: "9:00 PM", activity: "<strong>Regresar al hotel</strong>" }
-                ]
-            },
-            {
-                day: 7,
-                dayName: "Jueves",
-                date: "9 de Abril, 2026",
-                title: "Castillo de Osaka y Dōtonbori",
-                type: "cultural",
-                icon: "🏯",
-                timeline: [
-                    { time: "9:00 AM", activity: "<strong>Castillo de Osaka</strong><br>Monumento histórico y museo" },
-                    { time: "12:00 PM", activity: "<strong>Almuerzo</strong>" },
-                    { time: "2:00 PM", activity: "<strong>Namba y Dōtonbori</strong><br>Letreros de neón icónicos, comida callejera" },
-                    { time: "6:00 PM", activity: "<strong>Cena de Takoyaki y Okonomiyaki</strong><br>Especialidades de Osaka" }
-                ]
-            },
-            {
-                day: 8,
-                dayName: "Viernes",
-                date: "10 de Abril, 2026",
-                title: "Excursión a Kioto",
-                type: "cultural",
-                icon: "🎋",
-                timeline: [
-                    { time: "8:00 AM", activity: "<strong>Tren a Kioto</strong><br>~30 minutos desde Osaka" },
-                    { time: "9:00 AM", activity: "<strong>Santuario Fushimi Inari</strong><br>Miles de puertas torii rojas" },
-                    { time: "12:00 PM", activity: "<strong>Almuerzo en Gion</strong>" },
-                    { time: "2:00 PM", activity: "<strong>Kinkaku-ji (Pabellón Dorado)</strong>" },
-                    { time: "4:00 PM", activity: "<strong>Bosque de Bambú de Arashiyama</strong>" },
-                    { time: "7:00 PM", activity: "<strong>Regresar a Osaka</strong>" }
-                ]
-            },
-            {
-                day: 9,
-                dayName: "Saturday",
-                date: "11 de Abril, 2026",
-                title: "Excursión a Nara",
-                type: "cultural",
-                icon: "🦌",
-                timeline: [
-                    { time: "9:00 AM", activity: "<strong>Tren a Nara</strong><br>~45 minutos" },
-                    { time: "10:00 AM", activity: "<strong>Parque de Nara</strong><br>Alimentar a los ciervos amigables" },
-                    { time: "11:30 AM", activity: "<strong>Templo Tōdai-ji</strong><br>Estatua del Gran Buda" },
-                    { time: "1:00 PM", activity: "<strong>Almuerzo</strong>" },
-                    { time: "3:00 PM", activity: "<strong>Explorar Naramachi</strong><br>Distrito histórico" },
-                    { time: "6:00 PM", activity: "<strong>Regresar a Osaka</strong>" }
-                ]
-            },
-            {
-                day: 10,
-                dayName: "Domingo",
-                date: "12 de Abril, 2026",
-                title: "Acuario de Osaka y Compras",
-                type: "chill",
-                icon: "🐠",
-                timeline: [
-                    { time: "10:00 AM", activity: "<strong>Acuario Kaiyukan de Osaka</strong><br>Uno de los acuarios más grandes del mundo" },
-                    { time: "1:00 PM", activity: "<strong>Almuerzo en Tempozan</strong>" },
-                    { time: "3:00 PM", activity: "<strong>Compras en Shinsaibashi</strong>" },
-                    { time: "6:00 PM", activity: "<strong>Cena final en Osaka</strong>" }
-                ]
-            },
-            {
-                day: 11,
-                dayName: "Lunes",
-                date: "13 de Abril, 2026",
-                title: "Regreso a Tokio",
-                type: "travel",
-                icon: "🚄",
-                timeline: [
-                    { time: "10:00 AM", activity: "<strong>Shinkansen de regreso a Tokio</strong>" },
-                    { time: "1:00 PM", activity: "<strong>Compras de último minuto en Tokio</strong><br>Souvenirs, regalos" },
-                    { time: "6:00 PM", activity: "<strong>Empacar para el vuelo</strong>" },
-                    { time: "8:00 PM", activity: "<strong>Cena de despedida</strong>" }
-                ]
-            },
-            {
-                day: 12,
-                dayName: "Martes",
-                date: "14 de Abril, 2026",
-                title: "Partida - Tokio → Casa",
-                type: "travel",
-                icon: "🛫",
-                timeline: [
-                    { time: "8:00 AM", activity: "<strong>Narita Express al aeropuerto</strong>" },
-                    { time: "11:00 AM", activity: "<strong>Salida de Narita</strong><br>Vuelo a casa" },
-                    { time: "2:00 PM", activity: "<strong>Llegada a LAX</strong>" },
-                    { time: "6:00 PM", activity: "<strong>Llegada a BWI</strong><br>¡Fin del viaje increíble!" }
-                ]
-            }
-        ];
-        
+// Datos del Calendario - Itinerario Real
+const calendarData = [
+    {
+        day: 1,
+        dayName: "Viernes",
+        date: "3 de Abril, 2026",
+        title: "Llegada a Tokio",
+        type: "travel",
+        icon: "✈️",
+        timeline: [
+            { time: "2:00 PM", activity: "<strong>Llegada al Aeropuerto Narita/Haneda</strong>" },
+            { time: "3:00 PM", activity: "<strong>Tren al área de Akabane</strong>" },
+            { time: "4:00 PM", activity: "<strong>Check-in Hotel Akabane Holic</strong><br>Dejar maletas, refrescarse" },
+            { time: "5:00 PM", activity: "<strong>Exploración Ligera</strong><br>Caminar alrededor de la estación Akabane" },
+            { time: "6:00 PM", activity: "<strong>Compras en Tienda de Conveniencia</strong><br>FamilyMart, 7-Eleven" },
+            { time: "7:00 PM", activity: "<strong>Cena Fácil Cerca</strong>" },
+            { time: "9:00 PM", activity: "<strong>Descanso Temprano</strong><br>Recuperarse del jet lag" }
+        ]
+    },
+    {
+        day: 2,
+        dayName: "Sábado",
+        date: "4 de Abril, 2026",
+        title: "Día Libre en Tokio",
+        type: "chill",
+        icon: "🎮",
+        timeline: [
+            { time: "9:00 AM", activity: "<strong>Dormir y Recuperarse</strong><br>Sin prisa - despertar cuando quieran" },
+            { time: "10:00 AM", activity: "<strong>Desayuno en Hotel</strong><br>O café cercano" },
+            { time: "11:00 AM", activity: "<strong>Compras: Okashi no machioka</strong><br>Tienda de dulces/bocadillos (¡imperdible!) 🍬" },
+            { time: "12:00 PM", activity: "<strong>Loft</strong><br>Tienda de papelería/estilo de vida 📝" },
+            { time: "1:00 PM", activity: "<strong>Matsumoto Kiyoshi</strong><br>Droguería/cosméticos 💄" },
+            { time: "2:00 PM", activity: "<strong>Daiso</strong><br>Tienda de 100 yenes 💴" },
+            { time: "3:00 PM", activity: "<strong>Exploración Opcional</strong><br>Akihabara, Tokyo Station, Shinjuku, Shibuya o Harajuku" },
+            { time: "6:00 PM", activity: "<strong>Cena</strong>" },
+            { time: "8:00 PM", activity: "<strong>Descanso</strong><br>¡Mañana es día grande (Hakone)!" }
+        ]
+    },
+    {
+        day: 3,
+        dayName: "Domingo",
+        date: "5 de Abril, 2026",
+        title: "Excursión a Hakone",
+        type: "cultural",
+        icon: "🏔️",
+        timeline: [
+            { time: "8:00 AM", activity: "<strong>Salida de Shinjuku</strong><br>Romance Car → Hakone-Yumoto (~85 min)" },
+            { time: "9:30 AM", activity: "<strong>Comprar Hakone Freepass</strong><br>¥6,100 - ¡cubre todo el transporte!" },
+            { time: "10:00 AM", activity: "<strong>Circuito Hakone: Tren</strong><br>Hakone-Yumoto → Gora" },
+            { time: "10:30 AM", activity: "<strong>Teleférico</strong><br>Gora → Sounzan" },
+            { time: "11:00 AM", activity: "<strong>Ropeway</strong><br>Sounzan → Owakudani" },
+            { time: "11:30 AM", activity: "<strong>Valle Owakudani</strong><br>¡Huevos negros, ventilaciones de azufre, vistas del Mt. Fuji! 🌋" },
+            { time: "12:30 PM", activity: "<strong>Ropeway</strong><br>Owakudani → Togendai" },
+            { time: "1:00 PM", activity: "<strong>Barco Pirata</strong><br>Cruzando el Lago Ashi (~30 min) ⛵" },
+            { time: "2:00 PM", activity: "<strong>Santuario Hakone</strong><br>Icónica puerta torii en el agua ⛩️" },
+            { time: "3:00 PM", activity: "<strong>Opcional: Museo al Aire Libre de Hakone u Onsen</strong>" },
+            { time: "5:00 PM", activity: "<strong>Regreso</strong><br>Bus → Hakone-Yumoto → Tren a Shinjuku" },
+            { time: "7:00 PM", activity: "<strong>De Regreso al Hotel</strong><br>¡Relajarse después del día completo!" }
+        ]
+    },
+    {
+        day: 4,
+        dayName: "Lunes",
+        date: "6 de Abril, 2026",
+        title: "Viaje a Osaka",
+        type: "travel",
+        icon: "🚄",
+        timeline: [
+            { time: "9:00 AM", activity: "<strong>Check-Out</strong><br>Hotel Akabane Holic" },
+            { time: "10:00 AM", activity: "<strong>Shinkansen: Tokio → Osaka</strong><br>~2.5 horas 🚄" },
+            { time: "12:30 PM", activity: "<strong>Llegada a Osaka</strong>" },
+            { time: "1:00 PM", activity: "<strong>Check-In</strong><br>Hotel Oriental Universal City" },
+            { time: "2:00 PM", activity: "<strong>Dōtonbori</strong><br>Letreros de neón icónicos, Glico Running Man 🏃" },
+            { time: "3:00 PM", activity: "<strong>¡Paraíso de Comida!</strong><br>Takoyaki 🐙 Okonomiyaki 🥞 Kushikatsu 🍢" },
+            { time: "5:00 PM", activity: "<strong>Mercado Kuromon</strong><br>Si hay tiempo/energía" },
+            { time: "6:00 PM", activity: "<strong>Área Namba</strong><br>Compras, entretenimiento" },
+            { time: "8:00 PM", activity: "<strong>Descanso Temprano</strong><br>¡Universal Studios mañana!" }
+        ]
+    },
+    {
+        day: 5,
+        dayName: "Martes",
+        date: "7 de Abril, 2026",
+        title: "Universal Studios Japan (Día 1)",
+        type: "theme-park",
+        icon: "🎢",
+        timeline: [
+            { time: "10:30 AM", activity: "<strong>Llegar a Universal Studios Japan</strong><br>Puertas abren ~9:00 AM" },
+            { time: "11:00 AM", activity: "<strong>Acceso a Super Nintendo World™</strong><br>Entrada programada EXPRESS PASS 🎟️" },
+            { time: "11:00 AM", activity: "<strong>Mario Kart: Koopa's Challenge™</strong><br>EXPRESS PASS 🏎️" },
+            { time: "11:30 AM", activity: "<strong>Mine Cart Madness™</strong><br>EXPRESS PASS ⛏️" },
+            { time: "12:30 PM", activity: "<strong>Almuerzo Dentro del Parque</strong><br>¡Probar diferentes restaurantes!" },
+            { time: "1:00 PM", activity: "<strong>Illumination's Villain-Con Minion Blast</strong><br>EXPRESS PASS 🟡" },
+            { time: "2:00 PM", activity: "<strong>The Flying Dinosaur</strong><br>EXPRESS PASS (cualquier momento) 🦖" },
+            { time: "3:00 PM", activity: "<strong>Harry Potter and the Forbidden Journey™</strong><br>EXPRESS PASS (cualquier momento) ⚡" },
+            { time: "4:00 PM", activity: "<strong>Explorar Otras Áreas</strong><br>Jurassic Park, Spider-Man, etc." },
+            { time: "6:00 PM", activity: "<strong>¡Butterbeer!</strong><br>Área de Harry Potter 🍺" },
+            { time: "9:00 PM", activity: "<strong>Quedarse Hasta el Cierre</strong><br>Espectáculos nocturnos, desfiles" }
+        ]
+    },
+    {
+        day: 6,
+        dayName: "Miércoles",
+        date: "8 de Abril, 2026",
+        title: "Universal Studios Japan (Día 2)",
+        type: "theme-park",
+        icon: "🎢",
+        timeline: [
+            { time: "9:00 AM", activity: "<strong>Llegar a la Apertura del Parque</strong>" },
+            { time: "10:00 AM", activity: "<strong>Terminar Atracciones Perdidas</strong><br>Del Día 1" },
+            { time: "12:00 PM", activity: "<strong>Re-montar Favoritas</strong><br>¡Mario Kart, Forbidden Journey!" },
+            { time: "2:00 PM", activity: "<strong>Conocer Personajes</strong><br>Mario, Minions, personajes de Harry Potter" },
+            { time: "4:00 PM", activity: "<strong>Explorar Áreas que Saltaste</strong>" },
+            { time: "6:00 PM", activity: "<strong>Compras de Souvenirs</strong><br>¡Última oportunidad!" },
+            { time: "7:00 PM", activity: "<strong>Cena en Restaurante Diferente</strong>" },
+            { time: "8:00 PM", activity: "<strong>Espectáculos Nocturnos</strong><br>Verificar horario de desfiles/espectáculos" },
+            { time: "10:00 PM", activity: "<strong>Hora de Cierre</strong><br>¡Adiós a USJ!" }
+        ]
+    },
+    {
+        day: 7,
+        dayName: "Jueves",
+        date: "9 de Abril, 2026",
+        title: "Excursión a Kioto y Nara",
+        type: "cultural",
+        icon: "🦌",
+        timeline: [
+            { time: "8:00 AM", activity: "<strong>Tren: Osaka → Nara</strong><br>~45 minutos" },
+            { time: "9:00 AM", activity: "<strong>Parque de Nara</strong><br>¡Alimentar a los ciervos! 🦌 Comprar galletas ¥200" },
+            { time: "10:00 AM", activity: "<strong>Templo Todaiji</strong><br>Estatua del Gran Buda de 15 metros de altura" },
+            { time: "11:00 AM", activity: "<strong>Santuario Kasuga Taisha</strong><br>¡Más de 1000 linternas de piedra y bronce! 🏮" },
+            { time: "12:00 PM", activity: "<strong>Almuerzo + Experiencia Matcha</strong><br>Kakinoha-zushi 🍣 Helado de matcha 🍵" },
+            { time: "1:00 PM", activity: "<strong>Tren: Nara → Kioto</strong><br>~45 minutos" },
+            { time: "2:00 PM", activity: "<strong>Opcional: Alquiler de Kimono</strong><br>Cerca de Fushimi Inari 👘 (¥3,000-5,000)" },
+            { time: "2:30 PM", activity: "<strong>Santuario Fushimi Inari</strong><br>¡1000 puertas torii rojas! 🎌" },
+            { time: "4:00 PM", activity: "<strong>Fotografía de Hora Dorada</strong><br>Luz mágica a través de las puertas torii 📸" },
+            { time: "5:00 PM", activity: "<strong>Opcional: Kiyomizu-dera o Bosque de Bambú Arashiyama</strong>" },
+            { time: "6:00 PM", activity: "<strong>Tren: Kioto → Osaka</strong><br>~1 hora" },
+            { time: "7:00 PM", activity: "<strong>Cena Cerca del Hotel o Namba</strong>" },
+            { time: "9:00 PM", activity: "<strong>¡EMPACAR MALETAS!</strong><br>Salimos a Tokio mañana" }
+        ]
+    },
+    {
+        day: 8,
+        dayName: "Viernes",
+        date: "10 de Abril, 2026",
+        title: "Osaka → Tokio",
+        type: "travel",
+        icon: "🚄",
+        timeline: [
+            { time: "9:00 AM", activity: "<strong>Check-Out</strong><br>Hotel Oriental Universal City" },
+            { time: "10:00 AM", activity: "<strong>Shinkansen: Osaka → Tokio</strong><br>~2.5 horas 🚄" },
+            { time: "12:30 PM", activity: "<strong>Llegada a Tokio</strong>" },
+            { time: "1:00 PM", activity: "<strong>Check-In</strong><br>Hotel APA Nishishinjuku" },
+            { time: "2:00 PM", activity: "<strong>Descanso Después del Viaje</strong>" },
+            { time: "3:00 PM", activity: "<strong>Explorar Área de Shinjuku</strong><br>¡Hotel perfectamente ubicado!" },
+            { time: "4:00 PM", activity: "<strong>Edificio del Gobierno Metropolitano de Tokio</strong><br>Mirador gratuito" },
+            { time: "5:00 PM", activity: "<strong>Kabukicho</strong><br>Distrito de entretenimiento" },
+            { time: "6:00 PM", activity: "<strong>Omoide Yokocho</strong><br>Callejones con restaurantes pequeños (yakitori) 🍢" },
+            { time: "8:00 PM", activity: "<strong>Cena en Shinjuku</strong>" }
+        ]
+    },
+    {
+        day: 9,
+        dayName: "Sábado",
+        date: "11 de Abril, 2026",
+        title: "teamLab Borderless",
+        type: "theme-park",
+        icon: "🎨",
+        timeline: [
+            { time: "11:00 AM", activity: "<strong>Salida hacia teamLab</strong><br>Tren al lugar del evento" },
+            { time: "12:00 PM", activity: "<strong>Entrada a teamLab Borderless</strong><br>HORA RESERVADA ✅" },
+            { time: "12:00 PM", activity: "<strong>Museo de Arte Digital Inmersivo</strong><br>¡Instalaciones interactivas alucinantes!" },
+            { time: "2:00 PM", activity: "<strong>¡Tomar MUCHAS Fotos/Videos!</strong><br>📸✨" },
+            { time: "3:00 PM", activity: "<strong>Harajuku</strong><br>Calle Takeshita - moda peculiar y dulces" },
+            { time: "4:00 PM", activity: "<strong>Shibuya</strong><br>Famoso cruce peatonal" },
+            { time: "5:00 PM", activity: "<strong>Compras en Shibuya 109</strong>" },
+            { time: "6:00 PM", activity: "<strong>Centro Pokémon Shibuya</strong><br>¡Si aún no has visitado!" },
+            { time: "6:30 PM", activity: "<strong>Cena: Gyukatsu Motomura</strong><br>¡Katsu de res - INCREÍBLE! 🥩" }
+        ]
+    },
+    {
+        day: 10,
+        dayName: "Domingo",
+        date: "12 de Abril, 2026",
+        title: "Tour del Estudio de Harry Potter",
+        type: "theme-park",
+        icon: "⚡",
+        timeline: [
+            { time: "11:30 AM", activity: "<strong>Salida hacia el Tour del Estudio</strong><br>Salir de Shinjuku" },
+            { time: "12:00 PM", activity: "<strong>Línea Seibu Shinjuku → Toshimaen</strong><br>~25-30 min (¥270)" },
+            { time: "12:30 PM", activity: "<strong>Entrada al Tour del Estudio Warner Bros.</strong><br>HORA CONFIRMADA ✅ ⚡" },
+            { time: "12:30 PM", activity: "<strong>El Gran Comedor</strong><br>¡Caminar donde filmaron las películas!" },
+            { time: "1:00 PM", activity: "<strong>Callejón Diagon</strong><br>¡La VERDADERA calle de adoquines de las películas! 🏪" },
+            { time: "1:30 PM", activity: "<strong>Andén 9¾ y Hogwarts Express</strong><br>¡Fotos! 🚂" },
+            { time: "2:00 PM", activity: "<strong>Oficina de Dumbledore, Gringotts, Bosque Prohibido</strong><br>Sets auténticos" },
+            { time: "3:00 PM", activity: "<strong>¡Butterbeer en el Café Backlot!</strong><br>☕" },
+            { time: "3:30 PM", activity: "<strong>Props y Vestuario</strong><br>Artículos reales de la filmación" },
+            { time: "4:00 PM", activity: "<strong>Tienda de Regalos</strong><br>Varitas, túnicas, souvenirs 🪄" },
+            { time: "4:30 PM", activity: "<strong>Regreso a Shinjuku</strong><br>~30 min en tren" },
+            { time: "6:00 PM", activity: "<strong>Noche: Café Pokémon, Café de Gatos o Akihabara</strong>" },
+            { time: "8:00 PM", activity: "<strong>Cena Temprana y Descanso</strong><br>¡DisneySea mañana es un maratón!" }
+        ]
+    },
+    {
+        day: 11,
+        dayName: "Lunes",
+        date: "13 de Abril, 2026",
+        title: "Tokyo DisneySea",
+        type: "theme-park",
+        icon: "🌊",
+        timeline: [
+            { time: "8:00 AM", activity: "<strong>Salida hacia Estación Maihama</strong><br>~30-40 min desde Shinjuku" },
+            { time: "9:00 AM", activity: "<strong>Llegar a la Apertura del Parque</strong><br>BOLETOS CONFIRMADOS ✅" },
+            { time: "9:30 AM", activity: "<strong>Journey to the Center of the Earth</strong><br>¡Atracción prioritaria! 🌋" },
+            { time: "10:30 AM", activity: "<strong>Tower of Terror</strong><br>🚢" },
+            { time: "11:30 AM", activity: "<strong>Sindbad's Storybook Voyage</strong><br>🧞" },
+            { time: "12:30 PM", activity: "<strong>Almuerzo</strong>" },
+            { time: "1:30 PM", activity: "<strong>20,000 Leagues Under the Sea</strong><br>🎠" },
+            { time: "2:30 PM", activity: "<strong>Indiana Jones Adventure</strong><br>🏔️" },
+            { time: "3:30 PM", activity: "<strong>Explorar Mediterranean Harbor</strong><br>¡Hermosa área de entrada!" },
+            { time: "5:00 PM", activity: "<strong>Mysterious Island, Arabian Coast, Mermaid Lagoon</strong>" },
+            { time: "7:00 PM", activity: "<strong>Cena</strong>" },
+            { time: "8:00 PM", activity: "<strong>¡Fantasmic! Espectáculo Nocturno</strong><br>Verificar horario 🎆" },
+            { time: "10:00 PM", activity: "<strong>Hora de Cierre</strong><br>¡DisneySea es ÚNICO en Japón! 🌊✨" }
+        ]
+    },
+    {
+        day: 12,
+        dayName: "Martes",
+        date: "14 de Abril, 2026",
+        title: "Última Mañana y Partida",
+        type: "travel",
+        icon: "✈️",
+        timeline: [
+            { time: "9:00 AM", activity: "<strong>Check-Out</strong><br>Hotel APA Nishishinjuku" },
+            { time: "9:30 AM", activity: "<strong>Guardar Equipaje</strong><br>Hotel o casillero de estación" },
+            { time: "10:00 AM", activity: "<strong>Centro Pokémon</strong><br>Tokyo Station o Shibuya - ¡última oportunidad!" },
+            { time: "11:00 AM", activity: "<strong>Don Quijote</strong><br>Souvenirs, bocadillos, regalos" },
+            { time: "12:00 PM", activity: "<strong>Tokyo Station: Character Street</strong><br>Cajas bento para el vuelo 🍱" },
+            { time: "12:30 PM", activity: "<strong>Ramen o Sushi Rápido para Almuerzo</strong><br>🍜🍣" },
+            { time: "1:00 PM", activity: "<strong>Ir al Aeropuerto</strong><br>Narita o Haneda" },
+            { time: "3:00 PM", activity: "<strong>Llegar al Aeropuerto</strong><br>2 horas antes del vuelo internacional" },
+            { time: "5:00 PM", activity: "<strong>PARTIDA</strong><br>¡Sayonara! 👋🇯🇵✈️" }
+        ]
+    }
+];
         // Render calendar
         function renderCalendar() {
             const calendar = document.getElementById('calendar');
