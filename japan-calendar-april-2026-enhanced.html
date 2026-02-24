@@ -497,7 +497,179 @@
             font-size: 1.5em;
             margin-top: 20px;
         }
-    </style>
+    
+        /* ===== FLIP CARD ENHANCEMENT ===== */
+        .day-card {
+            perspective: 2000px;
+        }
+        
+        .day-card-inner {
+            position: relative;
+            width: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        
+        .day-card.flipped .day-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .day-card-front,
+        .day-card-back {
+            width: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        .day-card-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: rotateY(180deg);
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            min-height: 400px;
+        }
+        
+        .flip-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .flip-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .flip-button:active {
+            transform: translateY(0);
+        }
+        
+        /* Back side styling */
+        .back-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .back-header h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        .back-to-timeline {
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            color: #667eea;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-timeline:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .info-section {
+            margin-bottom: 20px;
+            padding: 18px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .info-section h4 {
+            margin: 0 0 12px 0;
+            color: #667eea;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-section ul {
+            margin: 8px 0 0 20px;
+            line-height: 1.9;
+            color: #333;
+        }
+        
+        .info-section li {
+            margin-bottom: 8px;
+        }
+        
+        .info-section strong {
+            color: #2c3e50;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-left-color: #ffc107;
+            padding: 15px;
+        }
+        
+        .tip-box h4 {
+            color: #ff6b35;
+        }
+        
+        /* Mobile optimization for flip cards */
+        @media (max-width: 768px) {
+            .day-card-back {
+                padding: 20px;
+            }
+            
+            .back-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            
+            .info-section {
+                padding: 15px;
+            }
+            
+            .flip-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
+        @media print {
+            .day-card-back {
+                position: static !important;
+                transform: none !important;
+                page-break-before: always;
+                margin-top: 30px;
+                border: 2px solid #ddd;
+            }
+            
+            .flip-button,
+            .back-to-timeline {
+                display: none !important;
+            }
+            
+            .day-card.flipped .day-card-inner {
+                transform: none !important;
+            }
+        }
+</style>
 </head>
 <body>
     <!-- Loading Screen -->
@@ -805,46 +977,106 @@ const calendarData = [
     }
 ];
         // Render calendar
+        
+        // Render calendar with flip card support
         function renderCalendar() {
             const calendar = document.getElementById('calendar');
-            calendar.innerHTML = '';
-            
-            calendarData.forEach((day, index) => {
-                const card = document.createElement('div');
-                card.className = `day-card ${day.type}`;
-                card.setAttribute('data-day', index + 1);
+            calendar.innerHTML = calendarData.map(day => {
+                const timelineHTML = day.timeline.map(item => 
+                    `<div class="timeline-item">
+                        <div class="timeline-time">${item.time}</div>
+                        <div class="timeline-activity">${item.activity}</div>
+                    </div>`
+                ).join('');
                 
-                card.innerHTML = `
-                    <div class="day-type-icon">${day.icon}</div>
-                    <div class="day-header" onclick="toggleDay(${index + 1})">
-                        <div class="day-number">${day.day}</div>
-                        <div class="day-name">${day.dayName}</div>
-                        <div class="day-date">${day.date}</div>
-                        <div class="day-title">${day.title}</div>
-                        <div class="expand-icon">▼</div>
+                // Day 1 gets flip card with transport info
+                const hasFlipCard = day.day === 1;
+                
+                const backContent = hasFlipCard ? `
+                    <div class="day-card-back">
+                        <div class="back-header">
+                            <h3>🚇 Travel Details</h3>
+                            <button class="back-to-timeline" onclick="flipCard(${day.day})">← Back to Timeline</button>
+                        </div>
+                        
+                        <div class="info-section">
+                            <h4>🛫 Airport to Akabane</h4>
+                            <ul>
+                                <li><strong>From Narita:</strong> Narita Express → Tokyo Station → JR Keihin-Tohoku Line → Akabane (~90 min)</li>
+                                <li><strong>From Haneda:</strong> Tokyo Monorail → Hamamatsucho → JR Yamanote Line → Akabane (~45 min)</li>
+                                <li><strong>IC Card:</strong> Get Suica/PASMO at airport (¥2000 recommended)</li>
+                                <li><strong>Cost:</strong> ~¥3,000-4,000 depending on airport</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="info-section">
+                            <h4>🏨 Akabane Holic Hotel</h4>
+                            <ul>
+                                <li><strong>Exit:</strong> Akabane Station East Exit</li>
+                                <li><strong>Walk:</strong> 5 minutes straight from station</li>
+                                <li><strong>Address:</strong> 1-10-5 Akabane, Kita-ku, Tokyo</li>
+                                <li><strong>Check-in:</strong> 3:00 PM (ask if early check-in available)</li>
+                                <li><strong>Luggage:</strong> Can store bags if room not ready</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="info-section">
+                            <h4>🏪 Nearby Essentials</h4>
+                            <ul>
+                                <li><strong>FamilyMart:</strong> 2 min walk from hotel</li>
+                                <li><strong>7-Eleven:</strong> Right at station exit</li>
+                                <li><strong>Lawson:</strong> 3 min walk</li>
+                                <li><strong>ATMs:</strong> All konbini have 7-Bank ATMs (accept foreign cards)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="info-section">
+                            <h4>🍜 Easy Dinner Options</h4>
+                            <ul>
+                                <li><strong>Sukiya:</strong> 5 min walk, budget-friendly beef bowl</li>
+                                <li><strong>Yoshinoya:</strong> Near station, classic gyudon</li>
+                                <li><strong>Ramen shops:</strong> Multiple around station</li>
+                                <li><strong>Konbini dinner:</strong> Totally acceptable Day 1!</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="info-section tip-box">
+                            <h4>💡 Day 1 Tips</h4>
+                            <ul>
+                                <li>Don't overdo it - jet lag is real!</li>
+                                <li>Buy water at konbini (vending machines everywhere too)</li>
+                                <li>Akabane is local/residential - very chill area</li>
+                                <li>Station has everything you need</li>
+                                <li>Rest up - big days ahead!</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="day-content">
-                        <div class="timeline">
-                            ${day.timeline.map(item => `
-                                <div class="timeline-item">
-                                    <div class="time">${item.time}</div>
-                                    <div class="activity">${item.activity}</div>
+                ` : '';
+                
+                const flipButton = hasFlipCard ? `<button class="flip-button" onclick="flipCard(${day.day})">📋 View Travel Details</button>` : '';
+                
+                return `
+                    <div class="day-card" data-day="${day.day}">
+                        <div class="day-card-inner">
+                            <div class="day-card-front">
+                                <div class="day-header" onclick="toggleDay(${day.day})">
+                                    <div class="day-info">
+                                        <div class="day-number">${day.icon} Day ${day.day}</div>
+                                        <div class="day-title">${day.title}</div>
+                                        <div class="day-date">${day.dayName}, ${day.date}</div>
+                                    </div>
+                                    <div class="expand-icon">▼</div>
                                 </div>
-                            `).join('')}
+                                <div class="day-timeline">
+                                    ${timelineHTML}
+                                    ${flipButton}
+                                </div>
+                            </div>
+                            ${backContent}
                         </div>
                     </div>
                 `;
-                
-                calendar.appendChild(card);
-                
-                // Add swipe support
-                addSwipeSupport(card, index);
-            });
-            
-            // Hide loading
-            setTimeout(() => {
-                document.getElementById('loading').classList.add('hidden');
-            }, 1000);
+            }).join('');
         }
         
         // Toggle day expansion
