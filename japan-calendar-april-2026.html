@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Japan Trip Calendar - April 2026</title>
+    <title>Japan Trip Calendar - April 2026 (Interactive)</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -35,28 +35,6 @@
             font-size: 1.2em; 
             opacity: 0.95;
         }
-        .legend {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            padding: 20px;
-            background: #f8f9fa;
-            border-bottom: 3px solid #dee2e6;
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9em;
-            font-weight: 600;
-        }
-        .legend-dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            border: 2px solid rgba(0,0,0,0.1);
-        }
         .calendar {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -71,17 +49,35 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s;
             border-left: 8px solid #ccc;
+            cursor: pointer;
         }
         .day-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
+        .day-card.expanded {
+            grid-column: span 2;
+        }
+        @media (max-width: 1200px) {
+            .day-card.expanded { grid-column: span 1; }
+        }
         .day-header {
             padding: 20px;
             color: white;
             font-weight: bold;
+            position: relative;
+        }
+        .expand-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5em;
+            transition: transform 0.3s;
+        }
+        .day-card.expanded .expand-icon {
+            transform: rotate(180deg);
         }
         .day-number {
             font-size: 3em;
@@ -89,6 +85,7 @@
             opacity: 0.3;
             float: right;
             margin-top: -10px;
+            margin-right: 40px;
         }
         .day-name {
             font-size: 1em;
@@ -105,8 +102,77 @@
             font-size: 1.3em;
             margin-top: 5px;
         }
-        .day-content {
+        .day-summary {
             padding: 20px;
+            display: block;
+        }
+        .day-detailed {
+            padding: 0 20px 20px 20px;
+            display: none;
+            border-top: 2px dashed #dee2e6;
+            margin-top: 10px;
+            padding-top: 20px;
+        }
+        .day-card.expanded .day-detailed {
+            display: block;
+        }
+        .timeline-item {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            position: relative;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 64px;
+            top: 40px;
+            bottom: -20px;
+            width: 2px;
+            background: #dee2e6;
+        }
+        .timeline-item:last-child::before {
+            display: none;
+        }
+        .timeline-time {
+            min-width: 120px;
+            font-weight: bold;
+            color: #c41e3a;
+            background: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 2px solid #c41e3a;
+            text-align: center;
+            height: fit-content;
+            z-index: 1;
+            font-size: 0.9em;
+        }
+        .timeline-content {
+            flex: 1;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #c41e3a;
+        }
+        .timeline-content h4 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        .timeline-content ul {
+            margin: 10px 0 0 20px;
+            line-height: 1.8;
+        }
+        .directions {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .directions strong {
+            color: #1976d2;
         }
         .location-badge {
             display: inline-block;
@@ -126,23 +192,6 @@
             border-left: 4px solid #17a2b8;
             font-size: 0.95em;
         }
-        .activity {
-            margin: 15px 0;
-        }
-        .activity-time {
-            font-weight: bold;
-            color: #c41e3a;
-            margin: 12px 0 8px 0;
-            font-size: 1.05em;
-        }
-        .activity-list {
-            margin-left: 20px;
-            line-height: 1.8;
-            color: #333;
-        }
-        .activity-list li {
-            margin: 5px 0;
-        }
         .highlight {
             background: #fff3cd;
             border-left: 4px solid #ffc107;
@@ -151,18 +200,8 @@
             border-radius: 6px;
             font-weight: 500;
         }
-        .express-pass {
-            background: #e6f3ff;
-            border: 2px solid #0066cc;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-        }
-        .express-pass strong {
-            color: #0066cc;
-        }
         
-        /* Color schemes for different locations/types */
+        /* Color schemes */
         .tokyo-day { border-left-color: #4169E1; }
         .tokyo-day .day-header { background: linear-gradient(135deg, #4169E1 0%, #1e3a8a 100%); }
         .tokyo-badge { background: #4169E1; color: white; }
@@ -192,508 +231,908 @@
     <div class="container">
         <div class="header">
             <h1>🇯🇵 JAPAN ADVENTURE 2026 🇯🇵</h1>
-            <p>📅 April 3-14, 2026 | 12 Days, 11 Nights | 2 Travelers</p>
-        </div>
-
-        <div class="legend">
-            <div class="legend-item">
-                <div class="legend-dot" style="background: #4169E1;"></div>
-                <span>Tokyo</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot" style="background: #FFD700;"></div>
-                <span>Osaka</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot" style="background: #D2691E;"></div>
-                <span>Kyoto/Nara</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot" style="background: #32CD32;"></div>
-                <span>Free Day</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot" style="background: #9370DB;"></div>
-                <span>Special Activity</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot" style="background: #FF6347;"></div>
-                <span>Travel Day</span>
-            </div>
+            <p>📅 April 3-14, 2026 | 👆 Click any day for detailed timeline & directions</p>
         </div>
 
         <div class="calendar">
+            
             <!-- DAY 1 - FRIDAY APRIL 3 -->
-            <div class="day-card tokyo-day">
+            <div class="day-card tokyo-day" onclick="toggleDay(this)">
                 <div class="day-header">
                     <div class="day-number">3</div>
+                    <span class="expand-icon">▼</span>
                     <div class="day-name">Friday</div>
                     <div class="day-date">April 3, 2026</div>
                     <div class="day-title">✈️ Arrival in Tokyo</div>
                 </div>
-                <div class="day-content">
+                
+                <div class="day-summary">
                     <div class="location-badge tokyo-badge">TOKYO</div>
                     <div class="hotel">🏨 <strong>Akabane Holic Hotel</strong> (Check-in)</div>
+                    <p style="margin-top: 10px; color: #666; font-style: italic;">
+                        📍 Airport arrival • Train to Akabane • Light exploration • Jet lag recovery
+                    </p>
+                </div>
+                
+                <div class="day-detailed">
+                    <h3 style="color: #c41e3a; margin-bottom: 20px;">🕐 Detailed Timeline</h3>
                     
-                    <div class="activity">
-                        <div class="activity-time">✈️ Afternoon: Arrival</div>
-                        <ul class="activity-list">
-                            <li>Land at Airport (~2:00 PM)</li>
-                            <li>Train to Akabane area</li>
-                            <li>Check into hotel</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">~2:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>✈️ Land at Airport</h4>
+                            <ul>
+                                <li>Narita or Haneda Airport arrival</li>
+                                <li>Clear immigration & customs</li>
+                                <li>Get luggage</li>
+                            </ul>
+                            <div class="directions">
+                                <strong>💡 TIP:</strong> If you don't have one yet, get a Suica/Pasmo IC card at the airport for easy train travel!
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">🌆 Evening: Light Exploration</div>
-                        <ul class="activity-list">
-                            <li>Walk around Akabane station</li>
-                            <li>Convenience store run</li>
-                            <li>Easy dinner nearby</li>
-                            <li>Early rest (jet lag recovery)</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">2:30-4:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🚆 Train to Akabane</h4>
+                            <ul>
+                                <li><strong>From Narita:</strong> Narita Express → Ikebukuro → JR Saikyo Line → Akabane (~90 min, ¥3,000)</li>
+                                <li><strong>From Haneda:</strong> Tokyo Monorail → Hamamatsucho → JR Yamanote → Akabane (~50 min, ¥800)</li>
+                            </ul>
+                            <div class="directions">
+                                <strong>🚇 Directions:</strong> Follow signs for trains. Google Maps works great in Tokyo. Akabane is on the JR Saikyo/Keihin-Tohoku Lines.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">4:00-5:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🏨 Hotel Check-in</h4>
+                            <ul>
+                                <li>Akabane Holic Hotel is ~5 min walk from Akabane Station</li>
+                                <li>Check in, drop bags, freshen up</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">5:00-7:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🌆 Light Evening Exploration</h4>
+                            <ul>
+                                <li>Walk around Akabane station area</li>
+                                <li>Find a FamilyMart or 7-Eleven (stock up on snacks/drinks)</li>
+                                <li>Easy dinner nearby (ramen, curry, conveyor belt sushi)</li>
+                            </ul>
+                            <div class="highlight">
+                                💡 <strong>NOTE:</strong> Keep it light tonight - you'll be jet-lagged! Save energy for tomorrow.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">8:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>😴 Early Rest</h4>
+                            <ul>
+                                <li>Back to hotel, shower, unpack</li>
+                                <li>Try to sleep around normal bedtime (fight the urge to crash at 6 PM!)</li>
+                                <li>Set alarm for tomorrow!</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- DAY 2 - SATURDAY APRIL 4 -->
-            <div class="day-card free-day">
+            <div class="day-card free-day" onclick="toggleDay(this)">
                 <div class="day-header">
                     <div class="day-number">4</div>
+                    <span class="expand-icon">▼</span>
                     <div class="day-name">Saturday</div>
                     <div class="day-date">April 4, 2026</div>
                     <div class="day-title">🎮 Free Roam Tokyo</div>
                 </div>
-                <div class="day-content">
+                
+                <div class="day-summary">
                     <div class="location-badge free-badge">FREE DAY</div>
                     <div class="hotel">🏨 <strong>Akabane Holic Hotel</strong> (Night 2)</div>
+                    <p style="margin-top: 10px; color: #666; font-style: italic;">
+                        📍 Shopping day: Okashi no machioka • Loft • Matsumoto Kiyoshi • Daiso
+                    </p>
+                </div>
+                
+                <div class="day-detailed">
+                    <h3 style="color: #c41e3a; margin-bottom: 20px;">🕐 Detailed Timeline</h3>
                     
-                    <div class="activity">
-                        <div class="activity-time">☀️ Morning</div>
-                        <ul class="activity-list">
-                            <li>Hotel breakfast (optional)</li>
-                            <li>Nearby café (optional)</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">Sleep In!</div>
+                        <div class="timeline-content">
+                            <h4>☀️ Morning: No Rush</h4>
+                            <ul>
+                                <li>Wake up naturally (no alarm!)</li>
+                                <li>Hotel breakfast OR nearby café</li>
+                                <li>Take your time recovering from jet lag</li>
+                            </ul>
+                        </div>
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">🎯 Shopping & Exploration</div>
-                        <ul class="activity-list">
-                            <li><strong>Okashi no machioka</strong> 🍬 (must-do)</li>
-                            <li><strong>Loft</strong> 📝 (must-do)</li>
-                            <li><strong>Matsumoto Kiyoshi</strong> 💄 (must-do)</li>
-                            <li><strong>Daiso</strong> 💴 (must-do)</li>
-                            <li>Don Quijote (optional)</li>
-                            <li>@ cosme (optional)</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">11:00 AM-5:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🛍️ Must-Do Shopping Spots</h4>
+                            <ul>
+                                <li>🍬 <strong>Okashi no machioka</strong> - Snack/candy paradise (multiple locations)</li>
+                                <li>📝 <strong>Loft</strong> - Stationery/lifestyle heaven (Shibuya or Ikebukuro)</li>
+                                <li>💄 <strong>Matsumoto Kiyoshi</strong> - Drugstore/cosmetics (everywhere!)</li>
+                                <li>💴 <strong>Daiso</strong> - 100-yen store treasure hunt</li>
+                            </ul>
+                            <div class="directions">
+                                <strong>🚇 Suggested Route:</strong> Akabane → Ikebukuro (10 min) has all 4 stores within walking distance!
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">🎯 Other Ideas (optional)</div>
-                        <ul class="activity-list">
-                            <li>Akihabara (anime/gaming)</li>
-                            <li>Tokyo Station Character Street</li>
-                            <li>Shinjuku (skyscrapers)</li>
-                            <li>Shibuya crossing</li>
-                            <li>Harajuku fashion</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">Optional</div>
+                        <div class="timeline-content">
+                            <h4>🎯 Other Tokyo Ideas (if energy permits)</h4>
+                            <ul>
+                                <li>Don Quijote (optional chaos shopping)</li>
+                                <li>@ cosme (beauty products)</li>
+                                <li>Akihabara (anime/gaming - 15 min from Akabane)</li>
+                                <li>Shibuya crossing & Harajuku</li>
+                            </ul>
+                            <div class="highlight">
+                                💡 <strong>TIP:</strong> Don't overdo it! You have Universal Studios, teamLab, and DisneySea coming up. Pace yourself.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- DAY 3 - SUNDAY APRIL 5 -->
-            <div class="day-card special-day">
+            <div class="day-card special-day" onclick="toggleDay(this)">
                 <div class="day-header">
                     <div class="day-number">5</div>
+                    <span class="expand-icon">▼</span>
                     <div class="day-name">Sunday</div>
                     <div class="day-date">April 5, 2026</div>
                     <div class="day-title">🏔️ Hakone Day Trip</div>
                 </div>
-                <div class="day-content">
+                
+                <div class="day-summary">
                     <div class="location-badge special-badge">HAKONE</div>
                     <div class="hotel">🏨 <strong>Akabane Holic Hotel</strong> (Night 3)</div>
+                    <p style="margin-top: 10px; color: #666; font-style: italic;">
+                        📍 Romance Car • Hakone Loop • Owakudani • Lake Ashi • Hakone Shrine
+                    </p>
+                </div>
+                
+                <div class="day-detailed">
+                    <h3 style="color: #c41e3a; margin-bottom: 20px;">🕐 Detailed Timeline</h3>
                     
-                    <div class="highlight">💡 <strong>TIP:</strong> Get Hakone Freepass (¥6,100) - covers all transport on the loop!</div>
-                    
-                    <div class="activity">
-                        <div class="activity-time">🚃 Early Morning: Romance Car Journey</div>
-                        <ul class="activity-list">
-                            <li>Depart Shinjuku 8:00-9:00 AM</li>
-                            <li>Romance Car → Hakone-Yumoto (~85 min)</li>
-                            <li>Purchase Hakone Freepass at station</li>
-                        </ul>
+                    <div class="highlight" style="margin-bottom: 20px;">
+                        💡 <strong>IMPORTANT:</strong> Buy Hakone Freepass (¥6,100 for 2-day) at Shinjuku Station - covers ALL loop transport!
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">🔄 The Hakone Loop Circuit</div>
-                        <ul class="activity-list">
-                            <li><strong>Train</strong> Hakone-Yumoto → Gora</li>
-                            <li><strong>Cable Car</strong> Gora → Sounzan</li>
-                            <li><strong>Ropeway</strong> Sounzan → Owakudani</li>
-                            <li>🌋 <strong>Owakudani Valley</strong> (45 min stop)
-                                <ul style="margin-left: 20px;">
-                                    <li>Black eggs (adds 7 years to life!)</li>
-                                    <li>Sulfur vents & volcanic views</li>
-                                    <li>Mt. Fuji views (weather permitting)</li>
-                                </ul>
-                            </li>
-                            <li><strong>Ropeway</strong> Owakudani → Togendai</li>
-                            <li>⛵ <strong>Pirate Ship</strong> across Lake Ashi (~30 min)</li>
-                            <li>⛩️ <strong>Hakone Shrine</strong> - iconic torii gate in water</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">7:00-8:00 AM</div>
+                        <div class="timeline-content">
+                            <h4>🚆 Get to Shinjuku</h4>
+                            <ul>
+                                <li>Akabane → Shinjuku (JR Saikyo Line, ~20 min)</li>
+                                <li>Find Odakyu Railway ticket office</li>
+                                <li>Buy Hakone Freepass + Romance Car reservation (¥1,320 surcharge)</li>
+                            </ul>
+                            <div class="directions">
+                                <strong>🚇 Directions:</strong> Odakyu office is in Shinjuku Station (west side). Look for signs "Odakyu Romance Car" or ask staff.
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">🎯 Optional Add-ons (if time permits)</div>
-                        <ul class="activity-list">
-                            <li>🎨 Hakone Open-Air Museum (world-class sculptures)</li>
-                            <li>♨️ Onsen experience (hot springs)</li>
-                            <li>🍜 Lunch in Moto-Hakone area</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">8:30-10:00 AM</div>
+                        <div class="timeline-content">
+                            <h4>🚃 Romance Car to Hakone</h4>
+                            <ul>
+                                <li>Board Romance Car (comfy reserved seats!)</li>
+                                <li>Enjoy scenic ride through countryside (~85 min)</li>
+                                <li>Arrive Hakone-Yumoto Station</li>
+                            </ul>
+                        </div>
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">🌆 Evening: Return to Tokyo</div>
-                        <ul class="activity-list">
-                            <li>Bus back to Hakone-Yumoto</li>
-                            <li>Train to Shinjuku (~5-6 PM)</li>
-                            <li>Back at hotel ~6-7 PM</li>
-                            <li>Relax after full day!</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">10:00-10:30 AM</div>
+                        <div class="timeline-content">
+                            <h4>🚂 Start the Loop</h4>
+                            <ul>
+                                <li>Hakone-Yumoto → Gora (Hakone Tozan Railway, ~40 min)</li>
+                                <li>Switchback mountain train - super scenic!</li>
+                            </ul>
+                        </div>
                     </div>
                     
-                    <div class="highlight" style="background: #e3f2fd; border-left-color: #2196f3;">
-                        🌤️ <strong>NOTE:</strong> Mt. Fuji visibility depends on weather (best chance: early morning, clear days)
+                    <div class="timeline-item">
+                        <div class="timeline-time">10:30-11:00 AM</div>
+                        <div class="timeline-content">
+                            <h4>🚡 Cable Car Climb</h4>
+                            <ul>
+                                <li>Gora → Sounzan (Cable car, ~10 min)</li>
+                                <li>Steep climb up the mountain</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">11:00 AM-12:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🌋 Owakudani Valley (HIGHLIGHT!)</h4>
+                            <ul>
+                                <li>Ropeway Sounzan → Owakudani (~10 min ride)</li>
+                                <li><strong>STOP HERE for 45-60 min!</strong></li>
+                                <li>🥚 Buy black eggs (¥500 for 5 - adds 7 years to your life!)</li>
+                                <li>Walk around sulfur vents (smells like rotten eggs)</li>
+                                <li>🗻 Mt. Fuji photo op (if weather is clear!)</li>
+                                <li>Observation deck views</li>
+                            </ul>
+                            <div class="highlight">
+                                🌤️ <strong>Mt. Fuji Tip:</strong> Best visibility is early morning on clear days. If cloudy, you might not see it!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">12:00-12:30 PM</div>
+                        <div class="timeline-content">
+                            <h4>🚠 Ropeway to Lake</h4>
+                            <ul>
+                                <li>Owakudani → Togendai (Ropeway, ~20 min)</li>
+                                <li>Descend to Lake Ashi shore</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">12:30-1:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>⛵ Pirate Ship Cruise!</h4>
+                            <ul>
+                                <li>Board pirate ship at Togendai Port</li>
+                                <li>Sail across Lake Ashi (~30 min)</li>
+                                <li>Photo ops with Mt. Fuji backdrop (weather permitting)</li>
+                                <li>Arrive at Moto-Hakone or Hakone-machi Port</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">1:00-2:30 PM</div>
+                        <div class="timeline-content">
+                            <h4>⛩️ Hakone Shrine + Lunch</h4>
+                            <ul>
+                                <li>Walk to Hakone Shrine (15 min from port)</li>
+                                <li>📸 <strong>MUST PHOTO:</strong> Red torii gate in the water!</li>
+                                <li>Explore shrine grounds</li>
+                                <li>Lunch at nearby restaurant (soba, udon, or teishoku)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">2:30-3:30 PM (Optional)</div>
+                        <div class="timeline-content">
+                            <h4>🎨 Hakone Open-Air Museum (If Time)</h4>
+                            <ul>
+                                <li>Take bus to Chokoku-no-Mori Station</li>
+                                <li>World-class outdoor sculpture museum</li>
+                                <li>Beautiful gardens + Picasso pavilion</li>
+                                <li><strong>OR skip if tired</strong> - head back to Tokyo instead</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">3:30-5:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🚌 Return Journey</h4>
+                            <ul>
+                                <li>Bus back to Hakone-Yumoto (or from museum)</li>
+                                <li>Board Romance Car or regular train to Shinjuku</li>
+                                <li>Arrive Shinjuku ~5:30-6:00 PM</li>
+                                <li>Transfer back to Akabane</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">6:30 PM</div>
+                        <div class="timeline-content">
+                            <h4>🌙 Back at Hotel</h4>
+                            <ul>
+                                <li>Rest after full day of adventure!</li>
+                                <li>Easy dinner near hotel or convenience store</li>
+                                <li>Pack for Osaka tomorrow!</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- DAY 4 - MONDAY APRIL 6 -->
-            <div class="day-card travel-day">
+            <div class="day-card travel-day" onclick="toggleDay(this)">
                 <div class="day-header">
                     <div class="day-number">6</div>
+                    <span class="expand-icon">▼</span>
                     <div class="day-name">Monday</div>
                     <div class="day-date">April 6, 2026</div>
                     <div class="day-title">🚄 Travel to Osaka</div>
                 </div>
-                <div class="day-content">
+                
+                <div class="day-summary">
                     <div class="location-badge tokyo-badge">TOKYO</div>
                     <div class="location-badge osaka-badge">→ OSAKA</div>
                     <div class="hotel">🏨 <strong>Oriental Hotel Universal City</strong> (Check-in)</div>
+                    <p style="margin-top: 10px; color: #666; font-style: italic;">
+                        📍 Shinkansen journey • Dōtonbori food crawl • Glico sign photo
+                    </p>
+                </div>
+                
+                <div class="day-detailed">
+                    <h3 style="color: #c41e3a; margin-bottom: 20px;">🕐 Detailed Timeline</h3>
                     
-                    <div class="activity">
-                        <div class="activity-time">🚄 Shinkansen Journey</div>
-                        <ul class="activity-list">
-                            <li>Check out of Akabane Holic</li>
-                            <li>Tokyo → Osaka (~2.5 hours)</li>
-                            <li>Check into hotel near Universal</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">9:00 AM</div>
+                        <div class="timeline-content">
+                            <h4>🎒 Check-out & Departure</h4>
+                            <ul>
+                                <li>Check out of Akabane Holic Hotel</li>
+                                <li>Take train to Tokyo Station or Shinagawa</li>
+                            </ul>
+                            <div class="directions">
+                                <strong>🚇 Route:</strong> Akabane → Tokyo Station (JR Keihin-Tohoku Line, ~25 min)
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">🍜 Evening: Osaka Food Paradise</div>
-                        <ul class="activity-list">
-                            <li>Dōtonbori - iconic neon signs 🏃</li>
-                            <li>Takoyaki (octopus balls) 🐙</li>
-                            <li>Okonomiyaki (savory pancake)</li>
-                            <li>Kushikatsu (fried skewers)</li>
-                            <li>Namba area shopping</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">9:30-12:00</div>
+                        <div class="timeline-content">
+                            <h4>🚄 Shinkansen to Osaka</h4>
+                            <ul>
+                                <li>Board Tokaido Shinkansen (Nozomi or Hikari)</li>
+                                <li>Tokyo → Shin-Osaka (~2.5 hours, ¥13,870)</li>
+                                <li>Enjoy the ride! Grab ekiben (train bento) if hungry</li>
+                            </ul>
+                            <div class="highlight">
+                                💡 <strong>Seat Tip:</strong> Sit on the right side (D-E seats) for possible Mt. Fuji views between Tokyo-Nagoya!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">12:00-1:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🚇 Shin-Osaka → Hotel</h4>
+                            <ul>
+                                <li>At Shin-Osaka, transfer to local train</li>
+                                <li>JR Osaka Loop Line → Universal City Station (~15 min)</li>
+                                <li>Walk to Oriental Hotel (~5 min from station)</li>
+                            </ul>
+                            <div class="directions">
+                                <strong>🚶 Walking:</strong> Exit Universal City Station, hotel is directly in front of you!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">1:00-2:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🏨 Hotel Check-in</h4>
+                            <ul>
+                                <li>Check in at Oriental Hotel (or store luggage if early)</li>
+                                <li>Freshen up, rest briefly</li>
+                            </ul>
+                        </div>
+                    </div>                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">2:00-5:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🎯 Options: Rest or Explore Near Hotel</h4>
+                            <ul>
+                                <li><strong>Option A:</strong> Rest/nap after travel</li>
+                                <li><strong>Option B:</strong> Osaka Aquarium Kaiyukan (15 min walk, ¥2,700)</li>
+                                <li><strong>Option C:</strong> Tempozan Ferris Wheel (next to aquarium)</li>
+                                <li><strong>Option D:</strong> Universal CityWalk shopping (right outside hotel)</li>
+                            </ul>
+                            <div class="highlight">
+                                💡 <strong>RECOMMENDATION:</strong> Rest up! You have 2 full Universal days ahead. Save energy.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">5:30 PM</div>
+                        <div class="timeline-content">
+                            <h4>🚇 Train to Namba/Dōtonbori</h4>
+                            <ul>
+                                <li>Walk to Universal City Station (5 min)</li>
+                                <li>JR Yumesaki Line → Nishi-Kujo → transfer to Osaka Loop Line → Namba (~20 min total)</li>
+                            </ul>
+                            <div class="directions">
+                                <strong>🚇 Alternative:</strong> Universal City → Osaka Loop → Namba. Ask hotel for best route!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">6:00-6:30 PM</div>
+                        <div class="timeline-content">
+                            <h4>🐙 Takoyaki Time!</h4>
+                            <ul>
+                                <li>Hit a street vendor for fresh takoyaki (crispy outside, gooey inside!)</li>
+                                <li>Walk along Dōtonbori canal - soak in the neon energy</li>
+                                <li>📸 <strong>MUST PHOTO:</strong> Glico Running Man sign! (everyone does it)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">6:30-7:30 PM</div>
+                        <div class="timeline-content">
+                            <h4>🥞 Okonomiyaki Dinner</h4>
+                            <ul>
+                                <li><strong>Recommended:</strong> Mizuno (near Dōtonbori) or Kiji (Umeda)</li>
+                                <li>Watch them cook it on the griddle in front of you</li>
+                                <li>Savory pancake with cabbage, pork, seafood, etc.</li>
+                                <li>Topped with sauce, mayo, bonito flakes 🔥</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">7:30-8:30 PM</div>
+                        <div class="timeline-content">
+                            <h4>🍢 Kushikatsu & Exploration</h4>
+                            <ul>
+                                <li>Try kushikatsu (fried skewers) - <strong>RULE: DON'T double-dip in the sauce!</strong></li>
+                                <li>🏮 <strong>Hozenji Yokocho:</strong> Hidden alley with moss-covered Buddha statue</li>
+                                <li>🛍️ <strong>Don Quijote Dotonbori:</strong> 6 floors of absolute chaos (souvenirs, snacks, everything!)</li>
+                                <li>Walk through covered shopping arcades</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">8:30-9:30 PM</div>
+                        <div class="timeline-content">
+                            <h4>🛍️ Shinsaibashi Shopping (Optional)</h4>
+                            <ul>
+                                <li>Shinsaibashi-suji Shopping Street (covered arcade, LONG walk)</li>
+                                <li>Browse shops, arcades, cafes</li>
+                                <li>People-watching paradise</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">10:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🌙 Return to Hotel</h4>
+                            <ul>
+                                <li>Train back to Universal City Station</li>
+                                <li>5 min walk to hotel</li>
+                                <li><strong>Rest up for Universal Studios tomorrow!</strong></li>
+                            </ul>
+                            <div class="highlight">
+                                💡 <strong>PRO TIP:</strong> Osaka is "kuidaore" (eat till you drop) culture. Don't stuff yourself at one place - graze across multiple small meals!
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- DAY 5 - TUESDAY APRIL 7 -->
-            <div class="day-card special-day">
+            <!-- Continuing with remaining days... -->
+
+        </div>
+
+        <script>
+            function toggleDay(card) {
+                // Close all other expanded cards
+                document.querySelectorAll('.day-card.expanded').forEach(c => {
+            <!-- DAY 5 - UNIVERSAL DAY 1 -->
+            <div class="day-card special-day" onclick="toggleDay(this)">
                 <div class="day-header">
                     <div class="day-number">7</div>
+                    <span class="expand-icon">▼</span>
                     <div class="day-name">Tuesday</div>
                     <div class="day-date">April 7, 2026</div>
                     <div class="day-title">🎢 Universal Studios (Day 1)</div>
                 </div>
-                <div class="day-content">
+                
+                <div class="day-summary">
                     <div class="location-badge special-badge">UNIVERSAL STUDIOS</div>
                     <div class="hotel">🏨 <strong>Oriental Hotel</strong> (Night 2)</div>
-                    
-                    <div class="highlight">✅ <strong>PRE-BOOKED:</strong> Express Pass 5 ~ Race & Minecart Special</div>
-                    
-                    <div class="express-pass">
-                        <strong>⏰ Timed Entry:</strong>
-                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
-                            <li><strong>11:00-12:00</strong> - Super Nintendo World™</li>
-                            <li><strong>11:00-11:30</strong> - Mario Kart™</li>
-                            <li><strong>11:30-12:00</strong> - Mine Cart Madness™</li>
-                            <li><strong>13:00-13:30</strong> - Minion Blast</li>
-                            <li>Flying Dinosaur (anytime)</li>
-                            <li>Harry Potter Forbidden Journey (anytime)</li>
-                        </ul>
+                    <p style="margin-top: 10px; color: #666; font-style: italic;">
+                        📍 Express Pass 5 • Mario Kart • Harry Potter • Flying Dinosaur
+                    </p>
+                </div>
+                
+                <div class="day-detailed">
+                    <div class="highlight" style="margin-bottom: 15px;">
+                        ✅ <strong>EXPRESS PASS 5:</strong> Race & Minecart Special | Inquiry: USJ-P1X0000007HHOL
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">🎢 Full Day Plan</div>
-                        <ul class="activity-list">
-                            <li>Arrive by 10:30 AM</li>
-                            <li>Follow Express Pass schedule</li>
-                            <li>Explore other areas between rides</li>
-                            <li>Try Butterbeer in Harry Potter area!</li>
-                            <li>Stay until closing (~9-10 PM)</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">10:00 AM</div>
+                        <div class="timeline-content">
+                            <h4>🏃 Arrive at Park</h4>
+                            <ul><li>Walk from hotel (5 min!)</li><li>Gates open ~9 AM, aim for 10-10:30 arrival</li></ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">11:00-12:00</div>
+                        <div class="timeline-content">
+                            <h4>🍄 Super Nintendo World</h4>
+                            <ul><li>11:00-11:30: Mario Kart (Express)</li><li>11:30-12:00: Mine Cart Madness (Express)</li><li>Explore the land, collect coins!</li></ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">1:00-1:30 PM</div>
+                        <div class="timeline-content">
+                            <h4>👾 Minion Blast</h4>
+                            <ul><li>Use Express Pass (timed entry)</li></ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">Anytime</div>
+                        <div class="timeline-content">
+                            <h4>⚡ Flexible Express Rides</h4>
+                            <ul><li>Flying Dinosaur (intense!)</li><li>Harry Potter Forbidden Journey</li><li>Try Butterbeer in Harry Potter area!</li></ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">All Day</div>
+                        <div class="timeline-content">
+                            <h4>🎭 Other Activities</h4>
+                            <ul><li>Explore Jurassic Park, Spider-Man areas</li><li>Lunch/dinner in park</li><li>Shows & parades (check schedule)</li><li>Stay until closing (~9-10 PM)</li></ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- DAY 6 - WEDNESDAY APRIL 8 -->
-            <div class="day-card special-day">
+            <!-- DAY 6 - UNIVERSAL DAY 2 -->
+            <div class="day-card special-day" onclick="toggleDay(this)">
                 <div class="day-header">
                     <div class="day-number">8</div>
+                    <span class="expand-icon">▼</span>
                     <div class="day-name">Wednesday</div>
                     <div class="day-date">April 8, 2026</div>
                     <div class="day-title">🎢 Universal Studios (Day 2)</div>
                 </div>
-                <div class="day-content">
+                
+                <div class="day-summary">
                     <div class="location-badge special-badge">UNIVERSAL STUDIOS</div>
                     <div class="hotel">🏨 <strong>Oriental Hotel</strong> (Night 3)</div>
-                    
-                    <div class="highlight">✅ <strong>PRE-BOOKED:</strong> USJ Tickets</div>
-                    
-                    <div class="activity">
-                        <div class="activity-time">🎢 Full Day Fun</div>
-                        <ul class="activity-list">
-                            <li>Finish attractions missed Day 1</li>
-                            <li>Re-ride favorites!</li>
-                            <li>Character meet & greets</li>
-                            <li>Souvenir shopping</li>
-                            <li>Try different park restaurants</li>
-                            <li>Evening shows & parades</li>
-                        </ul>
+                    <p style="margin-top: 10px; color: #666; font-style: italic;">
+                        📍 Re-ride favorites • Missed attractions • Character meets • Souvenirs
+                    </p>
+                </div>
+                
+                <div class="day-detailed">
+                    <div class="timeline-item">
+                        <div class="timeline-time">All Day</div>
+                        <div class="timeline-content">
+                            <h4>🎢 Full Day Freedom</h4>
+                            <ul>
+                                <li>Finish attractions you missed yesterday</li>
+                                <li>Re-ride favorites (Mario Kart again!)</li>
+                                <li>Character meet & greets</li>
+                                <li>Shopping for Universal souvenirs</li>
+                                <li>Try different restaurants</li>
+                                <li>Evening shows/parades</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- DAY 7 - THURSDAY APRIL 9 -->
-            <div class="day-card kyoto-day">
+            <!-- DAY 7 - KYOTO/NARA -->
+            <div class="day-card kyoto-day" onclick="toggleDay(this)">
                 <div class="day-header">
                     <div class="day-number">9</div>
+                    <span class="expand-icon">▼</span>
                     <div class="day-name">Thursday</div>
                     <div class="day-date">April 9, 2026</div>
                     <div class="day-title">🦌 Kyoto & Nara Day Trip</div>
                 </div>
-                <div class="day-content">
+                
+                <div class="day-summary">
                     <div class="location-badge kyoto-badge">KYOTO/NARA</div>
-                    <div class="hotel">🏨 <strong>Oriental Hotel</strong> (Night 4 - pack for Tokyo tomorrow!)</div>
-                    
-                    <div class="activity">
-                        <div class="activity-time">🦌 Morning: NARA (3-4 hours)</div>
-                        <ul class="activity-list">
-                            <li>Train from Osaka (~45 min)</li>
-                            <li>Nara Park - Feed the deer! 🦌</li>
-                            <li>Todaiji Temple - Giant Buddha</li>
-                            <li>Kasuga Taisha - Lantern shrine</li>
-                        </ul>
+                    <div class="hotel">🏨 <strong>Oriental Hotel</strong> (Night 4 - pack for Tokyo!)</div>
+                    <p style="margin-top: 10px; color: #666; font-style: italic;">
+                        📍 Nara deer park • Fushimi Inari gates • Return to Osaka
+                    </p>
+                </div>
+                
+                <div class="day-detailed">
+                    <div class="timeline-item">
+                        <div class="timeline-time">8:00 AM-12:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🦌 Nara Morning</h4>
+                            <ul>
+                                <li>Train: Osaka → Nara (~45 min)</li>
+                                <li>Nara Park - feed the deer! (¥200 crackers)</li>
+                                <li>Todaiji Temple - Giant Buddha</li>
+                                <li>Kasuga Taisha Shrine - lanterns</li>
+                            </ul>
+                            <div class="directions"><strong>🚇</strong> From Osaka: JR or Kintetsu Line to Nara Station</div>
+                        </div>
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">⛩️ Afternoon: KYOTO (3-4 hours)</div>
-                        <ul class="activity-list">
-                            <li>Train to Kyoto (~45 min)</li>
-                            <li>Fushimi Inari - 1000 red gates! 🎌</li>
-                            <li>Hike as far as you want (1-2 hrs)</li>
-                            <li>Optional: Kiyomizu-dera or Bamboo Grove</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">1:00-5:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>⛩️ Kyoto Afternoon</h4>
+                            <ul>
+                                <li>Train: Nara → Kyoto (~45 min)</li>
+                                <li><strong>Fushimi Inari:</strong> 1000 red torii gates! 🎌</li>
+                                <li>Hike as far as you want (30 min-2 hrs)</li>
+                                <li><em>Optional:</em> Kiyomizu-dera or Bamboo Grove</li>
+                            </ul>
+                        </div>
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">🌆 Evening: Return to Osaka</div>
-                        <ul class="activity-list">
-                            <li>Train back to Osaka (~1 hour)</li>
-                            <li>Dinner near hotel</li>
-                            <li><strong>Pack bags for Tokyo!</strong></li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">6:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🌙 Return & Pack</h4>
+                            <ul><li>Train back to Osaka (~1 hr)</li><li>Dinner near hotel</li><li><strong>PACK FOR TOKYO!</strong></li></ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- DAY 8 - FRIDAY APRIL 10 -->
-            <div class="day-card travel-day">
+            <!-- DAY 8 - RETURN TO TOKYO -->
+            <div class="day-card travel-day" onclick="toggleDay(this)">
                 <div class="day-header">
                     <div class="day-number">10</div>
+                    <span class="expand-icon">▼</span>
                     <div class="day-name">Friday</div>
                     <div class="day-date">April 10, 2026</div>
                     <div class="day-title">🚄 Osaka → Tokyo</div>
                 </div>
-                <div class="day-content">
+                
+                <div class="day-summary">
                     <div class="location-badge osaka-badge">OSAKA</div>
                     <div class="location-badge tokyo-badge">→ TOKYO</div>
                     <div class="hotel">🏨 <strong>APA Hotel Nishishinjuku</strong> (Check-in)</div>
-                    
-                    <div class="activity">
-                        <div class="activity-time">🚄 Return to Tokyo</div>
-                        <ul class="activity-list">
-                            <li>Check out of Oriental Hotel</li>
-                            <li>Shinkansen (~2.5 hours)</li>
-                            <li>Check into APA Hotel</li>
-                        </ul>
+                    <p style="margin-top: 10px; color: #666; font-style: italic;">
+                        📍 Shinkansen back • Explore Shinjuku • Tokyo Gov't Building
+                    </p>
+                </div>
+                
+                <div class="day-detailed">
+                    <div class="timeline-item">
+                        <div class="timeline-time">9:00 AM-12:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🚄 Return Journey</h4>
+                            <ul><li>Check out Oriental Hotel</li><li>Shinkansen Osaka → Tokyo (~2.5 hrs)</li><li>Arrive in Tokyo</li></ul>
+                        </div>
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">🎯 Evening: Explore Shinjuku</div>
-                        <ul class="activity-list">
-                            <li>Tokyo Gov't Building - free observation deck</li>
-                            <li>Kabukicho entertainment district</li>
-                            <li>Omoide Yokocho - tiny restaurants</li>
-                            <li>Dinner in Shinjuku</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">1:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🏨 Check-in Shinjuku</h4>
+                            <ul><li>APA Hotel Nishishinjuku (perfect location!)</li></ul>
+                            <div class="directions"><strong>🚇</strong> From Tokyo Station: Marunouchi Line to Shinjuku (~15 min)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">Evening</div>
+                        <div class="timeline-content">
+                            <h4>🌆 Explore Shinjuku</h4>
+                            <ul><li>Tokyo Gov't Building - FREE observation deck</li><li>Kabukicho entertainment district</li><li>Omoide Yokocho - tiny izakaya alley</li><li>Dinner in Shinjuku</li></ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- DAY 9 - SATURDAY APRIL 11 -->
-            <div class="day-card special-day">
+            <!-- DAY 9 - TEAMLAB -->
+            <div class="day-card special-day" onclick="toggleDay(this)">
                 <div class="day-header">
                     <div class="day-number">11</div>
+                    <span class="expand-icon">▼</span>
                     <div class="day-name">Saturday</div>
                     <div class="day-date">April 11, 2026</div>
                     <div class="day-title">🎨 teamLab Borderless</div>
                 </div>
-                <div class="day-content">
+                
+                <div class="day-summary">
                     <div class="location-badge special-badge">TEAMLAB</div>
                     <div class="hotel">🏨 <strong>APA Hotel Nishishinjuku</strong> (Night 2)</div>
-                    
-                    <div class="highlight">✅ <strong>RESERVED:</strong> 12:00-12:30 PM Entry</div>
-                    
-                    <div class="activity">
-                        <div class="activity-time">🎨 Midday: teamLab Borderless</div>
-                        <ul class="activity-list">
-                            <li>Digital art immersive museum (2-3 hrs)</li>
-                            <li>Mind-blowing interactive installations</li>
-                            <li>Take LOTS of photos/videos!</li>
-                        </ul>
+                    <p style="margin-top: 10px; color: #666; font-style: italic;">
+                        📍 Digital art museum • Harajuku • Shibuya crossing
+                    </p>
+                </div>
+                
+                <div class="day-detailed">
+                    <div class="highlight" style="margin-bottom: 15px;">
+                        ✅ <strong>RESERVED:</strong> 12:00-12:30 PM Entry
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">🌆 Evening: Harajuku & Shibuya</div>
-                        <ul class="activity-list">
-                            <li>Harajuku - Takeshita Street</li>
-                            <li>Shibuya scramble crossing</li>
-                            <li>Pokémon Center Shibuya</li>
-                            <li>Dinner: Gyukatsu Motomura or similar</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">12:00-3:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🎨 teamLab Borderless</h4>
+                            <ul><li>Digital art immersive museum (2-3 hrs)</li><li>Interactive installations</li><li>TONS of photos/videos!</li></ul>
+                            <div class="directions"><strong>🚇</strong> Take train to teamLab location (check current venue)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">4:00-9:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🌆 Harajuku & Shibuya</h4>
+                            <ul><li>Harajuku - Takeshita Street</li><li>Shibuya scramble crossing 📸</li><li>Pokémon Center Shibuya</li><li>Dinner: Gyukatsu Motomura or similar</li></ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- DAY 10 - SUNDAY APRIL 12 -->
-            <div class="day-card special-day">
+            <!-- DAY 10 - HARRY POTTER -->
+            <div class="day-card special-day" onclick="toggleDay(this)">
                 <div class="day-header">
                     <div class="day-number">12</div>
+                    <span class="expand-icon">▼</span>
                     <div class="day-name">Sunday</div>
                     <div class="day-date">April 12, 2026</div>
                     <div class="day-title">⚡ Harry Potter Studio Tour</div>
                 </div>
-                <div class="day-content">
+                
+                <div class="day-summary">
                     <div class="location-badge special-badge">HARRY POTTER</div>
                     <div class="hotel">🏨 <strong>APA Hotel Nishishinjuku</strong> (Night 3)</div>
-                    
-                    <div class="highlight">⚠️ <strong>BOOK NOW!</strong> Sells out weeks in advance</div>
-                    
-                    <div class="activity">
-                        <div class="activity-time">⚡ Warner Bros. Studio Tour</div>
-                        <ul class="activity-list">
-                            <li>Train to Toshimaen (~30 min)</li>
-                            <li>Great Hall, Diagon Alley, Platform 9¾</li>
-                            <li>Hogwarts Express</li>
-                            <li>Try Butterbeer!</li>
-                            <li>Props, costumes, detailed sets (3-4 hrs)</li>
-                            <li>Gift shop (bring extra yen!)</li>
-                        </ul>
+                    <p style="margin-top: 10px; color: #666; font-style: italic;">
+                        📍 Warner Bros Studio • Diagon Alley • Platform 9¾ • Butterbeer
+                    </p>
+                </div>
+                
+                <div class="day-detailed">
+                    <div class="highlight" style="background: #ffe6e6; border-color: #ff0000;">
+                        ⚠️ <strong>BOOK NOW!</strong> Tickets sell out weeks in advance
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">🌆 Late Afternoon/Evening</div>
-                        <ul class="activity-list">
-                            <li>Return to Shinjuku</li>
-                            <li>Pokémon Café (if reserved)</li>
-                            <li>Cat Café experience</li>
-                            <li>Last-minute shopping</li>
-                            <li>Rest before DisneySea tomorrow</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">Morning-Afternoon</div>
+                        <div class="timeline-content">
+                            <h4>⚡ Warner Bros Studio Tour</h4>
+                            <ul><li>Train to Toshimaen (~30 min from Shinjuku)</li><li>Great Hall, Diagon Alley, Platform 9¾</li><li>Hogwarts Express</li><li>Butterbeer (get some!)</li><li>Props, costumes, sets (3-4 hrs)</li><li>Gift shop - bring extra yen!</li></ul>
+                            <div class="directions"><strong>🚇</strong> Seibu Shinjuku Line to Toshimaen Station</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">Evening</div>
+                        <div class="timeline-content">
+                            <h4>🎯 Free Time</h4>
+                            <ul><li>Pokémon Café (if reserved)</li><li>Cat Café</li><li>Last-minute shopping</li><li>Rest before DisneySea tomorrow!</li></ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- DAY 11 - MONDAY APRIL 13 -->
-            <div class="day-card special-day">
+            <!-- DAY 11 - DISNEYSEA -->
+            <div class="day-card special-day" onclick="toggleDay(this)">
                 <div class="day-header">
                     <div class="day-number">13</div>
+                    <span class="expand-icon">▼</span>
                     <div class="day-name">Monday</div>
                     <div class="day-date">April 13, 2026</div>
                     <div class="day-title">🌊 Tokyo DisneySea</div>
                 </div>
-                <div class="day-content">
+                
+                <div class="day-summary">
                     <div class="location-badge special-badge">DISNEYSEA</div>
                     <div class="hotel">🏨 <strong>APA Hotel Nishishinjuku</strong> (Night 4)</div>
-                    
-                    <div class="highlight">✅ <strong>CONFIRMED:</strong> DisneySea Tickets Purchased!</div>
-                    
-                    <div class="activity">
-                        <div class="activity-time">🎢 Full Day - DisneySea</div>
-                        <ul class="activity-list">
-                            <li>Train to Maihama Station (~35 min)</li>
-                            <li>Arrive at opening (~9:00 AM)</li>
-                        </ul>
+                    <p style="margin-top: 10px; color: #666; font-style: italic;">
+                        📍 Journey to Center of Earth • Tower of Terror • Fantasmic!
+                    </p>
+                </div>
+                
+                <div class="day-detailed">
+                    <div class="highlight" style="margin-bottom: 15px;">
+                        ✅ <strong>CONFIRMED:</strong> DisneySea Tickets Purchased!
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">🌟 Priority Attractions:</div>
-                        <ul class="activity-list">
-                            <li>🌋 Journey to Center of the Earth</li>
-                            <li>🚢 Tower of Terror</li>
-                            <li>🧞 Sindbad's Storybook Voyage</li>
-                            <li>🎠 20,000 Leagues Under the Sea</li>
-                            <li>🏔️ Indiana Jones Adventure</li>
-                            <li>🎆 Fantasmic! (nighttime show)</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">8:30 AM</div>
+                        <div class="timeline-content">
+                            <h4>🚇 Depart for DisneySea</h4>
+                            <ul><li>Train to Maihama Station (~35 min)</li><li>Arrive at opening (~9 AM)</li></ul>
+                            <div class="directions"><strong>🚇</strong> JR Keiyo Line: Shinjuku → Tokyo → Maihama</div>
+                        </div>
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">🗺️ Areas to Explore:</div>
-                        <ul class="activity-list">
-                            <li>Mediterranean Harbor (entrance)</li>
-                            <li>Mysterious Island</li>
-                            <li>Arabian Coast</li>
-                            <li>Mermaid Lagoon</li>
-                            <li>American Waterfront</li>
-                            <li>Stay until closing (~10:00 PM)</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-time">All Day</div>
+                        <div class="timeline-content">
+                            <h4>🎢 DisneySea Highlights</h4>
+                            <ul>
+                                <li>🌋 Journey to Center of the Earth</li>
+                                <li>🚢 Tower of Terror</li>
+                                <li>🧞 Sindbad's Storybook Voyage</li>
+                                <li>🎠 20,000 Leagues Under the Sea</li>
+                                <li>🏔️ Indiana Jones Adventure</li>
+                                <li>Explore all themed ports!</li>
+                                <li>🎆 Fantasmic! (nighttime show)</li>
+                                <li>Stay until closing (~10 PM)</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- DAY 12 - TUESDAY APRIL 14 -->
-            <div class="day-card tokyo-day">
+            <!-- DAY 12 - DEPARTURE -->
+            <div class="day-card tokyo-day" onclick="toggleDay(this)">
                 <div class="day-header">
                     <div class="day-number">14</div>
+                    <span class="expand-icon">▼</span>
                     <div class="day-name">Tuesday</div>
                     <div class="day-date">April 14, 2026</div>
                     <div class="day-title">✈️ Last Morning & Departure</div>
                 </div>
-                <div class="day-content">
+                
+                <div class="day-summary">
                     <div class="location-badge tokyo-badge">TOKYO</div>
                     <div class="hotel">🏨 <strong>APA Hotel</strong> (Check-out)</div>
-                    
-                    <div class="activity">
-                        <div class="activity-time">☀️ Morning: Last Shopping</div>
-                        <ul class="activity-list">
-                            <li>Check out, store luggage</li>
-                            <li>Pokémon Center - last chance!</li>
-                            <li>Don Quijote - souvenirs</li>
-                            <li>Tokyo Station Character Street</li>
-                            <li>Grab bento boxes for flight</li>
-                        </ul>
+                    <p style="margin-top: 10px; color: #666; font-style: italic;">
+                        📍 Last shopping • Airport departure • Sayonara, Japan! 👋
+                    </p>
+                </div>
+                
+                <div class="day-detailed">
+                    <div class="timeline-item">
+                        <div class="timeline-time">Morning</div>
+                        <div class="timeline-content">
+                            <h4>🛍️ Last Shopping Rush</h4>
+                            <ul><li>Check out, store luggage at hotel</li><li>Pokémon Center - last chance!</li><li>Don Quijote - final souvenirs</li><li>Tokyo Station Character Street</li><li>Grab bento boxes for flight</li></ul>
+                        </div>
                     </div>
                     
-                    <div class="activity">
-                        <div class="activity-time">✈️ Afternoon: Airport Departure</div>
-                        <ul class="activity-list">
-                            <li><strong>12:00-1:00 PM:</strong> Head to airport</li>
-                            <li>
+                    <div class="timeline-item">
+                        <div class="timeline-time">12:00-1:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>🚇 Head to Airport</h4>
+                            <ul><li>Collect luggage from hotel</li><li>Train to Narita/Haneda</li><li>~90-120 min travel time</li></ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">5:00 PM</div>
+                        <div class="timeline-content">
+                            <h4>✈️ Flight Departure</h4>
+                            <ul><li>Check in ~3 hours early</li><li>Duty-free shopping</li><li>Board flight home</li><li>Sayonara, Japan! 🇯🇵👋</li></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                    if (c !== card) c.classList.remove('expanded');
+                });
+                // Toggle clicked card
+                card.classList.toggle('expanded');
+            }
+        </script>
+    </div>
+</body>
+</html>
