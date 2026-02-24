@@ -1221,6 +1221,12 @@
                 </div>
             </div>
 
+        </div>
+
+        <script>
+            function toggleDay(card) {
+                // Close all other expanded cards
+                document.querySelectorAll('.day-card.expanded').forEach(c => {
                     if (c !== card) c.classList.remove('expanded');
                 });
                 // Toggle clicked card
