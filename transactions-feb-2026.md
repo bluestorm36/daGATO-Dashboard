@@ -15,6 +15,9 @@
 | 2/22/2026 | Groceries | Food Lion | -$54.24 | Cash | |
 | 2/22/2026 | Shopping | Walmart | -$6.06 | Cash | |
 | 2/22/2026 | Food/Dining | McDonald's | -$1.58 | Ally Bank | |
+| 2/23/2026 | Gas/Fuel | Gas Station | -$35.00 | Ally Bank | |
+| 2/24/2026 | Income | Mobile Deposit | +$8.77 | Ally Bank | |
+| 2/24/2026 | Travel/Japan | Warner Bros Studio Tour Tokyo | -$90.38 | Woodforest Bank | Harry Potter tour - April 12 @ 12:30 PM |
 
 ---
 
@@ -26,7 +29,9 @@
 | Pet Supplies | $21.19 |
 | Food/Dining | $13.87 |
 | Groceries | $54.24 |
-| **TOTAL** | **$196.71** |
+| Gas/Fuel | $35.00 |
+| Travel/Japan | $90.38 |
+| **TOTAL** | **$322.09** |
 
 ---
 
