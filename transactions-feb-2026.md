@@ -47,3 +47,5 @@
 - Started tracking mid-month on 2/21/2026
 - Need to track groceries, dining out, misc expenses going forward
 - Goal: Understand where variable expenses go each month
+- **2026-02-24** - Shopping: $5.68 - NEX
+- **2026-02-25** - Misc: $31.91 - Reconciliation - untracked expenses

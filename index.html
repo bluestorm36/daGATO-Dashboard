@@ -16,19 +16,7 @@
     <link rel="apple-touch-icon" href="icon-192.png">
     
     <style>
-        * {
-            // Set last updated timestamp
-            const now = new Date();
-            const options = { 
-                year: 'numeric', 
-                month: 'short', 
-                day: 'numeric', 
-                hour: '2-digit', 
-                minute: '2-digit',
-                hour12: true
-            };
-            document.getElementById('lastUpdated').textContent = now.toLocaleString('en-US', options);
-             margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
             --bg-gradient-start: #667eea;
@@ -1473,7 +1461,7 @@
                     <div class="stat-label" data-en="💵 Cash on Hand" data-es="💵 Efectivo">💵 Cash on Hand</div>
                 </div>
                 <div class="stat-box" onclick="toggleStat(this)">
-                    <div class="stat-value hidden" data-value="$3,921">👀</div>
+                    <div class="stat-value hidden" data-value="$3,215">👀</div>
                     <div class="stat-label" data-en="💰 Liquid Assets" data-es="💰 Activos Líquidos">💰 Liquid Assets</div>
                 </div>
                 <div class="stat-box" onclick="toggleStat(this)">
@@ -2629,6 +2617,19 @@
             
             // Calculate financial health score
             calculateFinancialHealth();
+            
+            // Set last updated timestamp
+            const now = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            };
+            document.getElementById('lastUpdated').textContent = now.toLocaleString('en-US', options);
             
             // Hide loading screen
             hideLoadingScreen();

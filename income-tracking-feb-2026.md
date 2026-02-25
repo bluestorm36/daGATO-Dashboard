@@ -51,3 +51,4 @@
 - March 1-2: Heavy bills ($1,224) - use Feb VA payment
 - April has 3 work paychecks! (Japan trip month)
 - Need to budget carefully until Mar 4 paycheck
+- **2026-02-25** - VA Payment: $2277.15 - February VA disability payment
