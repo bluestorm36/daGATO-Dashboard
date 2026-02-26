@@ -49,3 +49,5 @@
 - Goal: Understand where variable expenses go each month
 - **2026-02-24** - Shopping: $5.68 - NEX
 - **2026-02-25** - Misc: $31.91 - Reconciliation - untracked expenses
+- **2026-02-25** - Subscription: $8.47 - Apple.com/Bill
+- **2026-02-25** - Movies: $8.47 - Apple.com movie rental
