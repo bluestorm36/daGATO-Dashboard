@@ -52,3 +52,10 @@
 - **2026-02-25** - Subscription: $8.47 - Apple.com/Bill
 - **2026-02-25** - Movies: $8.47 - Apple.com movie rental
 - **2026-02-27** - NEX: $5.48 - Ally Bank - NEX
+- **2026-02-27** - Affirm: $13.75 - Ally Bank - Affirm payment
+- **2026-02-27** - Affirm: $8.83 - Ally Bank - Affirm payment
+- **2026-02-27** - Affirm: $23.79 - Ally Bank - Affirm payment
+- **2026-02-27** - Affirm: $81.74 - Ally Bank - Affirm payment
+- **2026-02-27** - Affirm: $19.75 - Ally Bank - Affirm payment
+- **2026-02-27** - Affirm: $15.90 - Ally Bank - Affirm payment
+- **2026-02-27** - Amazon Store Card: $279.67 - Ally Bank - Amazon card payment (due Mar 8)
