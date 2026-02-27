@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Work Calendar 2026 - Brandon</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1400px; margin: 20px auto; padding: 20px; background: #f5f5f5; }
+        h1 { text-align: center; color: #2c5f2d; border-bottom: 3px solid #2c5f2d; padding-bottom: 10px; }
+        .header-info { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .header-info h2 { margin: 0; color: white; }
+        .schedule-box { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-left: 8px solid #2c5f2d; }
+        .special-box { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-left: 8px solid #007bff; }
+        .calendar-month { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 15px; }
+        .day-header { background: #343a40; color: white; padding: 8px; text-align: center; font-weight: bold; font-size: 0.9em; }
+        .day { border: 1px solid #dee2e6; padding: 10px; min-height: 60px; position: relative; background: white; }
+        .day-number { font-weight: bold; color: #666; }
+        .work-day { background: #e8f5e9; }
+        .special-day { background: #fff3cd; border-left: 3px solid #ffc107; }
+        .pto-day { background: #f8d7da; border-left: 3px solid #dc3545; }
+        .weekend { background: #f8f9fa; }
+        .day-label { font-size: 0.75em; color: #666; margin-top: 5px; }
+        .legend { display: flex; gap: 20px; flex-wrap: wrap; padding: 15px; background: white; border-radius: 8px; margin: 20px 0; }
+        .legend-item { display: flex; align-items: center; gap: 8px; }
+        .legend-box { width: 30px; height: 20px; border-radius: 3px; border: 1px solid #ddd; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+        .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
+        .stat-value { font-size: 2em; font-weight: bold; color: #2c5f2d; }
+        .stat-label { color: #666; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <h1>📅 WORK CALENDAR 2026 📅</h1>
+    
+    <div class="header-info">
+        <h2 style="margin-top:0;">Regular Schedule</h2>
+        <p><strong>📅 Days:</strong> Monday - Friday</p>
+        <p><strong>⏰ Hours:</strong> 3:00 PM - 11:00 PM EST (8 hours/day, 40 hours/week)</p>
+        <p><strong>🏖️ PTO Planned:</strong> Japan Trip (April 3-14, 2026) - 8 work days</p>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item"><div class="legend-box work-day"></div><span>Regular Work Day (3-11pm)</span></div>
+        <div class="legend-item"><div class="legend-box special-day"></div><span>Special Hours / Make-up Day</span></div>
+        <div class="legend-item"><div class="legend-box pto-day"></div><span>PTO / Off</span></div>
+        <div class="legend-item"><div class="legend-box weekend"></div><span>Weekend</span></div>
+    </div>
+
+    <!-- FEBRUARY 2026 -->
+    <div class="calendar-month">
+        <h2 style="color: #2c5f2d; margin-top: 0;">February 2026</h2>
+        <div class="month-grid">
+            <div class="day-header">Sun</div>
+            <div class="day-header">Mon</div>
+            <div class="day-header">Tue</div>
+            <div class="day-header">Wed</div>
+            <div class="day-header">Thu</div>
+            <div class="day-header">Fri</div>
+            <div class="day-header">Sat</div>
+            
+            <!-- Week 1 -->
+            <div class="day weekend"><span class="day-number">1</span></div>
+            <div class="day weekend"><span class="day-number">2</span></div>
+            <div class="day weekend"><span class="day-number">3</span></div>
+            <div class="day weekend"><span class="day-number">4</span></div>
+            <div class="day weekend"><span class="day-number">5</span></div>
+            <div class="day weekend"><span class="day-number">6</span></div>
+            <div class="day weekend"><span class="day-number">7</span></div>
+            
+            <!-- Week 2 -->
+            <div class="day weekend"><span class="day-number">8</span></div>
+            <div class="day weekend"><span class="day-number">9</span></div>
+            <div class="day weekend"><span class="day-number">10</span></div>
+            <div class="day weekend"><span class="day-number">11</span></div>
+            <div class="day weekend"><span class="day-number">12</span></div>
+            <div class="day weekend"><span class="day-number">13</span></div>
+            <div class="day weekend"><span class="day-number">14</span></div>
+            
+            <!-- Week 3 -->
+            <div class="day weekend"><span class="day-number">15</span></div>
+            <div class="day weekend"><span class="day-number">16</span></div>
+            <div class="day weekend"><span class="day-number">17</span></div>
+            <div class="day weekend"><span class="day-number">18</span></div>
+            <div class="day weekend"><span class="day-number">19</span></div>
+            <div class="day weekend"><span class="day-number">20</span></div>
+            <div class="day weekend"><span class="day-number">21</span></div>
+            
+            <!-- Week 4 -->
+            <div class="day weekend"><span class="day-number">22</span></div>
+            <div class="day weekend"><span class="day-number">23</span></div>
+            <div class="day weekend"><span class="day-number">24</span></div>
+            <div class="day weekend"><span class="day-number">25</span></div>
+            <div class="day weekend"><span class="day-number">26</span></div>
+            <div class="day weekend"><span class="day-number">27</span></div>
+            <div class="day special-day">
+                <span class="day-number">28</span>
+                <div class="day-label">1-9pm (special)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MARCH 2026 -->
+    <div class="calendar-month">
+        <h2 style="color: #2c5f2d; margin-top: 0;">March 2026</h2>
+        <div class="month-grid">
+            <div class="day-header">Sun</div>
+            <div class="day-header">Mon</div>
+            <div class="day-header">Tue</div>
+            <div class="day-header">Wed</div>
+            <div class="day-header">Thu</div>
+            <div class="day-header">Fri</div>
+            <div class="day-header">Sat</div>
+            
+            <!-- Week 1 -->
+            <div class="day weekend"><span class="day-number">1</span></div>
+            <div class="day work-day"><span class="day-number">2</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">3</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">4</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">5</span><div class="day-label">3-11pm</div></div>
+            <div class="day special-day">
+                <span class="day-number">6</span>
+                <div class="day-label">OFF (make-up hrs)</div>
+            </div>
+            <div class="day weekend"><span class="day-number">7</span></div>
+            
+            <!-- Week 2 -->
+            <div class="day weekend"><span class="day-number">8</span></div>
+            <div class="day work-day"><span class="day-number">9</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">10</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">11</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">12</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">13</span><div class="day-label">3-11pm</div></div>
+            <div class="day weekend"><span class="day-number">14</span></div>
+            
+            <!-- Week 3 -->
+            <div class="day weekend"><span class="day-number">15</span></div>
+            <div class="day work-day"><span class="day-number">16</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">17</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">18</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">19</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">20</span><div class="day-label">3-11pm</div></div>
+            <div class="day weekend"><span class="day-number">21</span></div>
+            
+            <!-- Week 4 -->
+            <div class="day weekend"><span class="day-number">22</span></div>
+            <div class="day work-day"><span class="day-number">23</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">24</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">25</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">26</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">27</span><div class="day-label">3-11pm</div></div>
+            <div class="day weekend"><span class="day-number">28</span></div>
+            
+            <!-- Week 5 -->
+            <div class="day weekend"><span class="day-number">29</span></div>
+            <div class="day work-day"><span class="day-number">30</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">31</span><div class="day-label">3-11pm</div></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+        </div>
+    </div>
+
+    <!-- APRIL 2026 (JAPAN TRIP) -->
+    <div class="calendar-month">
+        <h2 style="color: #2c5f2d; margin-top: 0;">April 2026 🇯🇵</h2>
+        <div class="month-grid">
+            <div class="day-header">Sun</div>
+            <div class="day-header">Mon</div>
+            <div class="day-header">Tue</div>
+            <div class="day-header">Wed</div>
+            <div class="day-header">Thu</div>
+            <div class="day-header">Fri</div>
+            <div class="day-header">Sat</div>
+            
+            <!-- Week 1 -->
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day work-day"><span class="day-number">1</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">2</span><div class="day-label">3-11pm</div></div>
+            <div class="day pto-day">
+                <span class="day-number">3</span>
+                <div class="day-label">🇯🇵 JAPAN (PTO)</div>
+            </div>
+            
+            <!-- Week 2 (Full Japan Trip) -->
+            <div class="day pto-day">
+                <span class="day-number">4</span>
+                <div class="day-label">🇯🇵 JAPAN</div>
+            </div>
+            <div class="day pto-day">
+                <span class="day-number">5</span>
+                <div class="day-label">🇯🇵 JAPAN</div>
+            </div>
+            <div class="day pto-day">
+                <span class="day-number">6</span>
+                <div class="day-label">🇯🇵 JAPAN (PTO)</div>
+            </div>
+            <div class="day pto-day">
+                <span class="day-number">7</span>
+                <div class="day-label">🇯🇵 JAPAN (PTO)</div>
+            </div>
+            <div class="day pto-day">
+                <span class="day-number">8</span>
+                <div class="day-label">🇯🇵 JAPAN (PTO)</div>
+            </div>
+            <div class="day pto-day">
+                <span class="day-number">9</span>
+                <div class="day-label">🇯🇵 JAPAN (PTO)</div>
+            </div>
+            <div class="day pto-day">
+                <span class="day-number">10</span>
+                <div class="day-label">🇯🇵 JAPAN (PTO)</div>
+            </div>
+            
+            <!-- Week 3 -->
+            <div class="day pto-day">
+                <span class="day-number">11</span>
+                <div class="day-label">🇯🇵 JAPAN</div>
+            </div>
+            <div class="day pto-day">
+                <span class="day-number">12</span>
+                <div class="day-label">🇯🇵 JAPAN</div>
+            </div>
+            <div class="day pto-day">
+                <span class="day-number">13</span>
+                <div class="day-label">🇯🇵 JAPAN (PTO)</div>
+            </div>
+            <div class="day pto-day">
+                <span class="day-number">14</span>
+                <div class="day-label">🇯🇵 Return (PTO)</div>
+            </div>
+            <div class="day work-day"><span class="day-number">15</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">16</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">17</span><div class="day-label">3-11pm</div></div>
+            
+            <!-- Rest of April -->
+            <div class="day work-day"><span class="day-number">18</span><div class="day-label">3-11pm</div></div>
+            <div class="day weekend"><span class="day-number">19</span></div>
+            <div class="day weekend"><span class="day-number">20</span></div>
+            <div class="day work-day"><span class="day-number">21</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">22</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">23</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">24</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">25</span><div class="day-label">3-11pm</div></div>
+            <div class="day weekend"><span class="day-number">26</span></div>
+            <div class="day weekend"><span class="day-number">27</span></div>
+            <div class="day work-day"><span class="day-number">28</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">29</span><div class="day-label">3-11pm</div></div>
+            <div class="day work-day"><span class="day-number">30</span><div class="day-label">3-11pm</div></div>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-value">40</div>
+            <div class="stat-label">Hours/Week</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">5</div>
+            <div class="stat-label">Work Days/Week</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">8</div>
+            <div class="stat-label">PTO Days (April)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">3-11pm</div>
+            <div class="stat-label">Standard Hours</div>
+        </div>
+    </div>
+
+    <!-- Special Days -->
+    <div class="special-box">
+        <h2 style="color: #007bff; margin-top: 0;">📋 Special Schedule Notes</h2>
+        <ul>
+            <li><strong>Feb 28 (Friday):</strong> Special hours 1:00 PM - 9:00 PM</li>
+            <li><strong>Mar 6 (Thursday):</strong> OFF - Making up hours (not PTO)</li>
+            <li><strong>Apr 3-14:</strong> Japan Trip - 8 PTO work days (Mon-Fri during trip)</li>
+        </ul>
+    </div>
+
+    <div style="text-align:center; padding:30px; background:#2c5f2d; color:white; border-radius:8px; margin-top:30px;">
+        <h2 style="margin:0; color:white;">📅 Work Calendar 2026</h2>
+        <p style="margin:10px 0 0 0;">Created: February 27, 2026</p>
+    </div>
+
+</body>
+</html>
