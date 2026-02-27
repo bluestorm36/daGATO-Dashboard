@@ -51,3 +51,4 @@
 - **2026-02-25** - Misc: $31.91 - Reconciliation - untracked expenses
 - **2026-02-25** - Subscription: $8.47 - Apple.com/Bill
 - **2026-02-25** - Movies: $8.47 - Apple.com movie rental
+- **2026-02-27** - NEX: $5.48 - Ally Bank - NEX
