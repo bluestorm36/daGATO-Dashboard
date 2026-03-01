@@ -52,3 +52,4 @@
 - April has 3 work paychecks! (Japan trip month)
 - Need to budget carefully until Mar 4 paycheck
 - **2026-02-25** - VA Payment: $2277.15 - February VA disability payment
+- **Woodforest Bank** - 360.00: $Cash Deposit - Transfer

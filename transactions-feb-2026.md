@@ -59,3 +59,6 @@
 - **2026-02-27** - Affirm: $19.75 - Ally Bank - Affirm payment
 - **2026-02-27** - Affirm: $15.90 - Ally Bank - Affirm payment
 - **2026-02-27** - Amazon Store Card: $279.67 - Ally Bank - Amazon card payment (due Mar 8)
+- **Ally Bank** - 21.52: $Royal Farms - Food & Dining
+- **Woodforest Bank** - 63.44: $Emergency Services Salisbury - Healthcare
+- **Woodforest Bank** - 46.84: $Food Lion - Food & Dining
