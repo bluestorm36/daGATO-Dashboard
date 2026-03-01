@@ -7,7 +7,13 @@
         body { font-family: Arial, sans-serif; max-width: 1200px; margin: 20px auto; padding: 20px; background: #f5f5f5; }
         h1 { text-align: center; color: #2c5f2d; border-bottom: 3px solid #2c5f2d; padding-bottom: 10px; }
         .summary-box { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .income-box { background: white; border-left: 8px solid #28a745; padding: 20px; border-radius: 8px; margin: 15px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .expense-box { background: white; border-left: 8px solid #dc3545; padding: 20px; border-radius: 8px; margin: 15px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .asset-box { background: white; border-left: 8px solid #007bff; padding: 20px; border-radius: 8px; margin: 15px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .crypto-box { background: white; border-left: 8px solid #ff9800; padding: 20px; border-radius: 8px; margin: 15px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .warning-box { background: #fff3cd; border-left: 8px solid #ffc107; padding: 20px; border-radius: 8px; margin: 15px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .danger-box { background: #f8d7da; border-left: 8px solid #dc3545; padding: 20px; border-radius: 8px; margin: 15px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .success-box { background: #d4edda; border-left: 8px solid #28a745; padding: 20px; border-radius: 8px; margin: 15px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .metric { display: inline-block; padding: 15px 25px; margin: 10px; background: #f8f9fa; border-radius: 8px; text-align: center; min-width: 150px; }
         .metric-value { font-size: 1.8em; font-weight: bold; color: #333; }
         .metric-label { font-size: 0.9em; color: #666; margin-top: 5px; }
@@ -18,6 +24,11 @@
         th { background: #343a40; color: white; padding: 12px; text-align: left; }
         td { padding: 10px; border-bottom: 1px solid #dee2e6; }
         tr:hover { background: #f8f9fa; }
+        .bill-item { margin: 8px 0; padding: 8px; background: #f8f9fa; border-radius: 4px; }
+        .priority-high { border-left: 4px solid #dc3545; }
+        .priority-medium { border-left: 4px solid #ffc107; }
+        .priority-low { border-left: 4px solid #28a745; }
+        ul { line-height: 1.8; }
         .header-info { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .header-info h2 { margin: 0; color: white; }
     </style>
@@ -28,6 +39,61 @@
     <div class="header-info">
         <h2 style="margin-top:0;">March 2026 Snapshot</h2>
         <p><strong>🔒 FM Protected</strong> | Last Updated: March 1, 2026</p>
+    </div>
+
+    <!-- KEY METRICS -->
+    <div class="summary-box">
+        <h2 style="color:#2c5f2d; margin-top:0;">📊 Key Metrics (March 1, 2026)</h2>
+        <div style="text-align: center;">
+            <div class="metric">
+                <div class="metric-value positive">$7,130.65</div>
+                <div class="metric-label">Monthly Income</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value negative">$7,238.30</div>
+                <div class="metric-label">Monthly Bills</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value negative">-$107.65</div>
+                <div class="metric-label">Monthly Deficit</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value neutral">$5,593.89</div>
+                <div class="metric-label">Liquid Assets</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value positive">$30,134</div>
+                <div class="metric-label">Total Crypto</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value negative">~$188,740</div>
+                <div class="metric-label">Total Debt</div>
+            </div>
+        </div>
+        <p style="text-align: center; color: #666; margin-top: 10px;">
+            <strong>Net Worth:</strong> Assets ($35,728) - Debts ($188,740) = <strong style="color: #dc3545;">-$153,012</strong>
+        </p>
+    </div>
+
+    <!-- MARCH 1 CHANGES -->
+    <div class="warning-box">
+        <h2 style="color:#856404; margin-top:0;">📊 MARCH 1 CHANGES</h2>
+        <h3>Transactions Today:</h3>
+        <ul>
+            <li><strong>Groceries:</strong> -$7.80 (Walmart, Cash)</li>
+            <li><strong>Apple Subscription:</strong> -$31.78 (Ally Bank)</li>
+            <li><strong>Affirm Payments:</strong> -$190.76 (Multiple installments, Ally Bank)</li>
+            <li><strong>Cash → Woodforest Deposit:</strong> +$360.00 (Bank transfer)</li>
+            <li><strong>USDC → $daCAT:</strong> -$117.81 (Crypto investment) 🐱🔥</li>
+        </ul>
+        <h3>Balance Changes:</h3>
+        <ul>
+            <li><strong>Ally Bank:</strong> $3,206.45 → $2,983.91 (-$222.54)</li>
+            <li><strong>Cash:</strong> $408.76 → $40.96 (-$367.80)</li>
+            <li><strong>Woodforest:</strong> $76.11 → $325.83 (+$249.72 net after pending cleared)</li>
+            <li><strong>USDC:</strong> $2,361.00 → $2,243.19 (-$117.81)</li>
+            <li><strong>Total Liquid:</strong> $6,052.32 → $5,593.89 (-$458.43)</li>
+        </ul>
     </div>
 
     <!-- LIQUID ASSETS -->
@@ -59,80 +125,296 @@
                 <td>$5,593.89</td>
             </tr>
         </table>
-        <div style="margin-top: 15px; padding: 10px; background: #fff3cd; border-radius: 4px;">
-            <strong>📊 March 1 Changes:</strong><br>
-            • Ally Bank: -$31.78 (Apple subscription) + -$190.76 (Affirm payments)<br>
-            • Cash: -$360.00 (deposited to Woodforest) -$7.80 (Walmart groceries)<br>
-            • Woodforest: +$360.00 (cash deposit)<br>
-            • USDC: -$117.81 (traded for $daCAT) 🐱🔥
+        <div class="success-box" style="margin-top: 15px;">
+            <strong>✅ Good Liquidity:</strong> Current liquid assets ($5,593.89) can cover ~77% of one month's bills ($7,238.30).
+            <br><br>
+            <strong>📊 Cash Flow Note:</strong> Liquid assets down $458.43 from Feb 27 due to early March expenses + daCAT investment.
         </div>
     </div>
 
-    <!-- MARCH TRANSACTIONS -->
-    <div class="summary-box">
-        <h2 style="color:#2c5f2d; margin-top:0;">📝 MARCH 2026 TRANSACTIONS</h2>
+    <!-- CRYPTO HOLDINGS -->
+    <div class="crypto-box">
+        <h2 style="color:#ff9800; margin-top:0;">🪙 CRYPTO HOLDINGS (March 1, 2026)</h2>
         <table>
             <tr>
-                <th>Date</th>
-                <th>Category</th>
-                <th>Description</th>
+                <th>Asset</th>
                 <th>Amount</th>
-                <th>Account</th>
+                <th>Estimated Value</th>
+                <th>% of Crypto Portfolio</th>
             </tr>
             <tr>
-                <td>March 1</td>
-                <td>Groceries</td>
-                <td>Walmart</td>
-                <td>-$7.80</td>
-                <td>Cash</td>
+                <td>🐱 $daCAT</td>
+                <td>16,000,000,000,000+ (16T+)</td>
+                <td>$27,606</td>
+                <td>91.6%</td>
             </tr>
             <tr>
-                <td>March 1</td>
-                <td>Subscription</td>
-                <td>Apple</td>
-                <td>-$31.78</td>
-                <td>Ally Bank</td>
+                <td>Ξ $ETH</td>
+                <td>0.3199 ETH</td>
+                <td>$660</td>
+                <td>2.2%</td>
             </tr>
             <tr>
-                <td>March 1</td>
-                <td>Debt Payment</td>
-                <td>Affirm (multiple)</td>
-                <td>-$190.76</td>
-                <td>Ally Bank</td>
+                <td>🔗 $LINK</td>
+                <td>73.85 LINK</td>
+                <td>$696</td>
+                <td>2.3%</td>
             </tr>
             <tr>
-                <td>March 1</td>
-                <td>Crypto Investment</td>
-                <td>USDC → $daCAT</td>
-                <td>-$117.81</td>
-                <td>USDC</td>
+                <td>🎨 $RENDER</td>
+                <td>468.37 RENDER</td>
+                <td>$707</td>
+                <td>2.3%</td>
             </tr>
             <tr>
-                <td>March 1</td>
-                <td>Transfer</td>
-                <td>Cash → Woodforest</td>
-                <td>$360.00</td>
-                <td>Bank Transfer</td>
+                <td>💎 $ONDO</td>
+                <td>2,609.12 ONDO</td>
+                <td>$724</td>
+                <td>2.4%</td>
+            </tr>
+            <tr style="background: #ffe0b2; font-weight: bold;">
+                <td colspan="2">TOTAL CRYPTO (excl. USDC)</td>
+                <td>$30,134</td>
+                <td>100%</td>
+            </tr>
+        </table>
+        <div class="success-box" style="margin-top: 15px;">
+            <strong>💰 March 1 Crypto Activity:</strong> Added $117.81 to daCAT position! Total crypto holdings now $30,134 (91.6% daCAT concentration).
+            <br><br>
+            <strong>💡 Strategy:</strong> $2,243 USDC remains for stable emergency liquidity.
+        </div>
+    </div>
+
+    <!-- INCOME BREAKDOWN -->
+    <div class="income-box">
+        <h2 style="color:#28a745; margin-top:0;">💵 INCOME SOURCES</h2>
+        <table>
+            <tr>
+                <th>Source</th>
+                <th>Frequency</th>
+                <th>Amount</th>
+                <th>Monthly Equivalent</th>
+            </tr>
+            <tr>
+                <td>💵 VA Disability/Benefits</td>
+                <td>Monthly</td>
+                <td>$2,276.90</td>
+                <td><strong>$2,276.90</strong></td>
+            </tr>
+            <tr>
+                <td>💼 Work Income</td>
+                <td>Bi-weekly</td>
+                <td>$2,240.19</td>
+                <td><strong>$4,853.75</strong> (×26÷12)</td>
+            </tr>
+            <tr style="background: #d4edda; font-weight: bold;">
+                <td colspan="3">TOTAL MONTHLY INCOME</td>
+                <td>$7,130.65</td>
             </tr>
         </table>
     </div>
 
-    <!-- UPCOMING BILLS -->
-    <div class="summary-box">
-        <h2 style="color:#dc3545; margin-top:0;">📅 MARCH 2026 UPCOMING BILLS</h2>
-        <p><strong>Early Month (March 1-2):</strong></p>
-        <ul>
-            <li>March 1: Tesla Car Insurance - $191.89</li>
-            <li>March 1: UHC Health Insurance - $357.03</li>
-            <li>March 2: Avant Loan - $675.36</li>
-        </ul>
-        <p><strong>Mid-Month (March 8-15):</strong></p>
-        <ul>
-            <li>March 8: Amazon Store Card - $284.09</li>
-            <li>March 13: Santander Auto Loan - $803.51</li>
-            <li>March 15: YMCA Membership - $104.00</li>
-        </ul>
-        <p><strong>Total Monthly Bills: $7,238.30</strong></p>
+    <!-- MONTHLY BILLS -->
+    <div class="expense-box">
+        <h2 style="color:#dc3545; margin-top:0;">💳 MONTHLY BILLS</h2>
+        <table>
+            <tr>
+                <th>Expense</th>
+                <th>Amount</th>
+                <th>Due Date</th>
+                <th>% of Income</th>
+                <th>Category</th>
+            </tr>
+            <tr class="priority-high">
+                <td>🏠 Rent (Mark)</td>
+                <td>$1,750.00</td>
+                <td><strong>March 25</strong></td>
+                <td>24.5%</td>
+                <td>Housing</td>
+            </tr>
+            <tr class="priority-high">
+                <td>💼 MoneyFit DRS Plan</td>
+                <td>$1,538.00</td>
+                <td><strong>March 18</strong></td>
+                <td>21.6%</td>
+                <td>Debt Reduction (5yr plan)</td>
+            </tr>
+            <tr class="priority-high">
+                <td>💳 Affirm</td>
+                <td>$835.87</td>
+                <td>TBD</td>
+                <td>11.7%</td>
+                <td>Debt</td>
+            </tr>
+            <tr class="priority-high">
+                <td>🚗 Santander Auto Loan</td>
+                <td>$803.51</td>
+                <td><strong>March 13</strong></td>
+                <td>11.3%</td>
+                <td>Auto Loan</td>
+            </tr>
+            <tr class="priority-medium">
+                <td>💵 Avant Loan</td>
+                <td>$675.36</td>
+                <td><strong>March 2</strong></td>
+                <td>9.5%</td>
+                <td>Personal Loan</td>
+            </tr>
+            <tr class="priority-medium">
+                <td>⚡ Delmarva Power (includes EV charging)</td>
+                <td>$371.00</td>
+                <td><strong>March 25</strong></td>
+                <td>5.2%</td>
+                <td>Utilities + Transportation</td>
+            </tr>
+            <tr class="priority-medium">
+                <td>🏥 UHC Health Insurance</td>
+                <td>$357.03</td>
+                <td><strong>March 1</strong></td>
+                <td>5.0%</td>
+                <td>Healthcare</td>
+            </tr>
+            <tr class="priority-low">
+                <td>💳 Apple Card</td>
+                <td>$307.57</td>
+                <td><strong>March 31</strong></td>
+                <td>4.3%</td>
+                <td>Credit Card</td>
+            </tr>
+            <tr class="priority-low">
+                <td>💳 Amazon Store Card</td>
+                <td>$284.09</td>
+                <td><strong>March 8</strong></td>
+                <td>4.0%</td>
+                <td>Credit Card</td>
+            </tr>
+            <tr class="priority-medium">
+                <td>🚗 Tesla Car Insurance</td>
+                <td>$191.89</td>
+                <td><strong>March 1</strong></td>
+                <td>2.7%</td>
+                <td>Auto</td>
+            </tr>
+            <tr class="priority-low">
+                <td>🏋️ YMCA Membership</td>
+                <td>$104.00</td>
+                <td><strong>March 15</strong></td>
+                <td>1.5%</td>
+                <td>Health/Fitness</td>
+            </tr>
+            <tr class="priority-low">
+                <td>📱 Pokémon TCG Pocket</td>
+                <td>$9.99</td>
+                <td>Auto-renewal</td>
+                <td>0.1%</td>
+                <td>Subscription</td>
+            </tr>
+            <tr class="priority-low">
+                <td>☁️ iCloud</td>
+                <td>$9.99</td>
+                <td>Auto-renewal</td>
+                <td>0.1%</td>
+                <td>Subscription</td>
+            </tr>
+            <tr style="background: #f8d7da; font-weight: bold;">
+                <td colspan="2">TOTAL MONTHLY BILLS</td>
+                <td colspan="3">$7,238.30</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- PAYMENT CALENDAR -->
+    <div class="summary-box" style="border-left: 8px solid #6f42c1;">
+        <h2 style="color:#6f42c1; margin-top:0;">📅 MARCH 2026 PAYMENT CALENDAR</h2>
+        <p><strong>Use this to plan your cash flow throughout the month:</strong></p>
+        
+        <div class="bill-item priority-high" style="background: #fff3cd;">
+            <strong>🗓️ Early Month (March 1-2):</strong><br>
+            • March 1: Tesla Car Insurance ($191.89) ✅ PAID<br>
+            • March 1: UHC Health Insurance ($357.03) - DUE TODAY<br>
+            • March 2: Avant Loan ($675.36)<br>
+            <strong>Total: $1,224.28</strong>
+        </div>
+
+        <div class="bill-item priority-medium" style="background: #e7f3ff;">
+            <strong>🗓️ Mid-Month Week 1 (March 8-13):</strong><br>
+            • March 8: Amazon Store Card ($284.09)<br>
+            • March 13: Santander Auto Loan ($803.51)<br>
+            <strong>Total: $1,087.60</strong>
+        </div>
+
+        <div class="bill-item priority-medium" style="background: #e7f3ff;">
+            <strong>🗓️ Mid-Month Week 2 (March 15-18):</strong><br>
+            • March 15: YMCA ($104.00)<br>
+            • March 18: MoneyFit DRS Plan ($1,538.00)<br>
+            <strong>Total: $1,642.00</strong>
+        </div>
+
+        <div class="bill-item priority-high" style="background: #fff3cd;">
+            <strong>🗓️ Late Month (March 25):</strong><br>
+            • March 25: Rent ($1,750.00)<br>
+            • March 25: Delmarva Power ($371.00)<br>
+            <strong>Total: $2,121.00</strong>
+        </div>
+
+        <div class="bill-item priority-low" style="background: #f0fff0;">
+            <strong>🗓️ End of Month (March 31):</strong><br>
+            • March 31: Apple Card ($307.57)<br>
+            <strong>Total: $307.57</strong>
+        </div>
+
+        <div style="margin-top: 20px; padding: 15px; background: #f8d7da; border-radius: 8px; border-left: 4px solid #dc3545;">
+            <strong>⚠️ Cash Flow Alert:</strong> You have two heavy payment periods:<br>
+            • <strong>March 1-2:</strong> $1,224.28 (need ~$1,225 ready) - IN PROGRESS<br>
+            • <strong>March 25:</strong> $2,121.00 (need ~$2,121 ready)<br><br>
+            <strong>Current Status:</strong> Ally Bank at $2,983.91 - sufficient for upcoming bills ✅
+        </div>
+    </div>
+
+    <!-- VARIABLE EXPENSES -->
+    <div class="expense-box">
+        <h2 style="color:#dc3545; margin-top:0;">🛒 VARIABLE EXPENSES (Estimated)</h2>
+        <table>
+            <tr>
+                <th>Category</th>
+                <th>Weekly</th>
+                <th>Monthly (~4.3 weeks)</th>
+            </tr>
+            <tr>
+                <td>🍽️ Groceries/Food</td>
+                <td>$85.00</td>
+                <td><strong>~$368.00</strong></td>
+            </tr>
+            <tr>
+                <td>🚗 Transportation (Gas)</td>
+                <td colspan="2"><strong>$0</strong> - Electric vehicle (charged at home, included in Delmarva Power bill)</td>
+            </tr>
+            <tr>
+                <td>🎯 Miscellaneous</td>
+                <td>TBD</td>
+                <td>TBD</td>
+            </tr>
+        </table>
+        <p style="color: #666;"><strong>Note:</strong> Misc expenses not yet tracked. EV charging included in electric bill.</p>
+    </div>
+
+    <!-- UPCOMING ONE-TIME BILLS -->
+    <div class="warning-box">
+        <h2 style="color:#856404; margin-top:0;">📅 UPCOMING ONE-TIME BILLS</h2>
+        <div class="bill-item priority-medium">
+            <strong>🚗 MVA Registration:</strong> $138.25 — <strong>Due: March 2026</strong>
+        </div>
+        <div class="bill-item priority-medium">
+            <strong>🏥 Medical Bill:</strong> $300.00 — <strong>One-time balance</strong>
+        </div>
+        <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 4px;">
+            <strong>Total Upcoming:</strong> $438.25
+        </div>
+    </div>
+
+    <div style="text-align:center; padding:30px; background:#2c5f2d; color:white; border-radius:8px; margin-top:30px;">
+        <h2 style="margin:0; color:white;">💰 Financial Dashboard</h2>
+        <p style="margin:10px 0 0 0;">Last Updated: March 1, 2026 | Passphrase: "FM mar2026"</p>
     </div>
 
 </body>
