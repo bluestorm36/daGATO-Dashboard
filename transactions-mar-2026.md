@@ -19,3 +19,4 @@
 - **2026-03-01** - Subscription: $31.78 - Apple
 - **2026-03-01** - Auto Insurance: $167.95 - Tesla Insurance
 - **2026-03-01** - Gifts: $344.50 - Anniversary Gift
+- **2026-03-01** - Food & Dining: $56.24 - Denny's
