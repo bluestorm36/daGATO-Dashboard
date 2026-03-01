@@ -1821,17 +1821,22 @@
         
         // Countdown Calculator Helper
         function calculateDaysUntil(targetDate) {
+            // Use UTC to avoid timezone issues
             const today = new Date();
-            today.setHours(0, 0, 0, 0);
+            const todayUTC = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+            
             const target = new Date(targetDate);
-            target.setHours(0, 0, 0, 0);
+            const targetUTC = Date.UTC(target.getFullYear(), target.getMonth(), target.getDate());
             
             // If date passed this year, calculate for next year
-            if (target < today) {
-                target.setFullYear(target.getFullYear() + 1);
+            if (targetUTC < todayUTC) {
+                const nextYear = target.getFullYear() + 1;
+                const targetUTCNextYear = Date.UTC(nextYear, target.getMonth(), target.getDate());
+                const diffTime = targetUTCNextYear - todayUTC;
+                return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             }
             
-            const diffTime = target - today;
+            const diffTime = targetUTC - todayUTC;
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             return diffDays;
         }
