@@ -556,9 +556,15 @@
             transition: all 0.3s;
         }
         
+        .stat-value {
+            transition: transform 0.5s ease;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        
         .stat-value.hidden {
-            filter: blur(8px);
-            user-select: none;
+            transform: rotateY(90deg);
+            opacity: 0;
         }
         
         body.dark-mode .stat-value {
@@ -2015,11 +2021,19 @@
             const actualValue = statValue.getAttribute('data-value');
             
             if (statValue.classList.contains('hidden')) {
-                statValue.textContent = actualValue;
-                statValue.classList.remove('hidden');
-            } else {
-                statValue.textContent = '👀';
+                // Flip to reveal
                 statValue.classList.add('hidden');
+                setTimeout(() => {
+                    statValue.textContent = actualValue;
+                    statValue.classList.remove('hidden');
+                }, 250);
+            } else {
+                // Flip to hide
+                statValue.classList.add('hidden');
+                setTimeout(() => {
+                    statValue.textContent = '👀';
+                    statValue.classList.remove('hidden');
+                }, 250);
             }
         }
         
