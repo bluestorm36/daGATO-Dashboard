@@ -881,57 +881,7 @@
             }
         }
         
-        /* Word of the Day */
-        .word-of-day {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin: 20px 0;
-            border-left: 5px solid #667eea;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        
-        body.dark-mode .word-of-day {
-            background: #3a3a4e;
-        }
-        
-        .word-of-day h4 {
-            color: #667eea;
-            margin: 0 0 15px 0;
-            font-size: 1.2em;
-        }
-        
-        .word-english {
-            font-size: 2em;
-            font-weight: bold;
-            color: #333;
-            margin: 10px 0;
-        }
-        
-        body.dark-mode .word-english {
-            color: #e0e0e0;
-        }
-        
-        .word-spanish {
-            font-size: 1.5em;
-            color: #667eea;
-            margin: 10px 0;
-        }
-        
-        .word-example {
-            font-style: italic;
-            color: #666;
-            margin-top: 10px;
-            padding: 10px;
-            background: #f5f5f5;
-            border-radius: 6px;
-        }
-        
-        body.dark-mode .word-example {
-            background: #2a2a3e;
-            color: #b0b0b0;
-        }
-        
+
         .learning-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -1603,14 +1553,6 @@
         <div class="section" style="border: 3px solid #9370DB;">
             <h2 style="color: #9370DB; border-bottom-color: #9370DB;">💕 Jacky's Learning Corner / Rincón de Aprendizaje</h2>
             
-            <!-- Word of the Day -->
-            <div class="word-of-day">
-                <h4>📖 Word of the Day / Palabra del Día</h4>
-                <div class="word-english" id="wordEnglish">Beautiful</div>
-                <div class="word-spanish" id="wordSpanish">Hermoso/Hermosa</div>
-                <div class="word-example" id="wordExample">"What a beautiful day!" - "¡Qué día tan hermoso!"</div>
-            </div>
-            
             <!-- Learning Resources -->
             <div class="learning-cards">
                 <a href="https://mva.maryland.gov/Documents/DL-002S.pdf" target="_blank" class="learning-card">
@@ -2234,49 +2176,7 @@
         }
         
         // Word of the Day
-        const wordsOfTheDay = [
-            { english: "Hello", spanish: "Hola", example: '"Hello, how are you?" - "¡Hola, cómo estás?"' },
-            { english: "Thank you", spanish: "Gracias", example: '"Thank you very much!" - "¡Muchas gracias!"' },
-            { english: "Beautiful", spanish: "Hermoso/Hermosa", example: '"What a beautiful day!" - "¡Qué día tan hermoso!"' },
-            { english: "Love", spanish: "Amor", example: '"I love you" - "Te amo"' },
-            { english: "Family", spanish: "Familia", example: '"Family is everything" - "La familia es todo"' },
-            { english: "Friend", spanish: "Amigo/Amiga", example: '"You are my best friend" - "Eres mi mejor amigo/a"' },
-            { english: "Happy", spanish: "Feliz", example: '"I am so happy!" - "¡Estoy tan feliz!"' },
-            { english: "Home", spanish: "Casa/Hogar", example: '"Welcome home!" - "¡Bienvenido a casa!"' },
-            { english: "Food", spanish: "Comida", example: '"The food is delicious!" - "¡La comida está deliciosa!"' },
-            { english: "Water", spanish: "Agua", example: '"Can I have water please?" - "¿Puedo tener agua por favor?"' },
-            { english: "Help", spanish: "Ayuda", example: '"Can you help me?" - "¿Puedes ayudarme?"' },
-            { english: "Please", spanish: "Por favor", example: '"Please come here" - "Por favor ven aquí"' },
-            { english: "Sorry", spanish: "Lo siento", example: '"I\'m sorry!" - "¡Lo siento!"' },
-            { english: "Good morning", spanish: "Buenos días", example: '"Good morning everyone!" - "¡Buenos días a todos!"' },
-            { english: "Good night", spanish: "Buenas noches", example: '"Good night, sleep well" - "Buenas noches, duerme bien"' },
-            { english: "Yes", spanish: "Sí", example: '"Yes, I agree" - "Sí, estoy de acuerdo"' },
-            { english: "No", spanish: "No", example: '"No, thank you" - "No, gracias"' },
-            { english: "Today", spanish: "Hoy", example: '"Today is a good day" - "Hoy es un buen día"' },
-            { english: "Tomorrow", spanish: "Mañana", example: '"See you tomorrow!" - "¡Nos vemos mañana!"' },
-            { english: "Yesterday", spanish: "Ayer", example: '"I saw you yesterday" - "Te vi ayer"' },
-            { english: "Time", spanish: "Tiempo/Hora", example: '"What time is it?" - "¿Qué hora es?"' },
-            { english: "Car", spanish: "Carro/Auto", example: '"I need to drive the car" - "Necesito conducir el carro"' },
-            { english: "Drive", spanish: "Conducir/Manejar", example: '"I am learning to drive" - "Estoy aprendiendo a conducir"' },
-            { english: "Stop", spanish: "Alto/Parar", example: '"Stop at the red light" - "Para en el semáforo rojo"' },
-            { english: "Go", spanish: "Ir/Vamos", example: '"Let\'s go!" - "¡Vamos!"' },
-            { english: "Street", spanish: "Calle", example: '"Turn left on this street" - "Gira a la izquierda en esta calle"' },
-            { english: "School", spanish: "Escuela", example: '"I go to school" - "Voy a la escuela"' },
-            { english: "Work", spanish: "Trabajo", example: '"I am going to work" - "Voy al trabajo"' },
-            { english: "Store", spanish: "Tienda", example: '"Let\'s go to the store" - "Vamos a la tienda"' },
-            { english: "Money", spanish: "Dinero", example: '"How much money?" - "¿Cuánto dinero?"' }
-        ];
-        
-        function updateWordOfTheDay() {
-            const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-            const wordIndex = dayOfYear % wordsOfTheDay.length;
-            const word = wordsOfTheDay[wordIndex];
-            
-            document.getElementById('wordEnglish').textContent = word.english;
-            document.getElementById('wordSpanish').textContent = word.spanish;
-            document.getElementById('wordExample').textContent = word.example;
-        }
-        
+
         // Study Streak Functions
         function loadStudyStreak() {
             const streak = localStorage.getItem('studyStreak') || '0';
@@ -2522,8 +2422,7 @@
             // Load gym week tracker
             loadGymWeek();
             
-            // Load word of the day and study streak
-            updateWordOfTheDay();
+            // Load study streak
             loadStudyStreak();
             
             // Calculate financial health score
