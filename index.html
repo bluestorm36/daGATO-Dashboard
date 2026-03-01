@@ -1277,6 +1277,72 @@
         body.dark-mode .last-updated {
             color: rgba(255,255,255,0.6);
         }
+        
+        /* Countdown Bar */
+        .countdown-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        body.dark-mode .countdown-bar {
+            background: var(--card-bg);
+        }
+        
+        .countdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95em;
+        }
+        
+        .countdown-icon {
+            font-size: 1.5em;
+        }
+        
+        .countdown-label {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        body.dark-mode .countdown-label {
+            color: #b0b0b0;
+        }
+        
+        .countdown-value {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .countdown-bar {
+                gap: 15px;
+                padding: 12px 15px;
+            }
+            
+            .countdown-item {
+                font-size: 0.85em;
+            }
+            
+            .countdown-icon {
+                font-size: 1.3em;
+            }
+            
+            .countdown-value {
+                padding: 4px 10px;
+                font-size: 0.85em;
+            }
+        }
 </style>
 </head>
 <body>
@@ -1332,6 +1398,25 @@
         <p class="welcome-message" id="welcomeMessage">👋 Welcome!</p>
         <p class="fun-quote" id="funQuote">✨ Loading magic... ✨</p>
         <p class="last-updated">📅 Last Updated: <span id="lastUpdated"></span></p>
+
+        <!-- Special Dates Countdown Bar -->
+        <div class="countdown-bar">
+            <div class="countdown-item">
+                <span class="countdown-icon">🎂</span>
+                <span class="countdown-label">Brandon's Birthday</span>
+                <span class="countdown-value" id="brandonBdayCountdown">...</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-icon">🇯🇵</span>
+                <span class="countdown-label">Japan Trip</span>
+                <span class="countdown-value" id="japanCountdown">...</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-icon">🎉</span>
+                <span class="countdown-label">Jacky's Birthday</span>
+                <span class="countdown-value" id="jackyBdayCountdown">...</span>
+            </div>
+        </div>
 
         <!-- Gym Weekly Tracker -->
         <div class="gym-streak">
@@ -1434,26 +1519,7 @@
             </div>
         </div>
 
-        <!-- Countdown Collection -->
-        <div class="section">
-            <h2 data-en="⏰ Special Dates" data-es="⏰ Fechas Especiales">⏰ Special Dates</h2>
-            <div class="quick-stats">
-                <div class="stat-box">
-                    <div class="stat-value" id="brandonBdayCountdown">... Days</div>
-                    <div class="stat-label" data-en="🎂 Until Brandon's Birthday (Mar 6)" data-es="🎂 Hasta Cumpleaños de Brandon (6 Mar)">🎂 Until Brandon's Birthday (Mar 6)</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value" id="japanCountdown">... Days</div>
-                    <div class="stat-label" data-en="🇯🇵 Until Japan Trip (Apr 2)" data-es="🇯🇵 Hasta Viaje a Japón (2 Abr)">🇯🇵 Until Japan Trip (Apr 2)</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value" id="jackyBdayCountdown">... Days</div>
-                    <div class="stat-label" data-en="🎉 Until Jacky's Birthday (Jul 27)" data-es="🎉 Hasta Cumpleaños de Jacky (27 Jul)">🎉 Until Jacky's Birthday (Jul 27)</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Finance Section -->
+<!-- Finance Section -->
         <div class="section">
             <span class="new-badge">NEW</span>
             <h2>💰 Finance & Money Management</h2>
