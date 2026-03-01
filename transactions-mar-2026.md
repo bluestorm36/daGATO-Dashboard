@@ -20,3 +20,7 @@
 - **2026-03-01** - Auto Insurance: $167.95 - Tesla Insurance
 - **2026-03-01** - Gifts: $344.50 - Anniversary Gift
 - **2026-03-01** - Food & Dining: $56.24 - Denny's
+- **2026-03-01** - Pet Care: $21.19 - PetSmart
+- **2026-03-01** - Shopping: $130.03 - Target
+- **2026-03-01** - Shopping: $21.20 - Pandora
+- **2026-03-01** - Shopping: $24.43 - Aeropostale
