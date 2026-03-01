@@ -17,3 +17,4 @@
   - Previous: $2,361.00
   - Traded: $117.81 → $daCAT (increasing crypto holdings)
 - **2026-03-01** - Subscription: $31.78 - Apple
+- **2026-03-01** - Auto Insurance: $167.95 - Tesla Insurance
