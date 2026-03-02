@@ -27,3 +27,4 @@
 - **2026-03-02** - Health Insurance: $357.03 - UHC Health Insurance
 - **2026-03-02** - Loans: $675.36 - Avant Loan
 - **2026-03-02** - Credit Card: $284.09 - Amazon Store Card
+- **2026-03-02** - Crypto Investment: $165.00 - USDC → daCAT
