@@ -25,3 +25,5 @@
 - **2026-03-01** - Shopping: $21.20 - Pandora
 - **2026-03-01** - Shopping: $24.43 - Aeropostale
 - **2026-03-02** - Health Insurance: $357.03 - UHC Health Insurance
+- **2026-03-02** - Loans: $675.36 - Avant Loan
+- **2026-03-02** - Credit Card: $284.09 - Amazon Store Card
