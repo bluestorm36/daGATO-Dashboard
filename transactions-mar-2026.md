@@ -28,3 +28,14 @@
 - **2026-03-02** - Loans: $675.36 - Avant Loan
 - **2026-03-02** - Credit Card: $284.09 - Amazon Store Card
 - **2026-03-02** - Crypto Investment: $165.00 - USDC → daCAT
+- **Ally Bank** - 29.99: $Coinbase One subscription - Subscriptions
+- **Ally Bank** - 7.28: $NEX - Miscellaneous
+- **Ally Bank** - 51.23: $Affirm payment - Debt Payment
+- **Ally Bank** - 16.42: $Affirm payment - Debt Payment
+- **Ally Bank** - 803.51: $Santander Auto Loan - Debt Payment
+- **Vehicle registration** - 138.25: $MVA eServices - Transportation
+- **Shopping** - 21.08: $Walmart - Groceries
+- **Coffee/breakfast** - 10.05: $Dunkin' - Dining Out
+- **Shopping** - 13.20: $Walmart - Groceries
+- **Coinbase One subscription** - 29.99: $Coinbase - Subscriptions
+- **Shopping** - 74.28: $Walmart - Groceries
