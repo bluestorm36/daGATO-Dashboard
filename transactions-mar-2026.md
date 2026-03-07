@@ -39,3 +39,6 @@
 - **Shopping** - 13.20: $Walmart - Groceries
 - **Coinbase One subscription** - 29.99: $Coinbase - Subscriptions
 - **Shopping** - 74.28: $Walmart - Groceries
+- **Green class bullet train tickets (2 people)** - 282.80: $Klook - Tokyo to Osaka Shinkansen - Travel
+- **Ordinary class bullet train tickets (2 people)** - 214.58: $Klook - Osaka to Tokyo Shinkansen - Travel
+- **Airport train tickets - 2 adults round trip** - 71.90: $Klook - Narita Express Round-Trip - Travel
