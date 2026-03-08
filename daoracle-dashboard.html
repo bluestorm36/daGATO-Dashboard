@@ -357,16 +357,16 @@
         async function loadData() {
             try {
                 // Load price data
-                const priceRes = await fetch('../memory/dacat-price-live.json');
+                const priceRes = await fetch('./memory/dacat-price-live.json');
                 const priceData = await priceRes.json();
                 
                 // Load engagement data (latest)
                 const today = new Date().toISOString().split('T')[0];
-                const engagementRes = await fetch(`../memory/community-analytics/daily-engagement-${today}.json`);
+                const engagementRes = await fetch(`./memory/community-analytics/daily-engagement-${today}.json`);
                 const engagementData = await engagementRes.json();
                 
                 // Load content performance
-                const performanceRes = await fetch('../memory/community-analytics/content-performance.json');
+                const performanceRes = await fetch('./memory/community-analytics/content-performance.json');
                 const performanceData = await performanceRes.json();
                 
                 // Update UI
