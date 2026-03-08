@@ -1,0 +1,35 @@
+{
+  "date": "2026-03-08",
+  "metrics": {
+    "total": 5,
+    "activeUsers": 4,
+    "avgLength": 37.6
+  },
+  "topics": {
+    "price": 14,
+    "help": 7,
+    "community": 7
+  },
+  "sentiment": {
+    "bullish": 28,
+    "bearish": 0
+  },
+  "topUsers": [
+  {
+    "user": "daGATO_eth",
+    "messages": 2
+  },
+  {
+    "user": "TestUser2",
+    "messages": 1
+  },
+  {
+    "user": "TestUser1",
+    "messages": 1
+  },
+  {
+    "user": "ChloeTryon",
+    "messages": 1
+  }
+]
+}

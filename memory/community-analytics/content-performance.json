@@ -1,0 +1,24 @@
+{
+  "date": "2026-03-08",
+  "period": "7 days",
+  "topics": {
+    "price": {
+      "mentions": 14,
+      "percentage": 50
+    },
+    "help": {
+      "mentions": 7,
+      "percentage": 25
+    },
+    "community": {
+      "mentions": 7,
+      "percentage": 25
+    }
+  },
+  "sentiment": {
+    "bullish": 28,
+    "bearish": 0,
+    "ratio": 999,
+    "mood": "🟢 Strongly Bullish"
+  }
+}
