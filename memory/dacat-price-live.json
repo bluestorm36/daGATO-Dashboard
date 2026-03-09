@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-03-08T05:41:58Z",
+  "timestamp": "2026-03-09T00:33:30Z",
   "source": "coingecko",
-  "price_usd": "1.76E-9",
-  "price_change_24h": "-1.2993851754439452",
-  "volume_24h": "478.87851407782404",
-  "market_cap": "709111.5900624631",
+  "price_usd": "1.743E-9",
+  "price_change_24h": "-2.5492559855127848",
+  "volume_24h": "225.16436820964026",
+  "market_cap": "702777.2865292025",
   "contract_address": "0x814a870726edb7dfc4798300ae1ce3e5da0ac467",
   "coingecko_url": "https://www.coingecko.com/en/coins/dacat",
   "etherscan_url": "https://etherscan.io/token/0x814a870726edb7dfc4798300ae1ce3e5da0ac467"
