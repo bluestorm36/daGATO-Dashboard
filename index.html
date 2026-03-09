@@ -1302,11 +1302,6 @@
         <!-- Special Dates Countdown Bar -->
         <div class="countdown-bar">
             <div class="countdown-item">
-                <span class="countdown-icon">🎂</span>
-                <span class="countdown-label">Brandon's Birthday</span>
-                <span class="countdown-value" id="brandonBdayCountdown">...</span>
-            </div>
-            <div class="countdown-item">
                 <span class="countdown-icon">🇯🇵</span>
                 <span class="countdown-label">Japan Trip</span>
                 <span class="countdown-value" id="japanCountdown">...</span>
@@ -1381,15 +1376,15 @@
             <p style="text-align: center; color: #666; font-size: 0.9em; margin-bottom: 15px;" data-en="👀 Click to reveal numbers" data-es="👀 Haz clic para revelar números">👀 Click to reveal numbers</p>
             <div class="quick-stats">
                 <div class="stat-box" onclick="toggleStat(this)">
-                    <div class="stat-value hidden" data-value="$41">👀</div>
+                    <div class="stat-value hidden" data-value="$0">👀</div>
                     <div class="stat-label" data-en="💵 Cash on Hand" data-es="💵 Efectivo">💵 Cash on Hand</div>
                 </div>
                 <div class="stat-box" onclick="toggleStat(this)">
-                    <div class="stat-value hidden" data-value="$3,351">👀</div>
+                    <div class="stat-value hidden" data-value="$5,361">👀</div>
                     <div class="stat-label" data-en="💰 Liquid Assets" data-es="💰 Activos Líquidos">💰 Liquid Assets</div>
                 </div>
                 <div class="stat-box" onclick="toggleStat(this)">
-                    <div class="stat-value hidden" data-value="$30,134">👀</div>
+                    <div class="stat-value hidden" data-value="$30,167">👀</div>
                     <div class="stat-label" data-en="📈 Investments Total" data-es="📈 Total de Inversiones">📈 Investments Total</div>
                 </div>
                 <div class="stat-box" onclick="toggleStat(this)">
@@ -1397,7 +1392,7 @@
                     <div class="stat-label" data-en="💳 Total Debt" data-es="💳 Deuda Total">💳 Total Debt</div>
                 </div>
                 <div class="stat-box" onclick="toggleStat(this)">
-                    <div class="stat-value hidden" data-value="-$153,012">👀</div>
+                    <div class="stat-value hidden" data-value="-$153,212">👀</div>
                     <div class="stat-label" data-en="💼 Net Worth" data-es="💼 Patrimonio Neto">💼 Net Worth</div>
                 </div>
                 <div class="stat-box">
@@ -1610,7 +1605,7 @@
             const monthlyExpenses = 7238.30;
             const liquidAssets = 3921.18;
             const totalDebt = 188740;
-            const totalAssets = 36456; // Liquid $3,921 + Investments $32,350 + Vehicle $185
+            const totalAssets = 35713; // Liquid $5,361 + Investments $30,167 + Vehicle $185
             
             let score = 0;
             let factors = [];
@@ -1738,17 +1733,6 @@
         }
         
 
-        // Brandon's Birthday Countdown (March 6)
-        function updateBrandonBdayCountdown() {
-            const days = calculateDaysUntil('2026-03-06');
-            const elem = document.getElementById('brandonBdayCountdown');
-            if (days === 0) {
-                elem.textContent = 'TODAY! 🎂';
-            } else {
-                elem.textContent = days + ' Days';
-            }
-        }
-        
         // Jacky's Birthday Countdown (July 27)
         function updateJackyBdayCountdown() {
             const days = calculateDaysUntil('2026-07-27');
@@ -2256,7 +2240,6 @@
             
             // Update all countdowns
             updateJapanCountdown();
-            updateBrandonBdayCountdown();
             updateJackyBdayCountdown();
             updateCurrentDate();
             
