@@ -360,10 +360,19 @@
                 const priceRes = await fetch('./memory/dacat-price-live.json');
                 const priceData = await priceRes.json();
                 
-                // Load engagement data (latest)
+                // Load engagement data (latest) - try today first, fallback to yesterday
                 const today = new Date().toISOString().split('T')[0];
-                const engagementRes = await fetch(`./memory/community-analytics/daily-engagement-${today}.json`);
-                const engagementData = await engagementRes.json();
+                let engagementData;
+                try {
+                    const engagementRes = await fetch(`./memory/community-analytics/daily-engagement-${today}.json`);
+                    if (!engagementRes.ok) throw new Error('Today not found');
+                    engagementData = await engagementRes.json();
+                } catch (e) {
+                    // Fallback to yesterday
+                    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+                    const engagementRes = await fetch(`./memory/community-analytics/daily-engagement-${yesterday}.json`);
+                    engagementData = await engagementRes.json();
+                }
                 
                 // Load content performance
                 const performanceRes = await fetch('./memory/community-analytics/content-performance.json');
