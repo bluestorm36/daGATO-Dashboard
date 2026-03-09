@@ -1989,18 +1989,12 @@
             
             if (statValue.classList.contains('hidden')) {
                 // Flip to reveal
-                statValue.classList.add('hidden');
-                setTimeout(() => {
-                    statValue.textContent = actualValue;
-                    statValue.classList.remove('hidden');
-                }, 250);
+                statValue.textContent = actualValue;
+                statValue.classList.remove('hidden');
             } else {
                 // Flip to hide
+                statValue.textContent = '👀';
                 statValue.classList.add('hidden');
-                setTimeout(() => {
-                    statValue.textContent = '👀';
-                    statValue.classList.remove('hidden');
-                }, 250);
             }
         }
         
