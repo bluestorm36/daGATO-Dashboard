@@ -1,0 +1,47 @@
+{
+  "date": "2026-03-09",
+  "metrics": {
+    "total": 8,
+    "activeUsers": 7,
+    "avgLength": 38.125
+  },
+  "topics": {
+    "price": 28,
+    "help": 7,
+    "community": 14
+  },
+  "sentiment": {
+    "bullish": 35,
+    "bearish": 0
+  },
+  "topUsers": [
+  {
+    "user": "daGATO_eth",
+    "messages": 2
+  },
+  {
+    "user": "wire",
+    "messages": 1
+  },
+  {
+    "user": "mozvane",
+    "messages": 1
+  },
+  {
+    "user": "TestUser2",
+    "messages": 1
+  },
+  {
+    "user": "TestUser1",
+    "messages": 1
+  },
+  {
+    "user": "OrangeGreen",
+    "messages": 1
+  },
+  {
+    "user": "ChloeTryon",
+    "messages": 1
+  }
+]
+}
